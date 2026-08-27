@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "VfixurPC",
+    "slug": "vfixurpc",
+    "version": "1.0.0",
+    "sdkVersion": "54.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": false,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.vfixurpc.app"
+    },
+    "android": {
+      "package": "com.vfixurpc.app"
+    },
+    "plugins": [
+      "expo-secure-store",
+      "expo-font"
+    ],
+    "extra": {
+      "apiUrl": "http://localhost:3000/api/v1"
+    }
+  }
+}

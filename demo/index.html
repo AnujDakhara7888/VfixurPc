@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VfixurPC — Progress Preview</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: { colors: {
+  brand:'#1E88E5', brandBright:'#4FB3FF', accentInk:'#0F62B0',
+  ink:'#0F1620', inkSoft:'#4E5A6D', inkFaint:'#7C8798',
+  navy:'#0F1F35', soft:'#E5F1FD', line:'#E7ECF3', bgapp:'#F5F7FA',
+}, fontFamily:{ sans:['ui-sans-serif','-apple-system','Segoe UI','Roboto','sans-serif'] } } } };
+</script>
+<style>
+  body{background:#F2F5F9}
+  .inkgrad{background:linear-gradient(135deg,#16283F 0%,#0A1626 60%,#050B14 100%)}
+  .accentgrad{background:linear-gradient(135deg,#4FB3FF 0%,#1E88E5 50%,#0F62B0 100%)}
+  .glow{box-shadow:0 12px 30px rgba(30,136,229,.30)}
+  .phone{width:380px;height:780px;border-radius:46px;background:#000;padding:11px;box-shadow:0 40px 90px rgba(10,16,32,.35)}
+  .phone-screen{width:100%;height:100%;border-radius:36px;overflow:hidden;background:#fff;position:relative}
+  .scrollarea{height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .scrollarea::-webkit-scrollbar{width:0}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:130px;height:26px;background:#000;border-radius:0 0 16px 16px;z-index:30}
+  .tap{cursor:pointer;transition:transform .12s ease, box-shadow .2s ease}
+  .tap:active{transform:scale(.97)}
+  .browser{width:100%;max-width:1080px;border-radius:18px;overflow:hidden;box-shadow:0 30px 70px rgba(10,16,32,.22);background:#fff;border:1px solid #e6e9ee}
+  .adminbody{height:660px;display:flex}
+  .adminmain{flex:1;overflow-y:auto;background:#F4F6F9}
+  .navitem.active{background:rgba(255,255,255,.08);color:#fff}
+  .navitem.active .nicon{color:#4FB3FF}
+  .seg.active{background:#fff;color:#0F1F35;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  .hidden-screen{display:none}
+  .ic{width:1em;height:1em;display:inline-block;vertical-align:-0.15em;flex-shrink:0}
+  .fadein{animation:fi .35s ease}
+  @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body class="font-sans text-ink">
+
+<!-- ============ TOP BAR ============ -->
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-line">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-3">
+    <img src="assets/logo.png" alt="VfixurPC" class="h-9 w-auto" />
+    <div class="leading-tight">
+      <p class="font-extrabold tracking-tight text-[15px]">Vfixur<span class="text-accentInk">PC</span> · Progress Preview</p>
+      <p class="text-[11px] text-inkFaint -mt-0.5">Interactive demo — tap around, nothing is live data</p>
+    </div>
+    <nav class="ml-auto flex items-center gap-1 bg-bgapp rounded-full p-1 text-sm font-bold">
+      <button class="seg active px-3 sm:px-4 py-1.5 rounded-full text-inkSoft" data-tab="overview" onclick="showTab('overview')">Overview</button>
+      <button class="seg px-3 sm:px-4 py-1.5 rounded-full text-inkSoft" data-tab="app" onclick="showTab('app')">Customer App</button>
+      <button class="seg px-3 sm:px-4 py-1.5 rounded-full text-inkSoft" data-tab="admin" onclick="showTab('admin')">Admin Console</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ OVERVIEW ============ -->
+<section id="tab-overview" class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+  <div class="inkgrad rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden">
+    <div class="absolute -top-16 -right-10 w-72 h-72 rounded-full" style="background:rgba(30,136,229,.18)"></div>
+    <p class="text-brandBright font-extrabold text-xs tracking-[0.2em] uppercase mb-3">Doorstep PC &amp; Mac repair · Mumbai</p>
+    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-[1.05]">We fix your PC.<br>Without you leaving home.</h1>
+    <p class="mt-4 text-white/60 max-w-xl leading-relaxed">A customer app to book repairs, and an operations console to run pickups, repairs, technicians, delivery proof and GST invoices — here's everything built so far.</p>
+    <div class="mt-7 flex flex-wrap gap-3">
+      <button onclick="showTab('app')" class="tap accentgrad glow text-[#0A1626] font-extrabold px-5 py-3 rounded-xl">Open the customer app →</button>
+      <button onclick="showTab('admin')" class="tap bg-white/10 text-white font-bold px-5 py-3 rounded-xl border border-white/15">See the admin console</button>
+    </div>
+  </div>
+
+  <!-- metrics -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
+    <div class="bg-white rounded-2xl border border-line p-5"><p class="text-3xl font-extrabold">2</p><p class="text-sm text-inkSoft mt-1">Apps redesigned</p></div>
+    <div class="bg-white rounded-2xl border border-line p-5"><p class="text-3xl font-extrabold">30+</p><p class="text-sm text-inkSoft mt-1">Screens & flows</p></div>
+    <div class="bg-white rounded-2xl border border-line p-5"><p class="text-3xl font-extrabold">10</p><p class="text-sm text-inkSoft mt-1">Repair stages tracked</p></div>
+    <div class="bg-white rounded-2xl border border-line p-5"><p class="text-3xl font-extrabold">GST</p><p class="text-sm text-inkSoft mt-1">Tax invoices + UPI QR</p></div>
+  </div>
+
+  <!-- checklist -->
+  <h2 class="text-2xl font-extrabold mt-12 mb-1 tracking-tight">What's built</h2>
+  <p class="text-inkSoft mb-6">Green = done & working. Amber = polishing / optional next.</p>
+  <div id="checklist" class="grid md:grid-cols-2 gap-5"></div>
+
+  <div class="bg-white rounded-2xl border border-line p-6 mt-8 flex items-start gap-3">
+    <span class="w-9 h-9 rounded-xl bg-soft text-accentInk flex items-center justify-center shrink-0 text-lg"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="8" r="0.9" fill="currentColor" stroke="none"/></svg></span>
+    <p class="text-sm text-inkSoft leading-relaxed"><b class="text-ink">Try it:</b> Use the <b>Customer App</b> tab to walk through booking a repair, and the <b>Admin Console</b> tab to see the dashboard, assign a technician for pickup/delivery, view photo proof, and open a real GST invoice.</p>
+  </div>
+</section>
+
+<!-- ============ CUSTOMER APP ============ -->
+<section id="tab-app" class="hidden max-w-6xl mx-auto px-4 sm:px-6 py-10">
+  <div class="flex flex-col items-center">
+    <div class="flex flex-wrap items-center justify-center gap-2 mb-6 text-sm font-bold">
+      <span class="text-inkFaint">Jump to:</span>
+      <button onclick="appScreen('home')" class="px-3 py-1.5 rounded-full bg-white border border-line tap">Home</button>
+      <button onclick="appScreen('book1')" class="px-3 py-1.5 rounded-full bg-white border border-line tap">Booking</button>
+      <button onclick="appScreen('success')" class="px-3 py-1.5 rounded-full bg-white border border-line tap">Confirmation</button>
+    </div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="notch"></div>
+        <div id="appviewport" class="scrollarea"></div>
+        <!-- bottom tab bar -->
+        <div class="absolute bottom-0 inset-x-0 bg-white border-t border-line flex justify-around items-center pt-2 pb-6 z-20">
+          <div onclick="appScreen('home')" id="tab-home" class="flex flex-col items-center gap-1 w-16">
+            <div class="w-12 h-7 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg></div>
+            <span class="text-[10px] font-extrabold">Home</span>
+          </div>
+          <div onclick="appScreen('book1')" class="flex flex-col items-center gap-1 w-16 text-inkFaint">
+            <div class="w-12 h-7 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 7l-1.4-1.4a2 2 0 00-2.8 0l-4.4 4.4a2 2 0 000 2.8L11 19"/></svg></div>
+            <span class="text-[10px] font-bold">Book</span>
+          </div>
+          <div class="flex flex-col items-center gap-1 w-16 text-inkFaint">
+            <div class="w-12 h-7 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div>
+            <span class="text-[10px] font-bold">Alerts</span>
+          </div>
+          <div class="flex flex-col items-center gap-1 w-16 text-inkFaint">
+            <div class="w-12 h-7 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+            <span class="text-[10px] font-bold">Profile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="text-inkFaint text-xs mt-4">This is the customer's phone app (iOS/Android).</p>
+  </div>
+</section>
+
+<!-- ============ ADMIN CONSOLE ============ -->
+<section id="tab-admin" class="hidden max-w-6xl mx-auto px-4 sm:px-6 py-10">
+  <div class="flex justify-center">
+    <div class="browser">
+      <div class="bg-[#f1f3f6] border-b border-line px-4 py-2.5 flex items-center gap-2">
+        <span class="w-3 h-3 rounded-full bg-[#ff5f57]"></span><span class="w-3 h-3 rounded-full bg-[#febc2e]"></span><span class="w-3 h-3 rounded-full bg-[#28c840]"></span>
+        <div class="ml-3 flex-1 bg-white rounded-md text-xs text-inkFaint px-3 py-1 border border-line">admin.vfixurpc.com</div>
+      </div>
+      <div class="adminbody">
+        <!-- sidebar -->
+        <aside class="w-56 inkgrad text-white flex flex-col py-5 shrink-0">
+          <div class="flex items-center gap-2 px-5 mb-5">
+            <img src="assets/logo-icon.png" alt="VfixurPC" class="w-9 h-9 rounded-xl object-contain bg-white p-1 shadow-sm" />
+            <div><p class="font-extrabold text-sm leading-none">Vfixur<span class="text-brand">PC</span></p><p class="text-[10px] text-white/40">Operations Console</p></div>
+          </div>
+          <nav class="px-3 space-y-1 text-sm font-semibold" id="adminnav"></nav>
+          <div class="mt-auto px-4 pt-4 border-t border-white/10 mx-3">
+            <div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full accentgrad text-[#0A1626] font-black flex items-center justify-center text-xs">A</div><div><p class="text-sm font-semibold">Anuj</p><p class="text-[10px] text-brand/80">Administrator</p></div></div>
+          </div>
+        </aside>
+        <main class="adminmain" id="adminmain"></main>
+      </div>
+    </div>
+  </div>
+  <p class="text-center text-inkFaint text-xs mt-4">Web console used by you, operations staff and technicians (with role-based access).</p>
+</section>
+
+<footer class="text-center text-inkFaint text-xs py-10">VfixurPC · interactive progress preview · built for review</footer>
+
+<script>
+/* ---------------- TABS ---------------- */
+function showTab(t){
+  ['overview','app','admin'].forEach(x=>{
+    document.getElementById('tab-'+x).classList.toggle('hidden', x!==t);
+  });
+  document.querySelectorAll('.seg').forEach(b=>b.classList.toggle('active', b.dataset.tab===t));
+  if(t==='app') appScreen('home');
+  if(t==='admin') adminScreen('dashboard');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------------- CHECKLIST ---------------- */
+const CHECK = [
+  {group:'Customer app (redesigned)', items:[
+    ['Premium new look & branding','done'],
+    ['Home screen that explains the service','done'],
+    ['Guided booking flow (service → issues → schedule)','done'],
+    ['Live repair tracking (10 stages)','done'],
+    ['Sign up / login','done'],
+  ]},
+  {group:'Admin / operations console', items:[
+    ['Dashboard with live KPIs + real revenue','done'],
+    ['Manage every service request','done'],
+    ['Add & manage technicians (role-based access)','done'],
+    ['30-minute pickup time slots','done'],
+    ['Quotation builder (parts + GST)','done'],
+  ]},
+  {group:'Technician & field work', items:[
+    ['Assign a technician for pickup & delivery','done'],
+    ['Technician "My Tasks" screen','done'],
+    ['Photo proof: pickup → warehouse → delivery','done'],
+    ['Status updates itself as work happens','done'],
+  ]},
+  {group:'Billing', items:[
+    ['GST tax invoice in your exact format','done'],
+    ['Auto-filled from the quote (HSN, CGST/SGST)','done'],
+    ['Scannable UPI QR with the invoice amount','done'],
+    ['One-click PDF download','done'],
+    ['Separate warehouse-intake login (optional)','wip'],
+  ]},
+];
+document.getElementById('checklist').innerHTML = CHECK.map(g=>`
+  <div class="bg-white rounded-2xl border border-line p-6">
+    <h3 class="font-extrabold mb-4">${g.group}</h3>
+    <ul class="space-y-2.5">${g.items.map(([t,s])=>`
+      <li class="flex items-center gap-3 text-sm">
+        ${s==='done'
+          ? '<span class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center shrink-0"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>'
+          : '<span class="w-5 h-5 rounded-full bg-amber-400 flex items-center justify-center shrink-0 text-white text-[11px] font-black">…</span>'}
+        <span class="${s==='done'?'text-ink':'text-inkSoft'}">${t}</span>
+        ${s==='wip'?'<span class="ml-auto text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">next</span>':''}
+      </li>`).join('')}</ul>
+  </div>`).join('');
+
+/* ---------------- ICON LIBRARY ---------------- */
+// Consistent 24x24 outline glyphs (matches the logo's line weight) — no emoji.
+const ICONS = {
+  laptop:   `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="11" rx="1.5"/><path d="M2 19h20l-1.5-3h-17z"/></svg>`,
+  desktop:  `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>`,
+  apple:    `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8.5c1.6-1.2 3.4-1 3.4-1s.3 2.7-1.6 4.4c1.6 1 2.2 2.9 1.6 4.7-.7 2.2-2.6 4.4-4.2 4.4-1.1 0-1.5-.7-2.9-.7s-1.9.7-2.9.7c-1.7 0-3.9-2.6-4.6-5-1-3.3.5-7.2 3.3-7.2 1.3 0 2.1.8 2.9.8.7 0 1.9-1 3.2-1z"/><path d="M13.2 3.8c.5-.8 1.6-1.6 2.6-1.6.1 1.1-.3 2.2-1 3-.6.7-1.6 1.4-2.6 1.3-.1-1.1.4-2.2 1-2.7z"/></svg>`,
+  shield:   `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>`,
+  data:     `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5V12c0 1.7 3.6 3 8 3s8-1.3 8-3V5.5"/><path d="M4 12v6.5c0 1.7 3.6 3 8 3s8-1.3 8-3V12"/></svg>`,
+  upgrade:  `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16V8M8.5 11.5L12 8l3.5 3.5"/></svg>`,
+  wifi:     `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5a15 15 0 0118 0"/><path d="M6.5 12.5a10 10 0 0111 0"/><path d="M10 16.3a5 5 0 014 0"/><circle cx="12" cy="19.5" r="1" fill="currentColor" stroke="none"/></svg>`,
+  cpu:      `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="1.5"/><rect x="9.5" y="9.5" width="5" height="5" rx="0.5"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>`,
+  package:  `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>`,
+  receipt:  `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v19l-2.5-1.5L13 21l-1.5-1.5L10 21l-2.5-1.5L6 21z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>`,
+  badge:    `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M9 14.5L7 22l5-3 5 3-2-7.5"/><path d="M9.5 9l1.7 1.7L15 7.2"/></svg>`,
+  wrench:   `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 00-5.4 5l-6 6 2.4 2.4 6-6a4 4 0 005-5.4l-2.3 2.3-2-2z"/></svg>`,
+  phone:    `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4l2 5-2.5 1.5a12 12 0 006 6L15 14l5 2v4a1.5 1.5 0 01-1.6 1.5A17 17 0 013 5.6 1.5 1.5 0 014 4z"/></svg>`,
+  search:   `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>`,
+  home:     `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-6h4v6"/></svg>`,
+  clipboard:`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="1.5"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M8.5 11h7M8.5 14.5h7M8.5 18h4.5"/></svg>`,
+  checkCircle:`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.3l2.3 2.3 4.7-5"/></svg>`,
+  building: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="10" height="18"/><rect x="14" y="9" width="6" height="12"/><path d="M7 7h1M10 7h1M7 11h1M10 11h1M7 15h1M10 15h1M16.5 12.5h1M16.5 16h1"/></svg>`,
+  truck:    `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="12" height="9"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="6.5" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>`,
+  camera:   `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V9a1 1 0 011-1z"/><circle cx="12" cy="13" r="3.4"/></svg>`,
+  settings: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 00-.2-1.7l2-1.5-2-3.4-2.3.9a7 7 0 00-2.9-1.7L13.2 2h-2.4l-.4 2.6a7 7 0 00-2.9 1.7l-2.3-.9-2 3.4 2 1.5A7 7 0 005 12c0 .6.1 1.2.2 1.7l-2 1.6 2 3.4 2.3-1a7 7 0 002.9 1.7l.4 2.6h2.4l.4-2.6a7 7 0 002.9-1.7l2.3 1 2-3.4-2-1.6c.1-.5.2-1.1.2-1.7z"/></svg>`,
+  trash:    `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>`,
+  pin:      `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 00-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.3"/></svg>`,
+};
+
+/* ---------------- CUSTOMER APP SCREENS ---------------- */
+const SERVICES = [['Laptop',ICONS.laptop],['Desktop',ICONS.desktop],['Mac',ICONS.apple],['Virus',ICONS.shield],['Data',ICONS.data],['Upgrade',ICONS.upgrade],['Network',ICONS.wifi],['Custom PC',ICONS.cpu]];
+const ISSUES = ['Screen / Display','Battery & Charging','Keyboard & Trackpad','Overheating & Fan','Slow Performance','Storage / Drive'];
+
+const APP = {
+  home: `<div class="pb-28 fadein">
+    <div class="px-5 pt-12 pb-3 flex items-center justify-between">
+      <div><p class="text-sm text-inkFaint font-semibold">Good morning,</p><p class="text-2xl font-extrabold tracking-tight">Anuj</p></div>
+      <div class="bg-soft text-accentInk text-xs font-extrabold px-3 py-2 rounded-full flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-accentInk"></span>1 active</div>
+    </div>
+    <div class="px-4">
+      <div class="inkgrad rounded-3xl p-6 text-white relative overflow-hidden">
+        <div class="absolute -top-14 -right-10 w-44 h-44 rounded-full" style="background:rgba(30,136,229,.2)"></div>
+        <p class="text-[10px] font-extrabold tracking-widest text-brandBright mb-2">● DOORSTEP PC &amp; MAC REPAIR · MUMBAI</p>
+        <p class="text-2xl font-extrabold leading-tight">We fix your PC.<br>Without you leaving home.</p>
+        <p class="text-[13px] text-white/60 mt-2 leading-snug">Book in 60 seconds. We pick up, diagnose, and return it repaired & under warranty.</p>
+        <button onclick="appScreen('book1')" class="tap accentgrad glow w-full mt-4 py-3.5 rounded-2xl font-extrabold text-[#0A1626] flex items-center justify-center gap-2">Book a repair →</button>
+        <div class="flex justify-between mt-4 text-[11px] font-bold text-white/70">
+          <span>✓ Free pickup</span><span>✓ Same-day slots</span><span>✓ Pay after quote</span>
+        </div>
+      </div>
+    </div>
+    <div class="mx-4 mt-3 bg-bgapp border border-line rounded-2xl py-4 flex">
+      ${[['4.9','Avg. rating'],['60 min','Pickup ETA'],['6-month','Warranty']].map(([v,l],i)=>`
+        ${i>0?'<div class="w-px bg-line my-1"></div>':''}
+        <div class="flex-1 text-center"><p class="font-extrabold">${v}</p><p class="text-[11px] text-inkFaint font-semibold">${l}</p></div>`).join('')}
+    </div>
+    <div class="px-4 pt-7">
+      <p class="text-xl font-extrabold tracking-tight">What we fix</p>
+      <p class="text-[13px] text-inkFaint mb-3">Tap a service to start your booking.</p>
+      <div class="grid grid-cols-4 gap-3">
+        ${SERVICES.map(([n,e])=>`<div onclick="appScreen('book1')" class="tap text-center">
+          <div class="aspect-square rounded-2xl bg-bgapp border border-line text-navy flex items-center justify-center text-2xl">${e}</div>
+          <p class="text-[11px] font-bold text-inkSoft mt-1.5">${n}</p></div>`).join('')}
+      </div>
+    </div>
+    <div class="px-4 pt-7">
+      <p class="text-xl font-extrabold tracking-tight mb-3">Why VfixurPC</p>
+      <div class="bg-bgapp border border-line rounded-2xl divide-y divide-line">
+        ${[[ICONS.package,'Free doorstep pickup & drop','A certified agent collects and returns your device.'],
+           [ICONS.receipt,'Transparent quote, first','We diagnose, then share a fixed price. No surprises.'],
+           [ICONS.badge,'Certified Windows & Mac pros','Genuine parts and a 6-month repair warranty.']].map(([e,t,s])=>`
+          <div class="flex gap-3 p-4"><div class="w-10 h-10 rounded-xl bg-soft text-accentInk flex items-center justify-center text-lg">${e}</div>
+          <div><p class="font-extrabold text-[15px]">${t}</p><p class="text-[12px] text-inkFaint leading-snug">${s}</p></div></div>`).join('')}
+      </div>
+    </div>
+  </div>`,
+
+  book1: `<div class="pb-28 fadein">
+    <div class="px-5 pt-12">
+      <p class="text-[12px] font-extrabold text-accentInk tracking-widest uppercase mb-1">Step 1 of 3 · Service</p>
+      <p class="text-3xl font-extrabold tracking-tight">Book a repair</p>
+      <p class="text-inkSoft text-[14px] mt-1">Choose the service you need.</p>
+      <div class="h-1.5 bg-bgapp rounded-full mt-4 overflow-hidden"><div class="h-full w-1/3 bg-brand"></div></div>
+    </div>
+    <div class="px-4 pt-6">
+      <p class="font-extrabold mb-3">What do you need help with?</p>
+      <div class="grid grid-cols-2 gap-3">
+        ${[[ICONS.laptop,'Laptop Repair','Screen, battery, keyboard'],[ICONS.desktop,'Desktop Repair','Boot, power, graphics'],[ICONS.apple,'Mac Repair','MacBook, iMac & Mac mini'],[ICONS.shield,'Virus Removal','Malware, pop-ups, security']].map(([e,t,s],i)=>`
+          <div onclick="appScreen('book2')" class="tap rounded-2xl border-2 ${i===0?'border-brand bg-soft':'border-line bg-white'} p-4">
+            <div class="w-11 h-11 rounded-xl ${i===0?'bg-navy text-white':'bg-bgapp text-navy'} flex items-center justify-center text-lg mb-2">${e}</div>
+            <p class="font-extrabold text-[14px]">${t}</p><p class="text-[11px] text-inkFaint mt-0.5">${s}</p></div>`).join('')}
+      </div>
+    </div>
+    <div class="fixed-cta px-4 pt-4"><button onclick="appScreen('book2')" class="tap accentgrad glow w-full py-4 rounded-2xl font-extrabold text-[#0A1626]">Continue →</button></div>
+  </div>`,
+
+  book2: `<div class="pb-28 fadein">
+    <div class="px-5 pt-12">
+      <p class="text-[12px] font-extrabold text-accentInk tracking-widest uppercase mb-1">Step 2 of 3 · Issues</p>
+      <p class="text-3xl font-extrabold tracking-tight">What's wrong?</p>
+      <p class="text-inkSoft text-[14px] mt-1">Laptop Repair · select all that apply.</p>
+      <div class="h-1.5 bg-bgapp rounded-full mt-4 overflow-hidden"><div class="h-full w-2/3 bg-brand"></div></div>
+    </div>
+    <div class="px-4 pt-6 grid grid-cols-2 gap-3">
+      ${ISSUES.map((t,i)=>`<div onclick="this.classList.toggle('border-brand');this.classList.toggle('bg-soft')" class="tap rounded-2xl border-2 ${i<2?'border-brand bg-soft':'border-line bg-white'} p-3.5 flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-lg ${i<2?'bg-navy text-white':'bg-bgapp text-navy'} flex items-center justify-center text-sm">${ICONS.wrench}</div>
+        <p class="font-bold text-[12.5px] leading-tight">${t}</p></div>`).join('')}
+    </div>
+    <div class="px-4 pt-5"><div class="bg-bgapp rounded-2xl p-4 text-[13px] text-inkFaint">Describe the issue (optional)…</div></div>
+    <div class="fixed-cta px-4 pt-4"><button onclick="appScreen('book3')" class="tap accentgrad glow w-full py-4 rounded-2xl font-extrabold text-[#0A1626]">Continue →</button></div>
+  </div>`,
+
+  book3: `<div class="pb-28 fadein">
+    <div class="px-5 pt-12">
+      <p class="text-[12px] font-extrabold text-accentInk tracking-widest uppercase mb-1">Step 3 of 3 · Schedule</p>
+      <p class="text-3xl font-extrabold tracking-tight">Schedule pickup</p>
+      <p class="text-inkSoft text-[14px] mt-1">Pick a doorstep slot that works.</p>
+      <div class="h-1.5 bg-bgapp rounded-full mt-4 overflow-hidden"><div class="h-full w-full bg-brand"></div></div>
+    </div>
+    <div class="px-4 pt-5">
+      <p class="text-[13px] font-bold text-inkSoft mb-2">Pickup date</p>
+      <div class="flex gap-2.5 overflow-x-auto pb-1">
+        ${['Mon 16','Tue 17','Wed 18','Thu 19','Fri 20'].map((d,i)=>{const [w,n]=d.split(' ');return `<div class="tap shrink-0 w-16 rounded-2xl ${i===1?'bg-navy text-white':'bg-bgapp'} py-3 text-center"><p class="text-[11px] font-bold ${i===1?'text-white':'text-inkFaint'}">${w}</p><p class="text-xl font-extrabold">${n}</p><p class="text-[10px] ${i===1?'text-white/70':'text-inkFaint'}">Jun</p></div>`}).join('')}
+      </div>
+      <p class="text-[13px] font-bold text-inkSoft mb-2 mt-5">Time slot — 30-minute windows</p>
+      <div class="grid grid-cols-3 gap-2">
+        ${['9:00–9:30','9:30–10:00','10:00–10:30','10:30–11:00','11:00–11:30','11:30–12:00'].map((s,i)=>`<div class="tap rounded-xl border-2 ${i===2?'border-brand bg-soft text-accentInk':'border-line bg-bgapp text-inkSoft'} py-2.5 text-center text-[12px] font-bold">${s}</div>`).join('')}
+      </div>
+      <div class="bg-soft rounded-2xl p-3.5 mt-5 flex items-start gap-2 text-[12.5px] text-accentInk"><span class="shrink-0">${ICONS.pin}</span><span>Andheri East, Mumbai — 400069</span></div>
+    </div>
+    <div class="fixed-cta px-4 pt-4"><button onclick="appScreen('success')" class="tap accentgrad glow w-full py-4 rounded-2xl font-extrabold text-[#0A1626]">Confirm booking →</button></div>
+  </div>`,
+
+  success: `<div class="pb-28 fadein px-6 pt-16 text-center">
+    <div class="w-24 h-24 rounded-full bg-emerald-50 mx-auto flex items-center justify-center mb-5"><div class="w-16 h-16 rounded-full bg-emerald-500 flex items-center justify-center"><svg class="w-9 h-9 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div></div>
+    <p class="text-3xl font-extrabold tracking-tight">All set!</p>
+    <p class="text-inkSoft mt-2 leading-snug">Your repair is booked. We'll be in touch shortly.</p>
+    <div class="bg-bgapp rounded-3xl p-6 mt-6"><p class="text-[11px] font-extrabold tracking-widest text-inkFaint uppercase">Your ticket number</p><p class="text-3xl font-extrabold text-navy tracking-wider my-2">VFX-0042</p></div>
+    <div class="bg-bgapp rounded-3xl p-5 mt-4 text-left">
+      <p class="font-extrabold text-[15px] mb-3">What happens next</p>
+      ${[[ICONS.phone,'Our agent calls to confirm pickup'],[ICONS.package,'Device collected from your address'],[ICONS.search,'Expert diagnosis at our workshop'],[ICONS.wrench,'Professional repair by certified techs'],[ICONS.home,'Delivered back to your doorstep']].map(([e,t])=>`<div class="flex items-center gap-3 py-1.5"><div class="w-9 h-9 rounded-xl bg-soft text-accentInk flex items-center justify-center text-base">${e}</div><p class="text-[13.5px] text-inkSoft">${t}</p></div>`).join('')}
+    </div>
+    <button onclick="appScreen('home')" class="tap w-full mt-5 py-4 rounded-2xl font-extrabold text-white bg-navy">Done</button>
+  </div>`,
+};
+function appScreen(name){
+  const vp = document.getElementById('appviewport');
+  vp.innerHTML = APP[name] || APP.home;
+  vp.scrollTop = 0;
+  // sticky CTA support
+  vp.querySelectorAll('.fixed-cta').forEach(el=>{el.style.position='sticky';el.style.bottom='84px';el.style.background='linear-gradient(to top,#fff 70%,transparent)';el.style.paddingBottom='8px';});
+}
+
+/* ---------------- ADMIN SCREENS ---------------- */
+const NAV = [
+  ['dashboard','Overview','M3 11l9-8 9 8M5 10v10h14V10'],
+  ['requests','Service Requests','M9 5h6M9 9h6M9 13h4M5 3h14v18H5z'],
+  ['detail','Request detail','M4 6h16M4 12h16M4 18h10'],
+  ['techs','Technicians','M14 7l-1.4-1.4a2 2 0 00-2.8 0L5.4 10a2 2 0 000 2.8L11 19'],
+  ['mytasks','Technician · My Tasks','M3 7h18v13H3zM3 7l3-4h12l3 4'],
+  ['invoice','Invoice','M6 2h9l3 3v17H6zM9 8h6M9 12h6M9 16h4'],
+];
+document.getElementById('adminnav').innerHTML = NAV.map(([k,l,p])=>`
+  <a onclick="adminScreen('${k}')" data-k="${k}" class="navitem flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/55 cursor-pointer">
+    <svg class="nicon w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="${p}"/></svg>${l}</a>`).join('');
+
+const badge = (t,c)=>`<span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${c}">${t}</span>`;
+const ADMIN = {
+  dashboard:()=>`<div class="p-7 fadein">
+    <p class="text-[11px] font-bold text-accentInk tracking-widest uppercase mb-1">Operations</p>
+    <h1 class="text-2xl font-extrabold tracking-tight">Overview</h1>
+    <p class="text-inkSoft text-sm mt-1 mb-6">A real-time snapshot of your repair pipeline.</p>
+    <div class="grid grid-cols-4 gap-4">
+      ${[['Open tickets','12','bg-blue-50 text-blue-600',ICONS.clipboard],['Under repair','5','bg-soft text-accentInk',ICONS.wrench],['Delivered','38','bg-emerald-50 text-emerald-600',ICONS.checkCircle],['Revenue (paid)','₹2,84,600','bg-indigo-50 text-indigo-600','₹']].map(([l,v,c,e])=>`
+        <div class="bg-white rounded-2xl border border-line p-5"><div class="w-11 h-11 rounded-2xl ${c} flex items-center justify-center text-lg mb-3">${e}</div><p class="text-2xl font-extrabold tracking-tight">${v}</p><p class="text-[13px] text-inkSoft mt-1">${l}</p></div>`).join('')}
+    </div>
+    <div class="bg-white rounded-2xl border border-line mt-6">
+      <div class="px-6 py-4 border-b border-line flex justify-between items-center"><h2 class="font-bold">Recent service requests</h2><span class="text-sm font-bold text-accentInk">View all →</span></div>
+      ${[['VFX-0042','Anuj Dakhara · HP Pavilion 15','Pickup Scheduled','bg-blue-50 text-blue-700'],['VFX-0041','Vishal Gala · MacBook Air M2','Under Repair','bg-cyan-50 text-cyan-700'],['VFX-0040','Priya S · Dell XPS','Quote Shared','bg-orange-50 text-orange-700'],['VFX-0039','Rahul M · Custom PC','Delivered','bg-emerald-50 text-emerald-700']].map(([n,d,s,c])=>`
+        <div class="px-6 py-3.5 flex justify-between items-center border-b border-line/60"><div><p class="font-bold text-sm">${n}</p><p class="text-xs text-inkFaint">${d}</p></div>${badge(s,c)}</div>`).join('')}
+    </div></div>`,
+
+  requests:()=>`<div class="p-7 fadein">
+    <h1 class="text-2xl font-extrabold tracking-tight mb-1">Service Requests</h1>
+    <p class="text-inkSoft text-sm mb-6">Every repair, from booking to delivery.</p>
+    <div class="bg-white rounded-2xl border border-line overflow-hidden">
+      <div class="grid grid-cols-5 px-6 py-3 bg-bgapp text-[11px] font-bold text-inkFaint uppercase tracking-wide"><span>Ticket</span><span class="col-span-2">Customer / device</span><span>Status</span><span>Booked</span></div>
+      ${[['VFX-0042','Anuj Dakhara','HP Pavilion 15','Pickup Scheduled','bg-blue-50 text-blue-700','16 Jun'],['VFX-0041','Vishal Gala','MacBook Air M2','Under Repair','bg-cyan-50 text-cyan-700','15 Jun'],['VFX-0040','Priya Shah','Dell XPS 13','Quote Shared','bg-orange-50 text-orange-700','14 Jun'],['VFX-0039','Rahul M','Custom Gaming PC','Delivered','bg-emerald-50 text-emerald-700','12 Jun']].map(([t,c,d,s,col,b],i)=>`
+        <div onclick="adminScreen('detail')" class="grid grid-cols-5 px-6 py-4 items-center border-t border-line/60 cursor-pointer hover:bg-bgapp"><span class="font-bold text-sm ${i===0?'text-accentInk':''}">${t}</span><div class="col-span-2"><p class="text-sm font-semibold">${c}</p><p class="text-xs text-inkFaint">${d}</p></div>${badge(s,col)}<span class="text-xs text-inkFaint">${b}</span></div>`).join('')}
+    </div>
+    <p class="text-xs text-inkFaint mt-3">Tip: click a row to open the request detail.</p></div>`,
+
+  detail:()=>`<div class="p-7 fadein">
+    <p class="text-sm text-inkFaint mb-1">← Service Requests</p>
+    <div class="flex items-center gap-3 mb-5"><h1 class="text-2xl font-extrabold font-mono tracking-tight">VFX-0042</h1>${badge('Pickup Scheduled','bg-blue-50 text-blue-700')}</div>
+    <div class="grid grid-cols-3 gap-5">
+      <div class="col-span-2 space-y-5">
+        <div class="bg-white rounded-2xl border border-line p-5">
+          <p class="text-[11px] font-bold text-inkFaint uppercase tracking-wide mb-3">Customer &amp; device</p>
+          <div class="grid grid-cols-2 gap-3 text-sm"><div><p class="text-inkFaint">Name</p><p class="font-semibold">Anuj Dakhara</p></div><div><p class="text-inkFaint">Phone</p><p class="font-semibold">+91 72030 07888</p></div><div><p class="text-inkFaint">Device</p><p class="font-semibold">HP Pavilion 15</p></div><div><p class="text-inkFaint">Slot</p><p class="font-semibold">16 Jun · 10:00–10:30</p></div></div>
+        </div>
+        <div class="bg-white rounded-2xl border border-line p-5">
+          <p class="text-[11px] font-bold text-inkFaint uppercase tracking-wide mb-3">Quotation</p>
+          <div class="text-sm divide-y divide-line">
+            <div class="flex justify-between py-2"><span>Motherboard repair <span class="text-inkFaint text-xs">· HSN 998713</span></span><span class="font-semibold">₹20,000.00</span></div>
+            <div class="flex justify-between py-2"><span>Screen replacement <span class="text-inkFaint text-xs">· HSN 998713</span></span><span class="font-semibold">₹10,000.00</span></div>
+            <div class="flex justify-between py-2 font-extrabold"><span>Total (incl. 18% GST)</span><span>₹35,400.00</span></div>
+          </div>
+          <button onclick="adminScreen('invoice')" class="tap mt-3 accentgrad glow text-[#0A1626] text-sm font-extrabold px-4 py-2 rounded-xl">Generate invoice</button>
+        </div>
+        <div class="bg-white rounded-2xl border border-line p-5">
+          <p class="text-[11px] font-bold text-inkFaint uppercase tracking-wide mb-3">Pickup &amp; Delivery</p>
+          <div class="border border-line rounded-2xl p-4 mb-3">
+            <div class="flex items-center gap-2 mb-2"><span class="w-8 h-8 rounded-lg bg-soft text-accentInk flex items-center justify-center">${ICONS.package}</span><p class="font-bold text-sm">Pickup — from customer</p>${badge('COMPLETED','bg-emerald-50 text-emerald-700 ml-auto')}</div>
+            <p class="text-sm">Ravi Kumar · +91 98••• ••••2 — 16 Jun, 10:00</p>
+            <div class="flex gap-3 mt-3">
+              <div class="text-center"><div class="w-20 h-20 rounded-xl bg-gradient-to-br from-slate-200 to-slate-300 border border-line text-inkSoft flex items-center justify-center text-2xl">${ICONS.camera}</div><p class="text-[10px] text-inkFaint mt-1 font-semibold">Pickup proof</p></div>
+              <div class="text-center"><div class="w-20 h-20 rounded-xl bg-gradient-to-br from-slate-200 to-slate-300 border border-line text-inkSoft flex items-center justify-center text-2xl">${ICONS.building}</div><p class="text-[10px] text-inkFaint mt-1 font-semibold">Warehouse intake</p></div>
+            </div>
+          </div>
+          <div class="border border-line rounded-2xl p-4">
+            <div class="flex items-center gap-2 mb-3"><span class="w-8 h-8 rounded-lg bg-soft text-accentInk flex items-center justify-center">${ICONS.truck}</span><p class="font-bold text-sm">Delivery — back to customer</p></div>
+            <div class="grid grid-cols-12 gap-2 items-end text-sm">
+              <div class="col-span-5"><p class="text-[11px] font-semibold text-inkFaint mb-1">Technician</p><div class="border border-line rounded-lg px-2 py-2 bg-white text-inkFaint">Select…</div></div>
+              <div class="col-span-3"><p class="text-[11px] font-semibold text-inkFaint mb-1">Date</p><div class="border border-line rounded-lg px-2 py-2 bg-white">18 Jun</div></div>
+              <div class="col-span-2"><p class="text-[11px] font-semibold text-inkFaint mb-1">Slot</p><div class="border border-line rounded-lg px-2 py-2 bg-white">PM</div></div>
+              <div class="col-span-2"><div class="bg-navy text-white text-center py-2 rounded-lg font-bold">Assign</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="space-y-4">
+        <div class="bg-white rounded-2xl border border-line p-4"><p class="font-bold text-sm mb-2">Advance status</p>
+          ${['→ Picked Up','→ Received at Workshop'].map(s=>`<div class="bg-navy text-white text-sm font-bold rounded-xl py-2 text-center mb-2">${s}</div>`).join('')}</div>
+        <div class="bg-white rounded-2xl border border-line p-4"><p class="font-bold text-sm mb-2">Billing</p><div class="border-2 border-brand text-accentInk rounded-xl py-2 text-center text-sm font-bold mb-2">Edit quote</div><div class="accentgrad glow text-[#0A1626] rounded-xl py-2 text-center text-sm font-extrabold">Generate invoice</div></div>
+      </div>
+    </div></div>`,
+
+  techs:()=>`<div class="p-7 fadein">
+    <div class="flex justify-between items-start mb-6"><div><p class="text-[11px] font-bold text-accentInk uppercase tracking-widest mb-1">Team</p><h1 class="text-2xl font-extrabold tracking-tight">Technicians</h1><p class="text-inkSoft text-sm mt-1">3 active · 4 total</p></div><div class="bg-navy text-white text-sm font-bold px-4 py-2.5 rounded-xl">+ Add technician</div></div>
+    <div class="bg-white rounded-2xl border border-line p-5 mb-5 flex gap-3"><span class="w-9 h-9 rounded-xl bg-soft text-accentInk flex items-center justify-center shrink-0">${ICONS.shield}</span><p class="text-sm text-inkSoft leading-relaxed"><b class="text-ink">Access:</b> technicians sign in to this console and see only <b>My Tasks</b> and <b>Service Requests</b> — they can update status, add notes and create quotes, but can't see revenue, customers or other staff. Deactivate to block sign-in instantly.</p></div>
+    <div class="bg-white rounded-2xl border border-line overflow-hidden">
+      <div class="grid grid-cols-5 px-5 py-3 bg-bgapp text-[11px] font-bold text-inkFaint uppercase"><span>Technician</span><span>Username</span><span>Contact</span><span>Status</span><span></span></div>
+      ${[['Ravi Kumar','ravi.tech','+91 98xxxx2','Active','bg-emerald-50 text-emerald-700'],['Sana Shaikh','sana.tech','+91 99xxxx7','Active','bg-emerald-50 text-emerald-700'],['Imran Q','imran.tech','+91 90xxxx1','Disabled','bg-gray-100 text-gray-500']].map(([n,u,c,s,col])=>`
+        <div class="grid grid-cols-5 px-5 py-4 items-center border-t border-line/60"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full inkgrad text-brand font-black flex items-center justify-center text-xs">${n[0]}</div><span class="font-bold text-sm">${n}</span></div><span class="text-sm font-mono text-inkSoft">${u}</span><span class="text-sm text-inkSoft">${c}</span>${badge(s,col)}<span class="flex items-center justify-end gap-3 text-inkFaint">${ICONS.settings}${ICONS.trash}</span></div>`).join('')}
+    </div></div>`,
+
+  mytasks:()=>`<div class="p-7 fadein max-w-2xl">
+    <p class="text-[11px] font-bold text-accentInk uppercase tracking-widest mb-1">Field work · technician view</p>
+    <h1 class="text-2xl font-extrabold tracking-tight">My tasks</h1>
+    <p class="text-inkSoft text-sm mt-1 mb-6">Upload a photo as proof, then mark done. Opens the camera on a phone.</p>
+    ${[[ICONS.package,'Pickup','VFX-0042','Anuj Dakhara','Andheri East — 400069','Mark picked up'],[ICONS.truck,'Delivery','VFX-0039','Rahul M','Powai — 400076','Mark delivered']].map(([e,ty,t,c,a,btn],i)=>`
+      <div class="bg-white rounded-2xl border border-line p-5 mb-4">
+        <div class="flex items-center gap-3 mb-3"><span class="w-10 h-10 rounded-xl inkgrad text-white flex items-center justify-center text-lg">${e}</span><div><p class="font-extrabold text-sm">${ty} · ${t}</p><p class="text-xs text-inkFaint">16 Jun · 10:00–10:30</p></div><span class="ml-auto">${badge('PENDING','bg-amber-50 text-amber-700')}</span></div>
+        <p class="text-sm"><b>${c}</b></p><p class="text-sm text-inkSoft flex items-center gap-1.5 mt-0.5">${ICONS.pin} ${a}</p>
+        ${i===0?`<div class="flex gap-2 mt-3"><div class="w-16 h-16 rounded-lg bg-gradient-to-br from-slate-200 to-slate-300 text-inkSoft flex items-center justify-center">${ICONS.camera}</div></div>`:''}
+        <div class="flex flex-wrap gap-2 mt-3">
+          <div class="bg-soft text-accentInk text-sm font-bold px-3 py-2 rounded-xl flex items-center gap-1.5">${ICONS.camera} ${ty} photo</div>
+          ${i===0?`<div class="bg-bgapp text-inkSoft text-sm font-bold px-3 py-2 rounded-xl flex items-center gap-1.5">${ICONS.building} Warehouse photo</div>`:''}
+          <div class="ml-auto bg-navy text-white text-sm font-bold px-3 py-2 rounded-xl flex items-center gap-1.5">✓ ${btn}</div>
+        </div>
+      </div>`).join('')}</div>`,
+
+  invoice:()=>`<div class="p-7 fadein">
+    <div class="flex items-center justify-between mb-4"><div><h1 class="text-2xl font-extrabold tracking-tight">Tax Invoice</h1><p class="text-inkSoft text-sm mt-1">Auto-filled from the quote · GST · scannable UPI QR.</p></div><div class="accentgrad glow text-[#0A1626] text-sm font-extrabold px-4 py-2 rounded-xl">⬇ Download PDF</div></div>
+    <div class="bg-white rounded-2xl border border-line p-4 shadow-sm flex justify-center"><img src="assets/invoice.png" alt="GST invoice" class="w-full max-w-[760px] rounded-lg border border-line" /></div></div>`,
+};
+function adminScreen(name){
+  document.getElementById('adminmain').innerHTML = (ADMIN[name]||ADMIN.dashboard)();
+  document.getElementById('adminmain').scrollTop = 0;
+  document.querySelectorAll('.navitem').forEach(n=>n.classList.toggle('active', n.dataset.k===name));
+}
+
+/* init */
+showTab('overview');
+</script>
+</body>
+</html>
