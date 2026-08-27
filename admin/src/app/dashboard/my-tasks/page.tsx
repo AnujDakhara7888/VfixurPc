@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { deliveryApi } from '@/lib/api';
 import AuthImage from '@/components/AuthImage';
 import toast from 'react-hot-toast';
-import { Package, Truck, Camera, CheckCircle2, MapPin, Warehouse } from 'lucide-react';
+import { Package, Truck, Camera, CircleCheckBig, MapPin, Warehouse } from 'lucide-react';
 
 interface Photo { id: string; type: 'PICKUP' | 'WAREHOUSE' | 'DELIVERY'; }
 interface Task {
@@ -113,7 +113,7 @@ function TaskCard({ task }: { task: Task }) {
         )}
         <button onClick={() => complete.mutate()} disabled={complete.isPending}
           className="flex items-center gap-1.5 px-3 py-2 ml-auto bg-brand-800 text-white text-sm font-bold rounded-xl hover:bg-brand-900 disabled:opacity-50">
-          <CheckCircle2 className="w-4 h-4" /> {isPickup ? 'Mark picked up' : 'Mark delivered'}
+          <CircleCheckBig className="w-4 h-4" /> {isPickup ? 'Mark picked up' : 'Mark delivered'}
         </button>
       </div>
     </div>

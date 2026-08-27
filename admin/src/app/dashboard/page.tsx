@@ -5,7 +5,7 @@ import { adminApi, srApi } from '@/lib/api';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import StatusBadge from '@/components/StatusBadge';
 import type { ServiceRequest, DashboardStats } from '@/types';
-import { ClipboardList, Wrench, CheckCircle, IndianRupee, ArrowUpRight } from 'lucide-react';
+import { ClipboardList, Wrench, CircleCheck, IndianRupee, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 
 function StatCard({ label, value, icon: Icon, tint, sub }: {
@@ -49,7 +49,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
         <StatCard label="Open tickets"   value={stats?.openTickets ?? '—'}                       icon={ClipboardList} tint="bg-blue-50 text-blue-600" />
         <StatCard label="Under repair"   value={stats?.inRepair ?? '—'}                           icon={Wrench}        tint="bg-accent-soft text-accent-ink" />
-        <StatCard label="Delivered"      value={stats?.delivered ?? '—'}                          icon={CheckCircle}   tint="bg-emerald-50 text-emerald-600" />
+        <StatCard label="Delivered"      value={stats?.delivered ?? '—'}                          icon={CircleCheck}   tint="bg-emerald-50 text-emerald-600" />
         <StatCard
           label="Revenue (paid repairs)"
           value={stats ? formatCurrency(stats.totalRevenue) : '—'}

@@ -6,7 +6,7 @@ import { deliveryApi, usersApi } from '@/lib/api';
 import type { User } from '@/types';
 import AuthImage from '@/components/AuthImage';
 import toast from 'react-hot-toast';
-import { Truck, Package, Camera, CheckCircle2, Clock } from 'lucide-react';
+import { Truck, Package, Camera, CircleCheckBig, Clock } from 'lucide-react';
 
 interface Photo { id: string; type: 'PICKUP' | 'WAREHOUSE' | 'DELIVERY'; }
 interface Assignment {
@@ -69,7 +69,7 @@ function Leg({ type, icon: Icon, title, assignment, techs, srId, defaultDate, de
         <p className="text-sm font-bold text-ink">{title}</p>
         {assignment && (
           <span className={`ml-auto inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full ${done ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}>
-            {done ? <CheckCircle2 className="w-3 h-3" /> : <Clock className="w-3 h-3" />}{assignment.status}
+            {done ? <CircleCheckBig className="w-3 h-3" /> : <Clock className="w-3 h-3" />}{assignment.status}
           </span>
         )}
       </div>

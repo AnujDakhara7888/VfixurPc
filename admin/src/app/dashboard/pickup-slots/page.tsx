@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { slotsApi } from '@/lib/api';
 import type { PickupSlot } from '@/types';
 import toast from 'react-hot-toast';
-import { Plus, Trash2, Pencil, Wand2 } from 'lucide-react';
+import { Plus, Trash2, Pencil, WandSparkles } from 'lucide-react';
 
 export default function PickupSlotsPage() {
   const qc = useQueryClient();
@@ -55,7 +55,7 @@ export default function PickupSlotsPage() {
             disabled={generateMutation.isPending}
             className="flex items-center gap-2 px-4 py-2.5 bg-accent-grad text-brand-900 text-sm font-bold rounded-xl hover:opacity-90 disabled:opacity-50 shadow-glow transition"
           >
-            <Wand2 className="w-4 h-4" /> {generateMutation.isPending ? 'Generating…' : 'Generate 30-min slots'}
+            <WandSparkles className="w-4 h-4" /> {generateMutation.isPending ? 'Generating…' : 'Generate 30-min slots'}
           </button>
           <button
             onClick={() => setShowForm((v) => !v)}

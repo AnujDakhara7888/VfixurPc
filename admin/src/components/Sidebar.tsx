@@ -6,7 +6,7 @@ import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
 import type { Role } from '@/types';
 import {
-  LayoutDashboard, ClipboardList, Users, Wrench, Clock, FileText, HelpCircle, LogOut, Cpu, Truck,
+  LayoutDashboard, ClipboardList, Users, Wrench, Clock, FileText, CircleQuestionMark, LogOut, Cpu, Truck,
 } from 'lucide-react';
 
 const ADMIN_OPS: Role[] = ['SUPER_ADMIN', 'OPERATIONS'];
@@ -20,7 +20,7 @@ const NAV: { href: string; label: string; icon: typeof LayoutDashboard; roles: R
   { href: '/dashboard/technicians',      label: 'Technicians',      icon: Wrench,          roles: ADMIN_OPS },
   { href: '/dashboard/pickup-slots',     label: 'Pickup Slots',     icon: Clock,           roles: ['SUPER_ADMIN'] },
   { href: '/dashboard/invoices',         label: 'Invoices',         icon: FileText,        roles: ADMIN_OPS },
-  { href: '/dashboard/faq',             label: 'FAQ',               icon: HelpCircle,      roles: ADMIN_OPS },
+  { href: '/dashboard/faq',             label: 'FAQ',               icon: CircleQuestionMark,      roles: ADMIN_OPS },
 ];
 
 const ROLE_LABEL: Record<string, string> = {
