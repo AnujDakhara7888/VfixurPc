@@ -202,7 +202,7 @@ export default function ServiceRequestDetailPage({ params }: { params: { id: str
           {showInvoiceForm && (
             <div className="card p-6">
               <h2 className="text-xs font-bold text-ink-faint uppercase tracking-wider mb-1">Generate tax invoice</h2>
-              <p className="text-sm text-ink-soft mb-4">Confirm the buyer's billing details. Leave business fields blank for an individual customer.</p>
+              <p className="text-sm text-ink-soft mb-4">Confirm the buyer&apos;s billing details. Leave business fields blank for an individual customer.</p>
               <div className="grid grid-cols-2 gap-3">
                 <Inp label="Company (optional)" v={buyer.buyerCompany} on={(v) => setBuyer({ ...buyer, buyerCompany: v })} />
                 <Inp label="Contact name" v={buyer.buyerContact} on={(v) => setBuyer({ ...buyer, buyerContact: v })} />

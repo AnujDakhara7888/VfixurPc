@@ -87,7 +87,7 @@ export default function TechniciansPage() {
         <div className="text-sm text-ink-soft leading-relaxed">
           <span className="font-bold text-ink">What technicians can access.</span>{' '}
           Technicians sign in with their own username and password. They can view the <span className="font-semibold text-ink">Service Requests</span> queue,
-          update a job's <span className="font-semibold text-ink">status</span>, and add repair <span className="font-semibold text-ink">notes</span>.
+          update a job&apos;s <span className="font-semibold text-ink">status</span>, and add repair <span className="font-semibold text-ink">notes</span>.
           They <span className="font-semibold text-ink">cannot</span> see customers, invoices, revenue, manage pickup slots, or add other staff — those stay with admins and operations.
           Deactivate a technician to instantly block their sign-in without deleting their history.
         </div>

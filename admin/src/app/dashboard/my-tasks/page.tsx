@@ -36,7 +36,7 @@ export default function MyTasksPage() {
 
       {isLoading && <p className="text-ink-faint text-sm py-10 text-center">Loading…</p>}
       {!isLoading && tasks.length === 0 && (
-        <div className="card p-10 text-center text-ink-faint">You're all caught up — no tasks assigned right now.</div>
+        <div className="card p-10 text-center text-ink-faint">You&apos;re all caught up — no tasks assigned right now.</div>
       )}
       <div className="space-y-4">
         {tasks.map((t) => <TaskCard key={t.id} task={t} />)}
