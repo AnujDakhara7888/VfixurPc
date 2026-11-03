@@ -23,6 +23,7 @@ output/
 # expo / mobile
 .expo/
 .expo-shared/
+mobile/google-services.json
 *.jks
 *.p8
 *.p12

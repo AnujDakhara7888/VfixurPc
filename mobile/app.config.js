@@ -1,6 +1,11 @@
 module.exports = ({ config }) => {
   const shared = {
     ...config,
+    android: {
+      ...config.android,
+      googleServicesFile:
+        process.env.GOOGLE_SERVICES_JSON || config.android?.googleServicesFile,
+    },
     plugins: [
       ...(config.plugins || []),
       'react-native-blob-util',
