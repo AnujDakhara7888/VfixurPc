@@ -1,5 +1,5 @@
 import {
-  Controller, Get, Post, Patch, Delete, Body, Param, UseGuards,
+  Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, ParseUUIDPipe,
 } from '@nestjs/common';
 import { DevicesService } from './devices.service';
 import { CreateDeviceDto, UpdateDeviceDto } from './dto/device.dto';
@@ -23,17 +23,17 @@ export class DevicesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.devicesService.findOne(id);
+  findOne(@Param('id', ParseUUIDPipe) id: string, @CurrentUser() user: User) {
+    return this.devicesService.findOwned(id, user);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateDeviceDto, @CurrentUser() user: User) {
+  update(@Param('id', ParseUUIDPipe) id: string, @Body() dto: UpdateDeviceDto, @CurrentUser() user: User) {
     return this.devicesService.update(id, dto, user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string, @CurrentUser() user: User) {
+  remove(@Param('id', ParseUUIDPipe) id: string, @CurrentUser() user: User) {
     return this.devicesService.remove(id, user);
   }
 }

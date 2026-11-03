@@ -1,0 +1,1460 @@
+[
+  {
+    "id": "laptop",
+    "label": "Laptop Repair",
+    "short": "Laptop",
+    "icon": "laptop-outline",
+    "tagline": "Screen, battery, keyboard & more",
+    "needsDevice": true,
+    "deviceOptional": true,
+    "popular": true,
+    "issues": [
+      {
+        "id": "0",
+        "label": "Laptop not turning on",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "1",
+        "label": "Turns on but no display",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "2",
+        "label": "Broken / damaged screen",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "3",
+        "label": "Battery problem",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "4",
+        "label": "Charging problem",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "5",
+        "label": "Keyboard problem",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "6",
+        "label": "Touchpad problem",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "7",
+        "label": "Hinge / body damage",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "8",
+        "label": "Overheating",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "9",
+        "label": "Automatic shutdown / restart",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "10",
+        "label": "Slow / hanging",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "11",
+        "label": "Blue screen / crashing",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "12",
+        "label": "Windows / software problem",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "13",
+        "label": "Wi-Fi / Bluetooth problem",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "14",
+        "label": "Speaker / microphone problem",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "15",
+        "label": "Webcam problem",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "16",
+        "label": "USB / HDMI / port problem",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "17",
+        "label": "Liquid damage",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "18",
+        "label": "Physical damage",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "19",
+        "label": "Other / Not sure",
+        "icon": "help-circle-outline"
+      }
+    ],
+    "enabled": true,
+    "sortOrder": 0,
+    "modes": [
+      "PICKUP",
+      "CARRY_IN"
+    ],
+    "fields": [
+      {
+        "id": "brand",
+        "label": "Brand",
+        "type": "select",
+        "options": [
+          "Dell",
+          "HP",
+          "Lenovo",
+          "Asus",
+          "Acer",
+          "MSI",
+          "Samsung",
+          "Microsoft Surface",
+          "Other",
+          "Not sure"
+        ]
+      },
+      {
+        "id": "model",
+        "label": "Model / series",
+        "type": "text"
+      },
+      {
+        "id": "serial",
+        "label": "Serial number / service tag",
+        "type": "text"
+      }
+    ]
+  },
+  {
+    "id": "desktop",
+    "label": "Desktop Repair",
+    "short": "Desktop",
+    "icon": "desktop-outline",
+    "tagline": "Boot issues, power, graphics & more",
+    "needsDevice": true,
+    "deviceOptional": true,
+    "popular": true,
+    "issues": [
+      {
+        "id": "0",
+        "label": "Not powering on",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "1",
+        "label": "No display",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "2",
+        "label": "Beeping / POST problem",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "3",
+        "label": "Random restart / shutdown",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "4",
+        "label": "Overheating",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "5",
+        "label": "Slow performance",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "6",
+        "label": "Windows problem",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "7",
+        "label": "Blue screen",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "8",
+        "label": "Storage problem",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "9",
+        "label": "Graphics problem",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "10",
+        "label": "Internet / network",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "11",
+        "label": "USB / ports",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "12",
+        "label": "Other / Not sure",
+        "icon": "help-circle-outline"
+      }
+    ],
+    "enabled": true,
+    "sortOrder": 1,
+    "modes": [
+      "PICKUP",
+      "CARRY_IN",
+      "ON_SITE"
+    ],
+    "fields": [
+      {
+        "id": "desktopType",
+        "label": "Desktop type",
+        "type": "select",
+        "options": [
+          "Custom built PC",
+          "Branded / pre-built PC",
+          "All-in-one PC",
+          "Not sure"
+        ]
+      },
+      {
+        "id": "brand",
+        "label": "Brand",
+        "type": "select",
+        "options": [
+          "Dell",
+          "HP",
+          "Lenovo",
+          "Asus",
+          "Acer",
+          "MSI",
+          "Samsung",
+          "Microsoft Surface",
+          "Other",
+          "Not sure"
+        ],
+        "showWhen": {
+          "field": "desktopType",
+          "values": [
+            "Branded / pre-built PC",
+            "All-in-one PC"
+          ]
+        }
+      },
+      {
+        "id": "model",
+        "label": "Model / series",
+        "type": "text"
+      },
+      {
+        "id": "serial",
+        "label": "Serial number / service tag",
+        "type": "text"
+      },
+      {
+        "id": "part0",
+        "label": "Processor",
+        "type": "text",
+        "showWhen": {
+          "field": "desktopType",
+          "values": [
+            "Custom built PC"
+          ]
+        }
+      },
+      {
+        "id": "part1",
+        "label": "Motherboard",
+        "type": "text",
+        "showWhen": {
+          "field": "desktopType",
+          "values": [
+            "Custom built PC"
+          ]
+        }
+      },
+      {
+        "id": "part2",
+        "label": "RAM",
+        "type": "text",
+        "showWhen": {
+          "field": "desktopType",
+          "values": [
+            "Custom built PC"
+          ]
+        }
+      },
+      {
+        "id": "part3",
+        "label": "Graphics card",
+        "type": "text",
+        "showWhen": {
+          "field": "desktopType",
+          "values": [
+            "Custom built PC"
+          ]
+        }
+      },
+      {
+        "id": "part4",
+        "label": "Storage",
+        "type": "text",
+        "showWhen": {
+          "field": "desktopType",
+          "values": [
+            "Custom built PC"
+          ]
+        }
+      },
+      {
+        "id": "part5",
+        "label": "Power supply",
+        "type": "text",
+        "showWhen": {
+          "field": "desktopType",
+          "values": [
+            "Custom built PC"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "mac",
+    "label": "Mac Repair",
+    "short": "Mac",
+    "icon": "logo-apple",
+    "tagline": "MacBook, iMac & Mac mini",
+    "needsDevice": true,
+    "deviceOptional": true,
+    "popular": true,
+    "issues": [
+      {
+        "id": "0",
+        "label": "Not powering on",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "1",
+        "label": "No display",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "2",
+        "label": "Screen damaged",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "3",
+        "label": "Battery",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "4",
+        "label": "Charging",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "5",
+        "label": "Keyboard / Trackpad",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "6",
+        "label": "Liquid damage",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "7",
+        "label": "Overheating",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "8",
+        "label": "macOS / software",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "9",
+        "label": "Slow performance",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "10",
+        "label": "Storage",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "11",
+        "label": "Wi-Fi",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "12",
+        "label": "Other / Not sure",
+        "icon": "help-circle-outline"
+      }
+    ],
+    "enabled": true,
+    "sortOrder": 2,
+    "modes": [
+      "PICKUP",
+      "CARRY_IN"
+    ],
+    "fields": [
+      {
+        "id": "deviceType",
+        "label": "Mac type",
+        "type": "select",
+        "options": [
+          "MacBook Air",
+          "MacBook Pro",
+          "iMac",
+          "Mac Mini",
+          "Other / Not sure"
+        ]
+      },
+      {
+        "id": "model",
+        "label": "Model number (Axxxx)",
+        "type": "text"
+      },
+      {
+        "id": "serial",
+        "label": "Serial number",
+        "type": "text"
+      },
+      {
+        "id": "chip",
+        "label": "Chip",
+        "type": "select",
+        "options": [
+          "Intel",
+          "Apple Silicon",
+          "Not sure"
+        ]
+      },
+      {
+        "id": "year",
+        "label": "Year",
+        "type": "text"
+      }
+    ]
+  },
+  {
+    "id": "data",
+    "label": "Data Recovery",
+    "short": "Data",
+    "icon": "save-outline",
+    "tagline": "Recover lost or deleted files",
+    "needsDevice": false,
+    "issues": [
+      {
+        "id": "0",
+        "label": "Accidentally deleted files",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "1",
+        "label": "Accidentally formatted",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "2",
+        "label": "Drive not detected",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "3",
+        "label": "System asks to format drive",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "4",
+        "label": "Partition missing",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "5",
+        "label": "Very slow",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "6",
+        "label": "Clicking / unusual sound",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "7",
+        "label": "Physically damaged",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "8",
+        "label": "Liquid damage",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "9",
+        "label": "System crashed",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "10",
+        "label": "Other / Not sure",
+        "icon": "help-circle-outline"
+      }
+    ],
+    "enabled": true,
+    "sortOrder": 3,
+    "modes": [
+      "PICKUP",
+      "CARRY_IN"
+    ],
+    "fields": [
+      {
+        "id": "deviceType",
+        "label": "Storage device",
+        "type": "select",
+        "options": [
+          "Hard drive (HDD)",
+          "SSD",
+          "USB / Pen drive",
+          "Memory card",
+          "Other / Not sure"
+        ]
+      },
+      {
+        "id": "brand",
+        "label": "Brand",
+        "type": "text"
+      },
+      {
+        "id": "capacity",
+        "label": "Capacity",
+        "type": "text"
+      },
+      {
+        "id": "connection",
+        "label": "Connection",
+        "type": "select",
+        "options": [
+          "Internal",
+          "External",
+          "Not sure"
+        ]
+      },
+      {
+        "id": "model",
+        "label": "Model",
+        "type": "text"
+      },
+      {
+        "id": "dataType",
+        "label": "Important data",
+        "type": "multi",
+        "options": [
+          "Documents",
+          "Photos",
+          "Videos",
+          "Business data",
+          "Accounting / Tally",
+          "Other"
+        ]
+      },
+      {
+        "id": "amount",
+        "label": "Approximate data required",
+        "type": "text"
+      },
+      {
+        "id": "encrypted",
+        "label": "Drive encrypted?",
+        "type": "select",
+        "options": [
+          "Yes",
+          "No",
+          "Not sure"
+        ]
+      },
+      {
+        "id": "priority",
+        "label": "Priority",
+        "type": "select",
+        "options": [
+          "Normal",
+          "Urgent"
+        ]
+      }
+    ],
+    "notice": "If the drive clicks or is not detected, stop repeatedly powering it on. Further use can reduce the chance of recovery."
+  },
+  {
+    "id": "upgrade",
+    "label": "System Upgrade",
+    "short": "Upgrade",
+    "icon": "arrow-up-circle-outline",
+    "tagline": "SSD, RAM, OS & performance",
+    "needsDevice": true,
+    "deviceOptional": true,
+    "issues": [
+      {
+        "id": "0",
+        "label": "RAM",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "1",
+        "label": "SSD",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "2",
+        "label": "Storage",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "3",
+        "label": "Graphics card",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "4",
+        "label": "Wi-Fi / Bluetooth",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "5",
+        "label": "Windows / OS",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "6",
+        "label": "General performance",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "7",
+        "label": "Not sure - recommend an upgrade",
+        "icon": "help-circle-outline"
+      }
+    ],
+    "enabled": true,
+    "sortOrder": 4,
+    "modes": [
+      "PICKUP",
+      "CARRY_IN"
+    ],
+    "fields": [
+      {
+        "id": "deviceType",
+        "label": "Device type",
+        "type": "select",
+        "options": [
+          "Laptop",
+          "Desktop",
+          "Mac",
+          "Not sure"
+        ]
+      },
+      {
+        "id": "brand",
+        "label": "Brand",
+        "type": "select",
+        "options": [
+          "Dell",
+          "HP",
+          "Lenovo",
+          "Asus",
+          "Acer",
+          "MSI",
+          "Samsung",
+          "Microsoft Surface",
+          "Other",
+          "Not sure"
+        ]
+      },
+      {
+        "id": "model",
+        "label": "Model",
+        "type": "text"
+      },
+      {
+        "id": "configuration",
+        "label": "Current configuration",
+        "type": "text"
+      },
+      {
+        "id": "purpose",
+        "label": "Purpose",
+        "type": "multi",
+        "options": [
+          "System is slow",
+          "Need more storage",
+          "Multitasking",
+          "Gaming",
+          "Designing / Editing",
+          "Office use",
+          "Virtual machines / Development",
+          "Other"
+        ]
+      },
+      {
+        "id": "budget",
+        "label": "Budget (INR)",
+        "type": "number"
+      }
+    ]
+  },
+  {
+    "id": "virus",
+    "label": "Virus / Malware Removal",
+    "short": "Virus",
+    "icon": "shield-checkmark-outline",
+    "tagline": "Malware, pop-ups & security",
+    "needsDevice": false,
+    "popular": true,
+    "issues": [
+      {
+        "id": "0",
+        "label": "Pop-ups",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "1",
+        "label": "Computer extremely slow",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "2",
+        "label": "Browser redirects",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "3",
+        "label": "Unknown applications",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "4",
+        "label": "Antivirus warning",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "5",
+        "label": "Files encrypted / ransomware message",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "6",
+        "label": "Account may be compromised",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "7",
+        "label": "Other / Not sure",
+        "icon": "help-circle-outline"
+      }
+    ],
+    "enabled": true,
+    "sortOrder": 5,
+    "modes": [
+      "REMOTE",
+      "CARRY_IN",
+      "ON_SITE"
+    ],
+    "fields": [
+      {
+        "id": "deviceType",
+        "label": "Device type",
+        "type": "select",
+        "options": [
+          "Laptop",
+          "Desktop",
+          "Mac",
+          "Not sure"
+        ]
+      },
+      {
+        "id": "os",
+        "label": "Operating system",
+        "type": "select",
+        "options": [
+          "Windows",
+          "macOS",
+          "Other / Not sure"
+        ]
+      },
+      {
+        "id": "access",
+        "label": "Can you access the system?",
+        "type": "select",
+        "options": [
+          "Yes",
+          "No",
+          "Not sure"
+        ]
+      },
+      {
+        "id": "backup",
+        "label": "Do you have a backup?",
+        "type": "select",
+        "options": [
+          "Yes",
+          "No",
+          "Not sure"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cctv",
+    "label": "CCTV Setup & Support",
+    "short": "CCTV",
+    "icon": "videocam-outline",
+    "tagline": "Home, office & shop installations",
+    "needsDevice": false,
+    "issues": [
+      {
+        "id": "0",
+        "label": "New installation / Site survey",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "1",
+        "label": "Camera not working",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "2",
+        "label": "No recording",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "3",
+        "label": "DVR / NVR issue",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "4",
+        "label": "HDD issue",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "5",
+        "label": "Mobile viewing",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "6",
+        "label": "Cabling",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "7",
+        "label": "Add cameras",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "8",
+        "label": "Relocate cameras",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "9",
+        "label": "Other / Not sure",
+        "icon": "help-circle-outline"
+      }
+    ],
+    "enabled": true,
+    "sortOrder": 6,
+    "modes": [
+      "ON_SITE"
+    ],
+    "fields": [
+      {
+        "id": "locationType",
+        "label": "Location type",
+        "type": "select",
+        "options": [
+          "Home",
+          "Office",
+          "Shop",
+          "Warehouse",
+          "Society",
+          "Other"
+        ]
+      },
+      {
+        "id": "setupType",
+        "label": "Setup type",
+        "type": "select",
+        "options": [
+          "New setup",
+          "Existing setup"
+        ],
+        "required": true
+      },
+      {
+        "id": "cameraCount",
+        "label": "Camera count",
+        "type": "select",
+        "options": [
+          "1-4",
+          "5-8",
+          "9-16",
+          "16+",
+          "Not sure"
+        ]
+      },
+      {
+        "id": "placement",
+        "label": "Coverage",
+        "type": "select",
+        "options": [
+          "Indoor",
+          "Outdoor",
+          "Both",
+          "Not sure"
+        ],
+        "showWhen": {
+          "field": "setupType",
+          "values": [
+            "New setup"
+          ]
+        }
+      },
+      {
+        "id": "remoteViewing",
+        "label": "Mobile viewing required?",
+        "type": "select",
+        "options": [
+          "Yes",
+          "No",
+          "Not sure"
+        ],
+        "showWhen": {
+          "field": "setupType",
+          "values": [
+            "New setup"
+          ]
+        }
+      },
+      {
+        "id": "internet",
+        "label": "Internet available?",
+        "type": "select",
+        "options": [
+          "Yes",
+          "No",
+          "Not sure"
+        ],
+        "showWhen": {
+          "field": "setupType",
+          "values": [
+            "New setup"
+          ]
+        }
+      },
+      {
+        "id": "brand",
+        "label": "Existing system brand",
+        "type": "text",
+        "showWhen": {
+          "field": "setupType",
+          "values": [
+            "Existing setup"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "network",
+    "label": "IT Infrastructure Setup",
+    "short": "IT Infrastructure",
+    "icon": "wifi-outline",
+    "tagline": "Networks, Wi-Fi & office infrastructure",
+    "needsDevice": false,
+    "issues": [
+      {
+        "id": "0",
+        "label": "Structured LAN",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "1",
+        "label": "Wi-Fi",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "2",
+        "label": "Router",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "3",
+        "label": "Switches",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "4",
+        "label": "Firewall",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "5",
+        "label": "Internet leased line",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "6",
+        "label": "VPN",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "7",
+        "label": "Server / NAS",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "8",
+        "label": "Internet down",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "9",
+        "label": "Slow internet",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "10",
+        "label": "Wi-Fi dead zones",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "11",
+        "label": "Frequent disconnects",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "12",
+        "label": "LAN issue",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "13",
+        "label": "Printer sharing",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "14",
+        "label": "Cabling",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "15",
+        "label": "Other / Not sure",
+        "icon": "help-circle-outline"
+      }
+    ],
+    "enabled": true,
+    "sortOrder": 7,
+    "modes": [
+      "ON_SITE"
+    ],
+    "fields": [
+      {
+        "id": "setupType",
+        "label": "Setup type",
+        "type": "select",
+        "options": [
+          "New setup",
+          "Existing setup"
+        ],
+        "required": true
+      },
+      {
+        "id": "locationType",
+        "label": "Location type",
+        "type": "select",
+        "options": [
+          "Home",
+          "Office",
+          "Shop",
+          "Warehouse",
+          "Society",
+          "Other"
+        ]
+      },
+      {
+        "id": "users",
+        "label": "Number of users / computers",
+        "type": "text"
+      },
+      {
+        "id": "area",
+        "label": "Approximate area",
+        "type": "text",
+        "showWhen": {
+          "field": "setupType",
+          "values": [
+            "New setup"
+          ]
+        }
+      },
+      {
+        "id": "floors",
+        "label": "Number of floors",
+        "type": "number",
+        "showWhen": {
+          "field": "setupType",
+          "values": [
+            "New setup"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "backup",
+    "label": "Data Backup & Security",
+    "short": "Backup & Security",
+    "icon": "cloud-upload-outline",
+    "tagline": "Cloud, NAS, recovery & data protection",
+    "needsDevice": false,
+    "issues": [
+      {
+        "id": "0",
+        "label": "Cloud backup",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "1",
+        "label": "NAS / On-premise",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "2",
+        "label": "Hybrid",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "3",
+        "label": "Recommend a solution",
+        "icon": "help-circle-outline"
+      }
+    ],
+    "enabled": true,
+    "sortOrder": 8,
+    "modes": [
+      "CONSULTATION",
+      "ON_SITE"
+    ],
+    "fields": [
+      {
+        "id": "customerType",
+        "label": "Customer type",
+        "type": "select",
+        "options": [
+          "Personal",
+          "Business"
+        ]
+      },
+      {
+        "id": "backupFor",
+        "label": "Backup required for",
+        "type": "select",
+        "options": [
+          "Single computer",
+          "Multiple computers",
+          "Server",
+          "NAS",
+          "Entire office",
+          "Not sure"
+        ]
+      },
+      {
+        "id": "dataAmount",
+        "label": "Approximate data",
+        "type": "select",
+        "options": [
+          "Under 500 GB",
+          "500 GB - 1 TB",
+          "1-5 TB",
+          "5 TB+",
+          "Not sure"
+        ]
+      },
+      {
+        "id": "users",
+        "label": "Number of users / devices",
+        "type": "text"
+      },
+      {
+        "id": "currentBackup",
+        "label": "Current backup method",
+        "type": "text"
+      }
+    ]
+  },
+  {
+    "id": "custom",
+    "label": "Build a Custom PC",
+    "short": "Custom PC",
+    "icon": "construct-outline",
+    "tagline": "Built to your needs & budget",
+    "needsDevice": false,
+    "issues": [
+      {
+        "id": "0",
+        "label": "Office",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "1",
+        "label": "Gaming",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "2",
+        "label": "Video editing",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "3",
+        "label": "Graphic designing",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "4",
+        "label": "3D rendering",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "5",
+        "label": "CAD / Architecture",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "6",
+        "label": "Programming",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "7",
+        "label": "AI / Machine learning",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "8",
+        "label": "Other / Not sure",
+        "icon": "help-circle-outline"
+      }
+    ],
+    "enabled": true,
+    "sortOrder": 9,
+    "modes": [
+      "CONSULTATION"
+    ],
+    "fields": [
+      {
+        "id": "budget",
+        "label": "Budget (INR)",
+        "type": "number",
+        "required": true
+      },
+      {
+        "id": "software",
+        "label": "Software / games used",
+        "type": "text"
+      },
+      {
+        "id": "extras",
+        "label": "Accessories / extras",
+        "type": "multi",
+        "options": [
+          "Monitor",
+          "Keyboard / Mouse",
+          "Wi-Fi",
+          "Bluetooth",
+          "Windows license",
+          "None"
+        ]
+      },
+      {
+        "id": "preference",
+        "label": "Build preference",
+        "type": "select",
+        "options": [
+          "Maximum performance",
+          "Balanced",
+          "Compact",
+          "Silent",
+          "RGB / Gaming appearance"
+        ]
+      },
+      {
+        "id": "existing",
+        "label": "Existing parts?",
+        "type": "select",
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "id": "existingParts",
+        "label": "Existing parts",
+        "type": "text",
+        "showWhen": {
+          "field": "existing",
+          "values": [
+            "Yes"
+          ]
+        }
+      },
+      {
+        "id": "specifications",
+        "label": "Specifications in mind",
+        "type": "text"
+      }
+    ]
+  },
+  {
+    "id": "business",
+    "label": "Business IT Support / AMC",
+    "short": "Business IT",
+    "icon": "briefcase-outline",
+    "tagline": "AMC, on-call & office IT support",
+    "needsDevice": false,
+    "issues": [
+      {
+        "id": "0",
+        "label": "Desktop / Laptop support",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "1",
+        "label": "Networking",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "2",
+        "label": "Server",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "3",
+        "label": "Backup",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "4",
+        "label": "CCTV",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "5",
+        "label": "Cybersecurity",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "6",
+        "label": "Printer / Peripheral support",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "7",
+        "label": "Complete IT management",
+        "icon": "help-circle-outline"
+      },
+      {
+        "id": "8",
+        "label": "Other / Not sure",
+        "icon": "help-circle-outline"
+      }
+    ],
+    "enabled": true,
+    "sortOrder": 10,
+    "modes": [
+      "CONSULTATION",
+      "ON_SITE"
+    ],
+    "fields": [
+      {
+        "id": "company",
+        "label": "Company name",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "contact",
+        "label": "Contact person",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "officeLocation",
+        "label": "Office location",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "employees",
+        "label": "Number of employees",
+        "type": "text"
+      },
+      {
+        "id": "computers",
+        "label": "Number of computers / devices",
+        "type": "text"
+      },
+      {
+        "id": "vendor",
+        "label": "Existing IT vendor?",
+        "type": "select",
+        "options": [
+          "Yes",
+          "No",
+          "Not sure"
+        ]
+      },
+      {
+        "id": "requirement",
+        "label": "Requirement",
+        "type": "select",
+        "options": [
+          "AMC",
+          "One-time project",
+          "On-call IT support",
+          "Not sure"
+        ]
+      }
+    ]
+  }
+]

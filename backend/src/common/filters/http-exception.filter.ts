@@ -37,7 +37,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     }
 
     if (status >= 500) {
-      this.logger.error(exception);
+      // Database errors can include personal data and binary upload parameters.
+      const error = exception as { name?: string; code?: string; driverError?: {code?: string} };
+      this.logger.error({ name: error?.name ?? 'Error', code: error?.driverError?.code ?? error?.code ?? 'UNKNOWN' });
     }
 
     response.status(status).json({

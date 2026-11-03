@@ -22,21 +22,23 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1063.0",
     "@aws-sdk/s3-request-presigner": "^3.1063.0",
-    "@nestjs/common": "^11.0.1",
+    "@nestjs/common": "11.1.24",
     "@nestjs/config": "^4.0.4",
-    "@nestjs/core": "^11.0.1",
+    "@nestjs/core": "11.1.24",
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/passport": "^11.0.5",
-    "@nestjs/platform-express": "^11.1.24",
-    "@nestjs/swagger": "^11.4.4",
+    "@nestjs/platform-express": "11.1.24",
+    "@nestjs/swagger": "^11.4.7",
+    "@nestjs/throttler": "^6.5.0",
     "@nestjs/typeorm": "^11.0.1",
     "@types/multer": "^2.1.0",
-    "axios": "^1.17.0",
+    "axios": "^1.20.0",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
-    "firebase-admin": "^13.10.0",
-    "multer": "^2.1.1",
+    "firebase-admin": "^14.4.0",
+    "helmet": "^8.3.0",
+    "multer": "^2.4.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
@@ -46,15 +48,16 @@
     "razorpay": "^2.9.6",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "typeorm": "^1.0.0",
-    "uuid": "^14.0.0"
+    "typeorm": "^1.1.1",
+    "uuid": "^14.0.0",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
-    "@nestjs/testing": "^11.0.1",
+    "@nestjs/testing": "11.1.24",
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
@@ -64,6 +67,7 @@
     "@types/pdfkit": "^0.17.6",
     "@types/supertest": "^7.0.0",
     "@types/uuid": "^10.0.0",
+    "@types/web-push": "^3.6.4",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
@@ -78,6 +82,13 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
+  },
+  "overrides": {
+    "multer": "$multer",
+    "js-yaml": "5.4.1",
+    "gaxios": {
+      "uuid": "11.1.1"
+    }
   },
   "jest": {
     "moduleFileExtensions": [

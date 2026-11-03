@@ -1,11 +1,12 @@
 import {
-  Entity, PrimaryGeneratedColumn, Column, CreateDateColumn,
+  Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Index,
   ManyToOne, JoinColumn,
 } from 'typeorm';
 import { PaymentStatus, PaymentMethod } from '../common/enums';
 import { ServiceRequest } from '../service-requests/entities/service-request.entity';
 
 @Entity('payments')
+@Index('UQ_payments_one_pending_per_request', ['serviceRequestId'], { unique: true, where: `status = 'PENDING'` })
 export class Payment {
   @PrimaryGeneratedColumn('uuid')
   id: string;

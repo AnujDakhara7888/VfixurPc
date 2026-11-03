@@ -9,7 +9,7 @@ export const SELLER = {
   address:
     process.env.INV_ADDRESS ??
     '99, Ratna Jyot Ind Est, Irla Rd, near jai ambe Chowk, Vile Parle West, Mumbai, Maharashtra 400056, Mumbai, Maharashtra (MH-27) 400056, IN',
-  phone: process.env.INV_PHONE ?? '+917777008779',
+  phone: process.env.INV_PHONE ?? '+917039552137',
   email: process.env.INV_EMAIL ?? 'accounts@vfixurpc.com',
   gstin: process.env.INV_GSTIN ?? '27FXQPB4377D1Z8',
   stateCode: process.env.INV_STATE_CODE ?? '27',

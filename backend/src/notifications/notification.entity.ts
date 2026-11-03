@@ -31,8 +31,20 @@ export class Notification {
   @Column({ type: 'text' })
   message: string;
 
+  @Column({ type: 'varchar', nullable: true, length: 100 })
+  title: string | null;
+
+  @Column({ name: 'offer_id', type: 'uuid', nullable: true })
+  offerId: string | null;
+
+  @Column({ name: 'deep_link', type: 'varchar', nullable: true, length: 300 })
+  deepLink: string | null;
+
   @Column({ type: 'enum', enum: NotificationStatus, default: NotificationStatus.PENDING })
   status: NotificationStatus;
+
+  @Column({ name: 'read_at', type: 'timestamptz', nullable: true })
+  readAt: Date | null;
 
   @CreateDateColumn({ name: 'sent_at' })
   sentAt: Date;

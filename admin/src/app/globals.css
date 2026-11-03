@@ -27,9 +27,17 @@ body {
 /* Reusable surface tokens */
 @layer components {
   .card {
-    @apply bg-white rounded-2xl border border-gray-100 shadow-card;
+    @apply bg-white rounded-lg border border-gray-100 shadow-card;
   }
   .card-hover {
     @apply transition-shadow duration-200 hover:shadow-cardHover;
   }
+}
+
+main { overflow-wrap: anywhere; }
+@media (max-width: 640px) {
+  main > div.p-8 { padding: 1rem; }
+  main table { overflow-wrap: normal; }
+  main table th, main table td { white-space: normal; }
+  main table td.text-right { white-space: nowrap; }
 }

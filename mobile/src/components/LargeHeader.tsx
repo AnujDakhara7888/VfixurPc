@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ViewStyle, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Spacing } from '@/theme';
@@ -19,13 +19,17 @@ interface Props {
  */
 export default function LargeHeader({ title, subtitle, eyebrow, onBack, right, style }: Props) {
   const insets = useSafeAreaInsets();
+  const { height } = useWindowDimensions();
+  const compact = height < 700;
   return (
-    <View style={[styles.wrap, { paddingTop: insets.top + 8 }, style]}>
+    <View style={[styles.wrap, { paddingTop: insets.top + (compact ? 4 : 8), paddingBottom: compact ? 8 : 14 }, style]}>
       {(onBack || right) && (
-        <View style={styles.bar}>
+        <View style={[styles.bar, compact && { marginBottom: 4 }]}>
           {onBack ? (
             <TouchableOpacity
               onPress={onBack}
+              accessibilityRole="button"
+              accessibilityLabel="Go back"
               style={styles.backBtn}
               activeOpacity={0.7}
               hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
@@ -52,15 +56,15 @@ const styles = StyleSheet.create({
   },
   bar: { flexDirection: 'row', alignItems: 'center', marginBottom: 14 },
   backBtn: {
-    width: 40, height: 40, borderRadius: 13,
+    width: 44, height: 44, borderRadius: 8,
     alignItems: 'center', justifyContent: 'center',
     backgroundColor: Colors.surface,
     borderWidth: 1, borderColor: Colors.line,
   },
   eyebrow: {
     fontSize: 12, fontWeight: '800', color: Colors.accentInk,
-    letterSpacing: 1.2, textTransform: 'uppercase', marginBottom: 7,
+    letterSpacing: 0, textTransform: 'uppercase', marginBottom: 7,
   },
-  title: { fontSize: 33, fontWeight: '800', color: Colors.ink, letterSpacing: -0.9, lineHeight: 39 },
+  title: { fontSize: 26, fontWeight: '700', color: Colors.ink, letterSpacing: 0, lineHeight: 33 },
   subtitle: { fontSize: 15, color: Colors.inkSecondary, marginTop: 7, lineHeight: 21 },
 });

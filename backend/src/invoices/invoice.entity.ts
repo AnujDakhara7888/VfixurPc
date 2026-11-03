@@ -22,6 +22,18 @@ export class Invoice {
   @Column({ name: 'pdf_s3_url', nullable: true })
   pdfS3Url: string;
 
+  @Column({ name: 'file_data', type: 'bytea', nullable: true, select: false })
+  fileData: Buffer;
+
+  @Column({ name: 'document_kind', default: 'Invoice' })
+  documentKind: string;
+
+  @Column({ name: 'original_filename', nullable: true })
+  originalFilename: string;
+
+  @Column({ name: 'uploaded_by', nullable: true })
+  uploadedBy: string;
+
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   cgst: number;
 

@@ -9,19 +9,19 @@ import type { IconName } from '@/catalog/services';
 
 type Props = {
   navigation: NativeStackNavigationProp<BookStackParamList, 'BookingSuccess'>;
-  route: { params: { ticketNumber: string } };
+  route: { params: { ticketNumber: string; count?: number } };
 };
 
 const STEPS: { icon: IconName; text: string }[] = [
-  { icon: 'call-outline',        text: 'Our agent calls to confirm your pickup time' },
-  { icon: 'bag-handle-outline',  text: 'Device collected from your address' },
-  { icon: 'search-outline',      text: 'Expert diagnosis at our Mumbai workshop' },
+  { icon: 'call-outline',        text: 'Our team confirms your chosen service appointment' },
+  { icon: 'bag-handle-outline',  text: 'Pickup, visit or consultation as requested' },
+  { icon: 'search-outline',      text: 'For workshop repairs, a quotation within 48 hours of receipt' },
   { icon: 'construct-outline',   text: 'Professional repair by certified technicians' },
-  { icon: 'home-outline',        text: 'Device delivered back to your doorstep' },
+  { icon: 'home-outline',        text: 'Completion and handover updates in your ticket' },
 ];
 
 export default function BookingSuccessScreen({ navigation, route }: Props) {
-  const { ticketNumber } = route.params;
+  const { ticketNumber, count = 1 } = route.params;
   const insets = useSafeAreaInsets();
   const scale   = useRef(new Animated.Value(0)).current;
   const opacity = useRef(new Animated.Value(0)).current;
@@ -49,10 +49,10 @@ export default function BookingSuccessScreen({ navigation, route }: Props) {
         </Animated.View>
 
         <Text style={styles.title}>All set!</Text>
-        <Text style={styles.subtitle}>Your repair has been booked. We'll be in touch shortly.</Text>
+        <Text style={styles.subtitle}>{count > 1 ? `${count} separate device requests are confirmed under one booking.` : 'Your service request is confirmed.'}</Text>
 
         <View style={styles.ticketBox}>
-          <Text style={styles.ticketLbl}>Your ticket number</Text>
+          <Text style={styles.ticketLbl}>{count > 1 ? 'Your booking reference' : 'Your ticket number'}</Text>
           <Text style={styles.ticketNum}>{ticketNumber}</Text>
           <View style={styles.ticketHintRow}>
             <Ionicons name="camera-outline" size={13} color={Colors.inkTertiary} />
@@ -77,13 +77,13 @@ export default function BookingSuccessScreen({ navigation, route }: Props) {
 
         <TouchableOpacity
           style={styles.doneBtn}
-          onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Step1Device' }] })}
+          onPress={() => { navigation.reset({ index: 0, routes: [{ name: 'Step1Device' }] }); navigation.getParent()?.navigate('HomeTab'); }}
           activeOpacity={0.88}
         >
           <Text style={styles.doneTxt}>Done</Text>
         </TouchableOpacity>
 
-        <Text style={styles.note}>Our agent will contact you within 2 hours to confirm the pickup.</Text>
+        <Text style={styles.note}>Your booking and future updates are saved in your account.</Text>
       </Animated.ScrollView>
     </View>
   );

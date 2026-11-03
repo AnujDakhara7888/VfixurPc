@@ -54,12 +54,16 @@ function generateSlots(): { label: string; startTime: string; endTime: string }[
 }
 
 async function seed() {
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD;
+  if (!adminPassword || adminPassword.length < 12) throw new Error('Set SEED_ADMIN_PASSWORD to a unique password of at least 12 characters');
   const ds = new DataSource({
     type: 'postgres',
     url: process.env.DATABASE_URL,
-    synchronize: true,
-    ssl: true,
-    extra: { ssl: { rejectUnauthorized: false } },
+    synchronize: false,
+    ssl: process.env.DB_SSL !== 'false',
+    extra: process.env.DB_SSL === 'false' ? undefined : {
+      ssl: { rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false' },
+    },
     entities: [
       User, Device, ServiceRequest, StatusHistory, IssueSelection,
       QuoteItem, Payment, Invoice, Notification, DeliveryAssignment,
@@ -85,7 +89,7 @@ async function seed() {
   const userRepo = ds.getRepository(User);
   const adminExists = await userRepo.findOne({ where: { username: 'superadmin' } });
   if (!adminExists) {
-    const passwordHash = await bcrypt.hash('Admin@1234', 10);
+    const passwordHash = await bcrypt.hash(adminPassword, 12);
     await userRepo.save(userRepo.create({
       name: 'Super Admin',
       email: 'admin@vfixurpc.com',
@@ -94,7 +98,7 @@ async function seed() {
       passwordHash,
       role: Role.SUPER_ADMIN,
     }));
-    console.log('✓ Super admin created — username: superadmin / password: Admin@1234');
+    console.log('Super admin created. The password was read from SEED_ADMIN_PASSWORD and will not be printed.');
   } else {
     console.log('  Super admin already exists');
   }

@@ -2,7 +2,7 @@ import {
   Injectable, NotFoundException, ForbiddenException, ConflictException, BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 import { UpdateUserDto, UpdateRoleDto } from './dto/update-user.dto';
@@ -92,7 +92,23 @@ export class UsersService {
     if (requestingUser.id !== id && requestingUser.role !== Role.SUPER_ADMIN) {
       throw new ForbiddenException();
     }
-    await this.userRepo.update(id, dto);
+    const changes = { ...dto };
+    if (changes.email !== undefined) {
+      if (requestingUser.id === id) {
+        throw new BadRequestException('Use the verified email change option in your profile');
+      }
+      changes.email = changes.email.trim().toLowerCase();
+      if (await this.userRepo.exists({ where: { email: changes.email, id: Not(id) } })) {
+        throw new ConflictException('Email already in use');
+      }
+      await this.userRepo.manager.transaction(async manager => {
+        await manager.update(User, id, { ...changes, refreshToken: null });
+        await manager.increment(User, { id }, 'tokenVersion', 1);
+        await manager.query('DELETE FROM login_otp_challenges WHERE user_id=$1', [id]);
+      });
+      return this.findOne(id);
+    }
+    await this.userRepo.update(id, changes);
     return this.findOne(id);
   }
 

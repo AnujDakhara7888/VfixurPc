@@ -1,53 +1,58 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Colors, Spacing, Motion } from '@/theme';
 
 interface Props { current: number; total: number; labels?: string[] }
 
-/**
- * Slim segmented progress bar. A single cyan fill animates across the track as
- * the user advances; the caption reads "Step X of N · <label>".
- */
 export default function StepIndicator({ current, total, labels }: Props) {
-  const progress = useRef(new Animated.Value((current + 1) / total)).current;
+  const progress = useRef(new Animated.Value(total <= 1 ? 0 : current / (total - 1))).current;
 
   useEffect(() => {
     Animated.timing(progress, {
-      toValue: (current + 1) / total,
+      toValue: total <= 1 ? 0 : current / (total - 1),
       duration: Motion.base,
       useNativeDriver: false,
     }).start();
   }, [current, total]);
 
   const width = progress.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] });
+  const icons: React.ComponentProps<typeof Ionicons>['name'][] = ['construct-outline', 'laptop-outline', 'location-outline', 'checkmark-circle-outline'];
 
   return (
-    <View style={styles.wrap}>
-      <View style={styles.track}>
-        <Animated.View style={[styles.fill, { width }]} />
-        <View style={styles.segments} pointerEvents="none">
-          {Array.from({ length: total - 1 }).map((_, i) => (
-            <View key={i} style={styles.notch} />
-          ))}
+    <View style={styles.wrap} accessibilityLabel={`Step ${current + 1} of ${total}: ${labels?.[current] ?? ''}`}>
+      <View style={styles.railWrap}>
+        <View style={styles.track}><Animated.View style={[styles.fill, { width }]} /></View>
+        <View style={styles.steps}>
+          {Array.from({ length: total }).map((_, index) => {
+            const done = index < current;
+            const active = index === current;
+            return <View key={index} style={styles.step}>
+              <View style={[styles.dot, (done || active) && styles.dotActive, active && styles.dotCurrent]}>
+                <Ionicons name={done ? 'checkmark' : icons[index] ?? 'ellipse-outline'} size={active ? 18 : 15} color={done || active ? '#fff' : Colors.inkTertiary} />
+              </View>
+              <Text numberOfLines={2} style={[styles.stepLabel, active && styles.stepLabelActive]}>{labels?.[index] ?? `Step ${index + 1}`}</Text>
+            </View>;
+          })}
         </View>
       </View>
-      <Text style={styles.caption}>
-        Step {current + 1} of {total}
-        {labels?.[current] ? <Text style={styles.captionStrong}>{`   ·   ${labels[current]}`}</Text> : null}
-      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: { paddingHorizontal: Spacing.lg, paddingTop: 4, paddingBottom: 16 },
+  wrap: { paddingHorizontal: Spacing.lg, paddingTop: 6, paddingBottom: 14 },
+  railWrap: { position: 'relative' },
   track: {
-    height: 5, borderRadius: 3, backgroundColor: Colors.surfaceStrong, overflow: 'hidden',
-    justifyContent: 'center',
+    position: 'absolute', left: '11%', right: '11%', top: 18,
+    height: 3, borderRadius: 2, backgroundColor: Colors.surfaceStrong, overflow: 'hidden',
   },
-  fill: { position: 'absolute', left: 0, top: 0, bottom: 0, borderRadius: 3, backgroundColor: Colors.accent },
-  segments: { flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' },
-  notch: { width: 2.5, height: 5, backgroundColor: Colors.bgApp },
-  caption: { fontSize: 12, fontWeight: '600', color: Colors.inkTertiary, marginTop: 11 },
-  captionStrong: { color: Colors.ink, fontWeight: '800' },
+  fill: { height: 3, borderRadius: 2, backgroundColor: Colors.accent },
+  steps: { flexDirection: 'row', justifyContent: 'space-between' },
+  step: { flex: 1, alignItems: 'center', gap: 6 },
+  dot: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.surfaceStrong, borderWidth: 3, borderColor: Colors.bgApp },
+  dotActive: { backgroundColor: Colors.accent },
+  dotCurrent: { width: 42, height: 42, borderRadius: 21, marginTop: -3, borderColor: '#DDEBFF' },
+  stepLabel: { color: Colors.inkTertiary, fontSize: 9.5, lineHeight: 12, fontWeight: '700', textAlign: 'center', minHeight: 24 },
+  stepLabelActive: { color: Colors.ink, fontWeight: '900' },
 });

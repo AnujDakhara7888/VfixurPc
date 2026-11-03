@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsArray, IsBoolean, IsDateString, IsNotEmpty, IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';
+import { IsArray, IsBoolean, IsDateString, IsNotEmpty, IsOptional, IsString, IsUUID, ValidateNested, IsObject, IsIn, ArrayMinSize, MaxLength } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class IssueSelectionDto {
@@ -12,10 +12,18 @@ export class IssueSelectionDto {
 
 export class CreateServiceRequestDto {
   @ApiProperty({ example: 'uuid-of-device' })
-  @IsUUID() deviceId: string;
+  @IsOptional() @IsUUID() deviceId?: string;
+
+  @IsOptional() @IsString() serviceCategory?: string;
+  @IsOptional() @IsIn(['PICKUP','CARRY_IN','ON_SITE','REMOTE','CONSULTATION']) serviceMode?: string;
+  @IsOptional() @IsObject() bookingAnswers?: Record<string, string | string[]>;
+  @IsOptional() @IsString() policyVersion?: string;
+  @IsOptional() @IsBoolean() termsAccepted?: boolean;
+  @IsOptional() @IsString() @MaxLength(2000) notes?: string;
 
   @ApiProperty({ type: [IssueSelectionDto], example: [{ category: 'Battery', description: 'Drains fast' }] })
   @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => IssueSelectionDto)
   issues: IssueSelectionDto[];

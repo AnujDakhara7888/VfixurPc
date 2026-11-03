@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View, Text, StyleSheet, KeyboardAvoidingView,
-  Platform, ScrollView, StatusBar,
+  Platform, ScrollView, StatusBar, TouchableOpacity,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth, type LoginChallenge } from '@/context/AuthContext';
 import { getApiErrorMessage } from '@/api/client';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
@@ -24,12 +24,16 @@ const TRUST = [
 ];
 
 export default function LoginScreen({ navigation }: Props) {
-  const { login } = useAuth();
+  const { login, verifyLoginOtp, resendLoginOtp } = useAuth();
   const insets = useSafeAreaInsets();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [challenge, setChallenge] = useState<LoginChallenge | null>(null);
+  const [code, setCode] = useState('');
+  const [cooldown, setCooldown] = useState(0);
+  useEffect(() => { if (!cooldown) return; const timer = setTimeout(() => setCooldown(v => v - 1), 1000); return () => clearTimeout(timer); }, [cooldown]);
 
   async function handleLogin() {
     if (!username.trim() || !password.trim()) {
@@ -38,12 +42,29 @@ export default function LoginScreen({ navigation }: Props) {
     }
     setLoading(true);
     try {
-      await login(username.trim(), password);
+      const next = await login(username.trim(), password);
+      if (next) { setChallenge(next); setCode(''); setCooldown(60); }
     } catch (e: unknown) {
       Toast.show({ type: 'error', text1: 'Login failed', text2: getApiErrorMessage(e) });
     } finally {
       setLoading(false);
     }
+  }
+
+  async function handleVerify() {
+    if (!challenge || !/^\d{6}$/.test(code)) { Toast.show({ type: 'error', text1: 'Enter the 6-digit code' }); return; }
+    setLoading(true);
+    try { await verifyLoginOtp(challenge.challengeId, code); }
+    catch (e: unknown) { Toast.show({ type: 'error', text1: 'Verification failed', text2: getApiErrorMessage(e) }); }
+    finally { setLoading(false); }
+  }
+
+  async function resend() {
+    if (!challenge || cooldown) return;
+    setLoading(true);
+    try { await resendLoginOtp(challenge.challengeId); setCooldown(60); Toast.show({ type: 'success', text1: 'New code sent' }); }
+    catch (e: unknown) { Toast.show({ type: 'error', text1: 'Could not resend code', text2: getApiErrorMessage(e) }); }
+    finally { setLoading(false); }
   }
 
   return (
@@ -64,11 +85,11 @@ export default function LoginScreen({ navigation }: Props) {
           </View>
 
           <View style={styles.head}>
-            <Text style={styles.title}>Welcome back</Text>
-            <Text style={styles.sub}>Sign in to book and track doorstep repairs.</Text>
+            <Text style={styles.title}>{challenge ? 'Verify it is you' : 'Welcome back'}</Text>
+            <Text style={styles.sub}>{challenge ? `Enter the email code sent to ${challenge.maskedEmail}. Check your spam folder if it is not in your inbox.` : 'Sign in to book and track doorstep repairs.'}</Text>
           </View>
 
-          <Input
+          {!challenge ? <><Input
             label="Username"
             value={username}
             onChangeText={setUsername}
@@ -82,6 +103,8 @@ export default function LoginScreen({ navigation }: Props) {
             onChangeText={setPassword}
             placeholder="Enter your password"
             secureTextEntry={!showPassword}
+            autoCapitalize="none"
+            autoCorrect={false}
             rightIcon={
               <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={20} color={Colors.gray400} />
             }
@@ -89,6 +112,7 @@ export default function LoginScreen({ navigation }: Props) {
           />
 
           <Button label="Sign in" onPress={handleLogin} loading={loading} style={{ marginTop: Spacing.sm }} />
+          <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')} style={{ paddingVertical: 16, alignSelf: 'flex-end' }}><Text style={{ color: Colors.accentInk, fontWeight: '600' }}>Forgot password?</Text></TouchableOpacity>
 
           <View style={styles.divider}>
             <View style={styles.line} />
@@ -97,6 +121,12 @@ export default function LoginScreen({ navigation }: Props) {
           </View>
 
           <Button label="Create an account" onPress={() => navigation.navigate('Register')} variant="outline" />
+          </> : <>
+            <Input label="6-digit verification code" value={code} onChangeText={v => setCode(v.replace(/\D/g, '').slice(0, 6))} keyboardType="number-pad" textContentType="oneTimeCode" maxLength={6} />
+            <Button label="Verify and sign in" onPress={handleVerify} loading={loading} style={{ marginTop: Spacing.sm }} />
+            <TouchableOpacity disabled={!!cooldown || loading} onPress={resend} style={{ paddingVertical: 16 }}><Text style={{ color: cooldown ? Colors.gray400 : Colors.accentInk, textAlign: 'center', fontWeight: '700' }}>{cooldown ? `Send a new code in ${cooldown}s` : 'Send a new code'}</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => { setChallenge(null); setCode(''); }} style={{ paddingVertical: 10 }}><Text style={{ color: Colors.inkSecondary, textAlign: 'center', fontWeight: '600' }}>Use different sign-in details</Text></TouchableOpacity>
+          </>}
 
           <View style={styles.trustRow}>
             {TRUST.map((t) => (

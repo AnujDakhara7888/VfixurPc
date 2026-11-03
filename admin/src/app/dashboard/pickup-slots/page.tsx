@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { slotsApi } from '@/lib/api';
+import { formatTime } from '@/lib/dateTime';
 import type { PickupSlot } from '@/types';
 import toast from 'react-hot-toast';
 import { Plus, Trash2, Pencil, WandSparkles } from 'lucide-react';
@@ -125,7 +126,7 @@ export default function PickupSlotsPage() {
                 <div className="flex items-start justify-between">
                   <div>
                     <p className="font-semibold text-gray-900">{slot.label}</p>
-                    <p className="text-sm text-gray-500 mt-0.5">{slot.startTime} – {slot.endTime}</p>
+                    <p className="text-sm text-gray-500 mt-0.5">{formatTime(slot.startTime)} - {formatTime(slot.endTime)}</p>
                   </div>
                   <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${slot.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
                     {slot.isActive ? 'Active' : 'Inactive'}

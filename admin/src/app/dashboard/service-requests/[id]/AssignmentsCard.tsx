@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { deliveryApi, usersApi } from '@/lib/api';
+import { formatDateOnly, formatTimeSlot } from '@/lib/dateTime';
 import type { User } from '@/types';
 import AuthImage from '@/components/AuthImage';
 import toast from 'react-hot-toast';
@@ -26,9 +27,9 @@ export default function AssignmentsCard({ srId, defaultDate, defaultSlot }: { sr
   });
   const { data: techData } = useQuery({
     queryKey: ['users', 'TECHNICIAN'],
-    queryFn: () => usersApi.list({ role: 'TECHNICIAN', limit: 100 }),
+    queryFn: async () => { const [tech, delivery] = await Promise.all([usersApi.list({ role: 'TECHNICIAN', limit: 100 }), usersApi.list({ role: 'DELIVERY_AGENT', limit: 100 })]); return [...(tech.data??tech), ...(delivery.data??delivery)]; },
   });
-  const techs: User[] = techData?.data ?? techData ?? [];
+  const techs: User[] = techData ?? [];
 
   const pickup = assignments?.find((a) => a.type === 'PICKUP');
   const delivery = assignments?.find((a) => a.type === 'DELIVERY');
@@ -63,7 +64,7 @@ function Leg({ type, icon: Icon, title, assignment, techs, srId, defaultDate, de
   const done = assignment?.status === 'COMPLETED';
 
   return (
-    <div className="border border-gray-100 rounded-2xl p-4">
+    <div className="border-t border-gray-100 pt-4">
       <div className="flex items-center gap-2 mb-3">
         <span className="w-8 h-8 rounded-lg bg-accent-soft flex items-center justify-center"><Icon className="w-4 h-4 text-accent-ink" /></span>
         <p className="text-sm font-bold text-ink">{title}</p>
@@ -80,7 +81,7 @@ function Leg({ type, icon: Icon, title, assignment, techs, srId, defaultDate, de
             <span className="font-semibold text-ink">{assignment.agent?.name ?? 'Technician'}</span>
             {assignment.agent?.phone ? ` · ${assignment.agent.phone}` : ''}
           </p>
-          <p className="text-xs text-ink-faint mt-0.5">{assignment.scheduledDate} · {assignment.scheduledSlot}</p>
+          <p className="text-xs text-ink-faint mt-0.5">{formatDateOnly(assignment.scheduledDate)} · {formatTimeSlot(assignment.scheduledSlot)}</p>
           {assignment.photos?.length > 0 ? (
             <div className="flex flex-wrap gap-3 mt-3">
               {assignment.photos.map((p) => (
@@ -95,26 +96,26 @@ function Leg({ type, icon: Icon, title, assignment, techs, srId, defaultDate, de
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-12 gap-2 items-end">
-          <div className="col-span-5">
-            <label className="block text-[11px] font-semibold text-gray-500 mb-1">Technician</label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+          <div className="min-w-0">
+            <label className="block text-[11px] font-semibold text-gray-500 mb-1">Pickup / delivery person</label>
             <select value={agentId} onChange={(e) => setAgentId(e.target.value)}
               className="w-full border border-gray-200 rounded-lg px-2 py-2 text-sm bg-white focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent">
               <option value="">Select…</option>
               {techs.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
             </select>
           </div>
-          <div className="col-span-3">
+          <div className="min-w-0">
             <label className="block text-[11px] font-semibold text-gray-500 mb-1">Date</label>
             <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
               className="w-full border border-gray-200 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent" />
           </div>
-          <div className="col-span-2">
+          <div className="min-w-0">
             <label className="block text-[11px] font-semibold text-gray-500 mb-1">Slot</label>
-            <input value={slot} placeholder="AM" onChange={(e) => setSlot(e.target.value)}
+            <input value={slot} placeholder="14:00 - 14:30" onChange={(e) => setSlot(e.target.value)}
               className="w-full border border-gray-200 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent" />
           </div>
-          <div className="col-span-2">
+          <div className="min-w-0">
             <button onClick={() => { if (!agentId || !date) { toast.error('Pick technician & date'); return; } assign.mutate(); }}
               disabled={assign.isPending}
               className="w-full py-2 bg-brand-800 hover:bg-brand-900 text-white text-sm font-bold rounded-lg disabled:opacity-50">

@@ -1,0 +1,422 @@
+{
+  "version": "2026-10-02",
+  "privacy": [
+    "Effective Date: 2 October 2026",
+    "Vfixurpc (\"Vfixurpc\", \"we\", \"us\", or \"our\") respects your privacy and is committed to handling personal data responsibly. This Privacy Policy explains how information is collected, used, stored, shared, protected, and deleted when you use the Vfixurpc customer mobile application, website, or related repair and IT services.",
+    "This Policy applies to customer-facing services including laptop, desktop, MacBook/iMac repair, data recovery, backup solutions, CCTV setup and support, system upgrades, custom PC builds, virus and malware removal, networking and Wi-Fi services, onsite support, pickup and delivery, remote support, and business IT or AMC enquiries.",
+    "1.1 Information We May Collect",
+    "Depending on the feature or service you use, we may collect the following information:",
+    "Account and identity information, such as your name, mobile number, email address, account ID, and login or OTP-related records.",
+    "An optional date of birth, where you choose to provide it, for account handling and birthday benefits or communications you have enabled.",
+    "Contact and service-location information, such as pickup, delivery, onsite-service, billing, or saved addresses.",
+    "Device information, such as device type, brand, model, serial number, service tag, configuration, storage capacity, operating system, and accessories submitted with the device.",
+    "Service-request information, such as the issue reported, symptoms, selected service category, preferred service mode, appointment details, instructions, and service history.",
+    "Photos, videos, documents, screenshots, or other files that you voluntarily upload to help us understand the device condition or service requirement.",
+    "Location information, only where you choose to use location assistance for selecting or confirming a pickup, delivery, or onsite address.",
+    "Quotation, invoice, payment-status, tax, and transaction-reference information. Complete card numbers, CVVs, UPI PINs, or banking passwords should be processed by the applicable payment provider and not stored by Vfixurpc.",
+    "Customer-support communications, including chats, call notes, feedback, complaints, and other service-related communications.",
+    "Technical and app information, such as device type, operating-system version, app version, push-notification token, crash logs, diagnostics, security events, and limited usage information used to operate or improve the app.",
+    "Business-enquiry information, such as company name, office location, contact person, number of devices/users, and IT support requirements where you request business IT or AMC services.",
+    "1.2 How We Collect Information",
+    "Directly from you when you create an account, book a service, upload information, contact support, approve a quotation, make a payment, or submit feedback.",
+    "Automatically from the app or device where necessary for security, reliability, notifications, diagnostics, or functionality.",
+    "From service providers used to process OTPs, payments, maps/address lookup, notifications, hosting, diagnostics, or other app functions.",
+    "From technicians, pickup personnel, or support staff when they record service status, device condition, diagnosis, repair updates, or delivery information.",
+    "1.3 Why We Use Your Information",
+    "To create and manage your account.",
+    "To authenticate login and secure access.",
+    "To receive, schedule, and fulfil service requests.",
+    "To arrange pickup, delivery, onsite visits, or remote support.",
+    "To identify devices and maintain service history.",
+    "To diagnose problems, prepare quotations, perform approved repairs, test devices, and provide service updates.",
+    "To process payments, issue invoices, maintain accounting records, and manage refunds where applicable.",
+    "To provide customer support and resolve complaints.",
+    "To send transactional notifications about bookings, diagnosis, quotations, approvals, repairs, payments, delivery, and support.",
+    "To prevent misuse, fraud, security incidents, or unauthorized access.",
+    "To maintain and improve app performance, reliability, usability, and service quality.",
+    "To comply with applicable legal, tax, accounting, consumer-protection, or regulatory obligations.",
+    "1.4 Device Data and Repair Access",
+    "Devices submitted for repair may contain personal, confidential, or business information. Where reasonably possible, customers should maintain a backup and remove or secure sensitive information before handing over a device.",
+    "Vfixurpc personnel should access device contents only to the extent reasonably necessary to diagnose, repair, configure, recover, secure, or test the device for the service authorized by the customer. If a device password or credential is required for testing, we may request it separately. Customers are encouraged to create a temporary password where possible. Credentials should not be permanently retained after the relevant service is completed.",
+    "1.5 Data Recovery and Recovered Files",
+    "For data-recovery services, Vfixurpc may need to inspect storage media and temporarily process recovered files to determine recovery success and transfer data to an approved destination. Recovered data should be handled only for the requested recovery service and should be deleted from temporary working storage when no longer reasonably required for the service, quality checks, or agreed delivery process.",
+    "1.6 Camera, Photos, Videos, and Files",
+    "The app may allow you to take or select photos, videos, screenshots, or documents relating to your device or service request. Camera or photo access should be requested only when you choose to use such a feature. You should avoid uploading unrelated personal or confidential material.",
+    "1.7 Location and Addresses",
+    "Location access is optional and may be used to assist with selecting a pickup, delivery, or onsite-service address. You may enter an address manually instead. The customer app should not require continuous or background location tracking for normal service use.",
+    "1.8 Payments",
+    "Payments may be processed by third-party payment providers. Vfixurpc may receive transaction status, amount, payment reference, method category, or other information necessary to confirm payment and maintain records. Payment providers process sensitive payment credentials under their own terms, security controls, and privacy policies.",
+    "1.9 When We May Share Information",
+    "We may share information only where reasonably necessary for the purposes described in this Policy, including with:",
+    "Authorized Vfixurpc employees, support staff, technicians, or pickup/delivery personnel who need the information to perform the service.",
+    "Cloud hosting, database, authentication, OTP, notification, mapping, analytics, diagnostic, and communication providers.",
+    "Payment gateways and financial-service providers used to process payments or refunds.",
+    "Professional advisers, auditors, insurers, or service partners where reasonably required.",
+    "Government authorities, regulators, courts, or law-enforcement bodies when disclosure is required by applicable law or a valid legal process.",
+    "We do not sell personal data.",
+    "1.10 Third-Party Services and SDKs",
+    "The app may use third-party services for authentication, cloud hosting, notifications, maps, payments, analytics, diagnostics, or customer communications. The final Privacy Policy and app-store privacy disclosures must reflect the actual third-party services and SDKs included in the production build.",
+    "Address suggestions are provided by Google Maps. Address-search text is sent to Google to retrieve suggestions; the app does not request your device location for this search. Google processes this information under its Privacy Policy (https://policies.google.com/privacy). Google Maps features are also subject to the Google Maps/Google Earth Additional Terms of Service (https://maps.google.com/help/terms_maps/). You can enter an address manually instead.",
+    "1.11 Data Retention",
+    "We retain personal data only for as long as reasonably necessary for the purpose for which it was collected, to provide ongoing support or warranty records, maintain service and device history requested by the customer, comply with tax or accounting obligations, resolve disputes, prevent fraud, or meet other legal requirements.",
+    "Retention periods may vary by data category. Where information is no longer required, it should be deleted, anonymized, or otherwise disposed of securely.",
+    "1.12 Account Deletion and Data Deletion",
+    "You may request deletion of your Vfixurpc account through the account/privacy settings in the app or through the account-deletion method provided on the Vfixurpc website.",
+    "After a valid deletion request, personal data associated with the account will be deleted or anonymized where reasonably possible, except information that must be retained for legal, tax, accounting, warranty, fraud-prevention, dispute-resolution, or other legitimate compliance purposes.",
+    "Where information must be retained, access should be restricted and the information should not be used for unrelated purposes.",
+    "1.13 Your Choices and Rights",
+    "Subject to applicable law, you may request access to information about how your personal data is processed, correction of inaccurate information, erasure of data that is no longer required, withdrawal of consent where processing is based on consent, and grievance redressal. You may also manage optional app permissions such as location, camera, photos, and notifications through your device settings.",
+    "1.14 Communications",
+    "Transactional messages relating to OTPs, bookings, quotations, repairs, payments, delivery, security, or support may be necessary to provide the service. Promotional communications, if any, should be sent only in accordance with applicable law and your separate app-push or WhatsApp preferences. You may turn either promotional channel off without affecting transactional service updates.",
+    "1.15 Security",
+    "We use reasonable technical, organizational, and administrative safeguards intended to protect personal data against unauthorized access, loss, misuse, alteration, or disclosure. These may include encrypted transmission, access controls, authentication, database permissions, backups, logging, and security monitoring.",
+    "No system can guarantee absolute security. If we become aware of a personal-data breach that requires notification under applicable law, we will take appropriate steps.",
+    "1.16 Children",
+    "Vfixurpc services are intended for customers capable of entering into service transactions. Users under 18 should use the service with the involvement and consent of a parent or legal guardian where required. We do not intentionally collect children's personal data in violation of applicable law.",
+    "1.17 Changes to This Privacy Policy",
+    "We may update this Privacy Policy when our services, technology, legal obligations, or business practices change. The latest version will be made available through the app or website and will display the updated effective date.",
+    "1.18 Contact and Grievance",
+    "For privacy questions, correction or deletion requests, grievances, or concerns about personal data, contact:",
+    "Vfixurpc",
+    "Legal operator: VFIXURPC.COM",
+    "Email: contact@vfixurpc.com",
+    "Address: 3rd floor, 99 Ratnajyot industrial premises, Irla Lane, Near Ambe Mata Chawk, Vile Parle West, Mumbai 400056.",
+    "Website: www.vfixurpc.com"
+  ],
+  "terms": [
+    "Effective Date: 31 August 2026",
+    "These Terms of Service (\"Terms\") govern your use of the Vfixurpc customer application, website, and repair or IT services provided by Vfixurpc. By creating an account, submitting a service request, approving a quotation, making a payment, or otherwise using the services, you agree to these Terms.",
+    "2.1 Services Covered",
+    "Vfixurpc may offer services including:",
+    "Laptop repair and servicing.",
+    "Desktop and all-in-one computer repair.",
+    "MacBook and iMac repair.",
+    "Data recovery from supported storage devices.",
+    "System upgrades, SSD/RAM/storage upgrades, operating-system installation, and software setup.",
+    "Virus, malware, security cleanup, and related troubleshooting.",
+    "Backup solutions, including supported cloud, local, server, NAS, or hybrid backup solutions.",
+    "CCTV installation, setup, maintenance, troubleshooting, and related site services.",
+    "Networking and Wi-Fi setup, troubleshooting, cabling, router, switch, leased-line coordination, and related IT infrastructure work.",
+    "Custom PC consultation, configuration, sourcing, assembly, setup, and testing.",
+    "Onsite, carry-in, pickup-and-delivery, or remote support where available.",
+    "Business IT support, AMC, and project services, which may also be governed by a separate quotation, scope of work, or agreement.",
+    "2.2 Accounts and Customer Information",
+    "You are responsible for providing accurate contact, device, address, billing, and service information. You are also responsible for maintaining control of your mobile number, OTPs, and account access.",
+    "You must not impersonate another person, misuse another person's device or account, submit unlawful material, or use the app in a fraudulent, abusive, or unauthorized manner.",
+    "2.3 Booking a Service",
+    "A booking or service request confirms that Vfixurpc has received your request. It does not by itself guarantee that a device can be repaired, data can be recovered, a particular part is available, or a project can be completed within a particular timeframe.",
+    "Service mode, pickup, delivery, onsite availability, remote support, and appointment times depend on service type, location, operational capacity, technician availability, parts availability, and other practical conditions.",
+    "2.4 Device Intake and Condition",
+    "Vfixurpc may record device details, visible condition, accessories, serial/service information, and photographs at pickup or intake. This record may be used to reduce misunderstandings about pre-existing damage or submitted accessories.",
+    "Customers should submit only accessories required for diagnosis or repair, and should identify known physical damage, liquid exposure, prior repair attempts, or other relevant history.",
+    "2.5 Diagnosis and Estimates",
+    "The issue selected in the app is the customer's initial description and is not a final diagnosis. A technician may need to inspect, test, disassemble, or perform limited diagnostic steps before confirming the fault.",
+    "Any preliminary price, range, or estimate given before diagnosis is indicative unless expressly stated otherwise. A final quotation may change if additional faults, hidden damage, incompatible components, or other issues are discovered.",
+    "2.6 Quotations and Customer Approval",
+    "Where approval is required, Vfixurpc will provide a quotation or estimate describing the proposed work and applicable charges. Chargeable repair work that requires approval should not proceed until the applicable quotation has been approved.",
+    "If additional work or cost is discovered after approval, Vfixurpc may issue a revised quotation. Additional chargeable work requiring approval should not proceed until the revised amount is accepted.",
+    "A customer's approval through the app, website, recorded support channel, or other accepted method may be treated as authorization to perform the quoted work.",
+    "2.7 Parts and Components",
+    "Repairs and upgrades may require replacement components. The applicable quotation, invoice, or service communication should identify relevant information about the part, specification, condition, or warranty where appropriate.",
+    "Compatible, third-party, refurbished, open-box, or original manufacturer parts must not be represented as something they are not. Where choices are available, the customer should be informed before approval.",
+    "Parts specially ordered or procured for an approved job may be subject to supplier availability, return restrictions, or advance-payment conditions communicated before purchase.",
+    "2.8 Repair, Testing, and Turnaround Time",
+    "Estimated completion times are provided in good faith but may change due to diagnosis, part availability, supplier delays, technical complexity, repeat testing, customer approval delays, data-recovery conditions, or other factors outside Vfixurpc's reasonable control.",
+    "After repair, Vfixurpc may perform reasonable functional testing relevant to the service performed. Testing does not guarantee that an unrelated or previously undetected fault will never occur.",
+    "2.9 Pickup, Delivery, Carry-In, and Onsite Service",
+    "Pickup, delivery, carry-in, and onsite service options may vary by location and service type. Any applicable visit, pickup, delivery, inspection, or convenience charge should be shown in the app, quotation, or confirmed before the customer incurs the charge.",
+    "Customers are responsible for providing a correct address, safe access to the service location, and an authorized person to hand over or receive the device.",
+    "2.10 Remote Support",
+    "Where remote support is offered, the customer must authorize the session and remain responsible for closing confidential documents or accounts that are not needed for support. Remote access should be used only for the requested service and should end after the support session unless the customer clearly authorizes otherwise.",
+    "2.11 Customer Data and Backups",
+    "Electronic devices may contain important personal or business data. Customers are strongly encouraged to maintain a current backup before repair, upgrade, operating-system work, malware removal, or other service whenever reasonably possible.",
+    "Hardware failure, storage failure, malware, previous damage, operating-system work, component replacement, or necessary troubleshooting can create a risk of data loss. Vfixurpc will take reasonable care, but no repair service can guarantee preservation of data in every situation.",
+    "Nothing in these Terms excludes or limits any responsibility or consumer right that cannot lawfully be excluded under applicable law.",
+    "2.12 Data Recovery",
+    "Data-recovery results depend on the physical and logical condition of the storage device. Submission of a data-recovery request does not guarantee that any particular file, folder, percentage of data, or amount of data can be recovered.",
+    "Customers should avoid repeatedly powering on, formatting, repairing, or writing new data to a failing storage device where doing so could reduce the chance of recovery.",
+    "Recovered data may be delivered on customer-provided storage, Vfixurpc-provided storage, or another agreed destination, subject to capacity, compatibility, security, and applicable charges.",
+    "2.13 Virus and Malware Removal",
+    "Malware removal and security cleanup are intended to address identified threats and restore normal operation where reasonably possible. No service can guarantee that a device will never be infected again.",
+    "Customers remain responsible for safe browsing, software updates, passwords, backups, licensed security tools where appropriate, and future security practices.",
+    "2.14 System Upgrades and Software",
+    "Upgrade compatibility depends on the actual device model, motherboard, firmware, operating system, physical space, and manufacturer limitations. A requested RAM, SSD, storage, graphics, or other upgrade may not be possible on every device.",
+    "Software, operating systems, applications, and licenses supplied or installed may be governed by third-party license terms. Vfixurpc does not grant rights beyond those permitted by the applicable software owner.",
+    "2.15 Backup Solutions",
+    "Backup solutions may depend on storage capacity, internet connectivity, third-party cloud services, server/NAS health, credentials, retention configuration, and customer usage.",
+    "A backup system reduces risk but does not guarantee that every file will always be recoverable. Customers should follow the recommended backup schedule, maintain adequate storage, and periodically verify that backups are completing successfully.",
+    "2.16 CCTV Services",
+    "CCTV installation and troubleshooting may require a site survey, power/network availability, cabling access, mounting locations, internet connectivity, storage capacity, and appropriate permissions from the property owner or authorized person.",
+    "The customer is responsible for using CCTV systems lawfully and for complying with privacy, workplace, residential-society, building, or other requirements applicable to the premises.",
+    "2.17 Networking and Wi-Fi Services",
+    "Network performance depends on internet service providers, building layout, interference, cabling, routers, switches, firewalls, device capability, user load, and other environmental factors.",
+    "Vfixurpc may recommend hardware, cabling, access points, configuration changes, or provider escalation. Improvements cannot guarantee a specific internet speed where the limitation is caused by the internet provider or factors outside Vfixurpc's control.",
+    "2.18 Custom PC Builds",
+    "Custom PC recommendations are based on the customer's stated budget, intended usage, software, performance needs, and component availability. Prices and component availability may change before purchase.",
+    "Where a customer approves a configuration, substitutions should not be made without customer approval if the substitute materially changes specification, brand, performance, warranty, or price.",
+    "Individual components may carry manufacturer or distributor warranties separate from any assembly or service warranty provided by Vfixurpc.",
+    "2.19 Business IT and AMC Services",
+    "Business IT support, annual maintenance contracts, managed services, projects, office networking, backup, CCTV, cybersecurity-related work, or other business services may be subject to a separate quotation, scope of work, service-level terms, or written agreement.",
+    "Where a separate signed agreement applies, that agreement will take priority for the services specifically covered by it.",
+    "2.20 Charges, Payments, and Taxes",
+    "Charges may include diagnosis, labour, parts, pickup/delivery, onsite visits, data-recovery work, software/license costs, project materials, taxes, or other items disclosed before approval or payment.",
+    "Payment may be collected through supported online payment methods, bank transfer, UPI, card, cash, or other methods made available by Vfixurpc. A device may be held for collection or delivery until approved outstanding charges are paid, subject to applicable law.",
+    "2.21 Cancellation, Rescheduling, and Refunds",
+    "Customers may request cancellation or rescheduling before work begins, subject to operational availability.",
+    "If pickup, diagnosis, onsite work, specially approved procurement, data-recovery work, or other chargeable work has already been performed or committed, the related disclosed charges may remain payable.",
+    "Refund eligibility depends on the reason for the refund, work already completed, parts ordered, service-specific terms, payment-provider processing, and applicable law. Any non-refundable amount should be communicated before it is charged.",
+    "2.22 Warranty",
+    "Any repair, labour, or part warranty will be the warranty period and scope stated on the applicable quotation, invoice, service record, or written communication.",
+    "Unless otherwise stated, warranty does not cover unrelated faults, accidental damage after service, new liquid damage, misuse, unauthorized repair or modification, electrical surges, malware reinfection, external accessories, or failures outside the original approved repair scope.",
+    "Manufacturer or supplier warranty terms may apply separately to parts or devices.",
+    "2.23 Unrepaired or Uncollected Devices",
+    "If a customer declines a quotation or a device cannot be repaired, Vfixurpc will arrange return or collection subject to any previously disclosed diagnosis, pickup, delivery, or other applicable charges.",
+    "If a completed or unrepaired device remains uncollected for an extended period, Vfixurpc may contact the customer and may apply any storage or handling process only if it has been communicated and is permitted by applicable law.",
+    "2.24 Prohibited Use",
+    "Using Vfixurpc services for unlawful access, surveillance, fraud, infringement, or other illegal purposes.",
+    "Providing a device or data that you are not authorized to submit for service.",
+    "Attempting to compromise the app, backend, technician accounts, payment systems, or other customers' information.",
+    "Abusing, threatening, or harassing staff, technicians, pickup personnel, or service partners.",
+    "2.25 Third-Party Products and Services",
+    "Hardware manufacturers, software vendors, cloud providers, payment gateways, map providers, internet service providers, and other third parties may have their own terms, warranties, and privacy policies. Vfixurpc is not responsible for a third party's independent service failure except to the extent required by applicable law or an express commitment made by Vfixurpc.",
+    "2.26 Limitation of Liability",
+    "To the maximum extent permitted by applicable law, Vfixurpc will not be liable for indirect, incidental, special, or consequential losses arising from use of the app or services. Any limitation is subject to applicable consumer-protection rights and any liability that cannot lawfully be excluded.",
+    "2.27 Changes to the Service or These Terms",
+    "Vfixurpc may update the app, services, pricing structure, service areas, or these Terms from time to time. The latest Terms will be made available through the app or website with the updated effective date.",
+    "2.28 Governing Law and Disputes",
+    "These Terms are governed by the laws of India. Subject to mandatory consumer-protection or jurisdiction rules, disputes relating to Vfixurpc services will be subject to the jurisdiction of competent courts in Mumbai, Maharashtra.",
+    "2.29 Contact",
+    "Vfixurpc",
+    "Legal operator: VFIXURPC.COM",
+    "Email: contact@vfixurpc.com",
+    "Address: 3rd floor, 99 Ratnajyot industrial premises, Irla Lane , Near Ambe Mata Chawk, Vile parle West,  Mumbai 400056.",
+    "Website: www.vfixurpc.com"
+  ],
+  "faq": [
+    {
+      "group": "Booking and Using the App",
+      "question": "What services can I book through Vfixurpc?",
+      "answer": "You can request laptop, desktop, MacBook/iMac, data recovery, system upgrade, virus/malware removal, backup, CCTV, networking/Wi-Fi, custom PC, and selected business IT services through the app."
+    },
+    {
+      "group": "Booking and Using the App",
+      "question": "Do I need to know my exact laptop or computer model?",
+      "answer": "No. Enter the details you know. Where available, you can upload a photo of the model label, serial number, or service tag. Technical fields should not block you from submitting a request unless they are genuinely required."
+    },
+    {
+      "group": "Booking and Using the App",
+      "question": "What if I am not sure what the problem is?",
+      "answer": "Choose the closest issue or select Other / Not Sure and describe what you are experiencing. The final fault is confirmed only after diagnosis."
+    },
+    {
+      "group": "Booking and Using the App",
+      "question": "Can I upload photos or videos of the problem?",
+      "answer": "Yes, where the service form allows it. Photos of physical damage, error messages, labels, or the setup can help us understand the problem before diagnosis."
+    },
+    {
+      "group": "Booking and Using the App",
+      "question": "What service options are available?",
+      "answer": "Depending on the service and location, Vfixurpc may offer carry-in, pickup and delivery, onsite visits, or remote support. The app will show the options available for your request."
+    },
+    {
+      "group": "Booking and Using the App",
+      "question": "Can I save my devices for future bookings?",
+      "answer": "Yes, supported versions of the app may let you save devices and view past service history so repeat bookings are faster."
+    },
+    {
+      "group": "Booking and Using the App",
+      "question": "How do I track my repair?",
+      "answer": "Open My Requests, select the ticket, and view the latest customer-visible status, such as request received, pickup scheduled, diagnosis, quotation, repair, testing, or delivery."
+    },
+    {
+      "group": "Booking and Using the App",
+      "question": "Will I receive repair updates?",
+      "answer": "Yes. Important updates may be sent through in-app notifications, push notifications, SMS, WhatsApp, email, or phone depending on the communication methods enabled by Vfixurpc and your preferences."
+    },
+    {
+      "group": "Diagnosis, Quotations, and Repair",
+      "question": "Is the issue I select in the app the final diagnosis?",
+      "answer": "No. It is your description of the problem. A technician may need to inspect and test the device before confirming the actual fault."
+    },
+    {
+      "group": "Diagnosis, Quotations, and Repair",
+      "question": "Will you repair the device before I approve the price?",
+      "answer": "Where quotation approval is required, chargeable repair work should begin only after you approve the applicable quotation."
+    },
+    {
+      "group": "Diagnosis, Quotations, and Repair",
+      "question": "What if another problem is found during repair?",
+      "answer": "If the new issue changes the work or price, Vfixurpc may send a revised quotation for your approval before carrying out the additional chargeable work."
+    },
+    {
+      "group": "Diagnosis, Quotations, and Repair",
+      "question": "How long will a repair take?",
+      "answer": "Turnaround depends on the fault, device, part availability, approval time, and testing required. Any estimated completion time is an estimate and may change if additional issues are found."
+    },
+    {
+      "group": "Diagnosis, Quotations, and Repair",
+      "question": "Are replacement parts original?",
+      "answer": "The quotation or service communication should identify the relevant part option where necessary. If an original, compatible, refurbished, or other part type is offered, it should be described accurately before approval."
+    },
+    {
+      "group": "Diagnosis, Quotations, and Repair",
+      "question": "What happens if my device cannot be repaired?",
+      "answer": "You will be informed of the outcome. Return or collection can then be arranged, subject to any diagnosis, pickup, delivery, or other charge that was disclosed before the service."
+    },
+    {
+      "group": "Diagnosis, Quotations, and Repair",
+      "question": "Do repairs come with a warranty?",
+      "answer": "Where a warranty is provided, its duration and coverage will be stated on the quotation, invoice, service record, or written communication. Warranty terms can differ by repair and part."
+    },
+    {
+      "group": "Pickup, Delivery, Onsite, and Remote Support",
+      "question": "Is pickup and delivery available everywhere?",
+      "answer": "Availability depends on your location, service type, and operational capacity. The app or support team will confirm whether pickup and delivery are available for your request."
+    },
+    {
+      "group": "Pickup, Delivery, Onsite, and Remote Support",
+      "question": "Can I bring the device to Vfixurpc myself?",
+      "answer": "Yes, if carry-in service is available for that job. Select the available service mode or contact support for current carry-in instructions."
+    },
+    {
+      "group": "Pickup, Delivery, Onsite, and Remote Support",
+      "question": "Can you repair a device at my home or office?",
+      "answer": "Some problems can be handled onsite. Others require workshop diagnosis, specialized tools, parts, or controlled testing. The app will show suitable options where available."
+    },
+    {
+      "group": "Pickup, Delivery, Onsite, and Remote Support",
+      "question": "How does remote support work?",
+      "answer": "For supported software or configuration issues, a technician may assist remotely with your permission. Remote access should be used only for the requested support and ended after the session."
+    },
+    {
+      "group": "Pickup, Delivery, Onsite, and Remote Support",
+      "question": "Do I need to send my charger or accessories?",
+      "answer": "Only when needed for diagnosis. The support team or booking instructions may tell you whether to include a charger, adapter, external drive, or another accessory."
+    },
+    {
+      "group": "Data, Privacy, and Security",
+      "question": "Should I back up my device before repair?",
+      "answer": "Yes, whenever reasonably possible. Hardware failure, storage work, malware, operating-system changes, and repair procedures can involve a risk of data loss."
+    },
+    {
+      "group": "Data, Privacy, and Security",
+      "question": "Will Vfixurpc look at my personal files?",
+      "answer": "Device contents should be accessed only to the extent reasonably necessary for the service you authorized, such as diagnosis, testing, configuration, or data recovery."
+    },
+    {
+      "group": "Data, Privacy, and Security",
+      "question": "What if you need my device password?",
+      "answer": "If a password is necessary for diagnosis or testing, it may be requested separately. Where possible, use a temporary password. Do not provide passwords for unrelated accounts."
+    },
+    {
+      "group": "Data, Privacy, and Security",
+      "question": "Does Vfixurpc sell my personal data?",
+      "answer": "No. Personal data is used to operate the app, provide services, process bookings and payments, communicate with you, maintain records, and meet security or legal obligations."
+    },
+    {
+      "group": "Data, Privacy, and Security",
+      "question": "Can I delete my Vfixurpc account?",
+      "answer": "Yes. Use the account/privacy settings in the app or the deletion method available on the Vfixurpc website. Some records may need to be retained for tax, accounting, warranty, fraud-prevention, dispute, or legal requirements."
+    },
+    {
+      "group": "Data, Privacy, and Security",
+      "question": "Is my location tracked continuously?",
+      "answer": "The customer app should not require continuous background location for normal service use. Location may be used, with your permission, to help choose a pickup, delivery, or onsite address. You can enter the address manually instead."
+    },
+    {
+      "group": "Data Recovery",
+      "question": "Can you guarantee that my lost data will be recovered?",
+      "answer": "No. Recovery depends on the condition of the storage device and the type of damage. No service can guarantee recovery of every file or a specific percentage of data."
+    },
+    {
+      "group": "Data Recovery",
+      "question": "What should I do if my hard drive is clicking or not detected?",
+      "answer": "Avoid repeatedly powering it on, formatting it, running repair tools, or copying new data to it. Continuing to use a failing drive can reduce the chance of successful recovery."
+    },
+    {
+      "group": "Data Recovery",
+      "question": "Where will my recovered data be given to me?",
+      "answer": "Recovered data may be transferred to suitable customer-provided storage, Vfixurpc-provided storage, or another agreed destination depending on capacity and the recovery job."
+    },
+    {
+      "group": "Upgrades, Software, and Virus Removal",
+      "question": "Can every laptop be upgraded with more RAM or an SSD?",
+      "answer": "No. Upgrade options depend on the exact model, motherboard, soldered components, available slots, supported capacity, and manufacturer design."
+    },
+    {
+      "group": "Upgrades, Software, and Virus Removal",
+      "question": "Can Vfixurpc install Windows or software?",
+      "answer": "Yes, where offered. Valid software licenses may be required. Third-party software remains subject to the software owner's license terms."
+    },
+    {
+      "group": "Upgrades, Software, and Virus Removal",
+      "question": "Does virus removal guarantee I will never get malware again?",
+      "answer": "No. The service can remove or address identified threats, but future security also depends on updates, passwords, backups, browsing habits, downloads, and security tools."
+    },
+    {
+      "group": "CCTV, Networking, and Backup",
+      "question": "Do you provide new CCTV installations as well as repairs?",
+      "answer": "Yes, Vfixurpc may support new CCTV setups, expansion, troubleshooting, recording issues, mobile-viewing problems, cabling, and related site work depending on location and scope."
+    },
+    {
+      "group": "CCTV, Networking, and Backup",
+      "question": "Do I need a site visit for CCTV or networking?",
+      "answer": "Often, yes. A site survey may be needed to understand camera positions, cabling, Wi-Fi coverage, network equipment, power, internet availability, and the physical layout."
+    },
+    {
+      "group": "CCTV, Networking, and Backup",
+      "question": "Can you guarantee Wi-Fi speed throughout my office or home?",
+      "answer": "No fixed speed can be guaranteed because performance depends on the internet provider, building layout, interference, router/access-point capability, cabling, and the number of connected devices. Vfixurpc can recommend and implement suitable improvements."
+    },
+    {
+      "group": "CCTV, Networking, and Backup",
+      "question": "Do you provide backup solutions for businesses?",
+      "answer": "Yes. Depending on the requirement, Vfixurpc may recommend local, NAS/server, cloud, or hybrid backup solutions. Backup systems should be monitored and tested because no backup method eliminates all risk."
+    },
+    {
+      "group": "Custom PC and Business IT",
+      "question": "Can Vfixurpc build a PC according to my budget?",
+      "answer": "Yes. Recommendations can be based on your budget, intended use, software, performance priorities, and component availability. Final prices can change until the components are actually confirmed or purchased."
+    },
+    {
+      "group": "Custom PC and Business IT",
+      "question": "Can I provide my own PC components?",
+      "answer": "This may be possible depending on the build. Compatibility and condition should be checked before assembly, and warranty responsibility for customer-supplied components may remain with the original seller or manufacturer."
+    },
+    {
+      "group": "Custom PC and Business IT",
+      "question": "Do you provide AMC or ongoing business IT support?",
+      "answer": "Yes, where available. Business IT, AMC, office networking, backup, CCTV, and other managed services may be quoted separately and may have their own scope, response times, and service terms."
+    },
+    {
+      "group": "Custom PC and Business IT",
+      "question": "Can business services have different terms from the app?",
+      "answer": "Yes. A signed AMC, project quotation, scope of work, or service-level agreement may contain terms specific to that business engagement. Those specific written terms take priority for the services they cover."
+    },
+    {
+      "group": "Payments, Cancellations, and Support",
+      "question": "When do I have to pay?",
+      "answer": "Payment timing depends on the service. Some jobs may require payment after approval or completion, while specially ordered parts, custom builds, or projects may require an advance if this is clearly communicated."
+    },
+    {
+      "group": "Payments, Cancellations, and Support",
+      "question": "Can I cancel a booking?",
+      "answer": "You can request cancellation or rescheduling before work begins. If pickup, diagnosis, onsite work, special procurement, or another chargeable activity has already been completed or committed, the disclosed related charges may still apply."
+    },
+    {
+      "group": "Payments, Cancellations, and Support",
+      "question": "How are refunds handled?",
+      "answer": "Refunds depend on the reason, work already performed, parts ordered, payment-provider processing, and applicable law. Any amount that is non-refundable should be disclosed before it is charged."
+    },
+    {
+      "group": "Payments, Cancellations, and Support",
+      "question": "How do I contact Vfixurpc support?",
+      "answer": "Use the Support section in the app or the current contact options shown on www.vfixurpc.com."
+    },
+    {
+      "group": "Payments, Cancellations, and Support",
+      "question": "Where can I read the full Privacy Policy and Terms?",
+      "answer": "Open Profile > Legal in the app or use the legal links published on www.vfixurpc.com."
+    }
+  ]
+}

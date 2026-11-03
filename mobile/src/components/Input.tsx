@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import {
-  View, Text, TextInput, TouchableOpacity, Pressable, StyleSheet, ViewStyle, TextStyle,
+  View, Text, TextInput, TouchableOpacity, Pressable, StyleSheet, ViewStyle, TextStyle, TextInputProps,
 } from 'react-native';
 import { Colors, Radius, Spacing } from '@/theme';
 
@@ -12,7 +12,9 @@ interface InputProps {
   secureTextEntry?: boolean;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   autoCorrect?: boolean;
-  keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
+  keyboardType?: TextInputProps['keyboardType'];
+  maxLength?: number;
+  textContentType?: TextInputProps['textContentType'];
   multiline?: boolean;
   numberOfLines?: number;
   rightIcon?: React.ReactNode;
@@ -25,7 +27,7 @@ interface InputProps {
 export default function Input({
   label, value, onChangeText, placeholder, secureTextEntry, autoCapitalize,
   autoCorrect, keyboardType, multiline, numberOfLines, rightIcon, onRightIconPress,
-  style, error, editable = true,
+  style, error, editable = true, maxLength, textContentType,
 }: InputProps) {
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<TextInput>(null);
@@ -55,6 +57,9 @@ export default function Input({
           autoCapitalize={autoCapitalize ?? 'sentences'}
           autoCorrect={autoCorrect ?? false}
           keyboardType={keyboardType}
+          maxLength={maxLength}
+          textContentType={textContentType}
+          accessibilityLabel={label}
           multiline={multiline}
           numberOfLines={numberOfLines}
           onFocus={() => setFocused(true)}
@@ -78,9 +83,9 @@ const styles = StyleSheet.create({
   label: { fontSize: 13, fontWeight: '700', marginBottom: 8, color: Colors.inkSecondary, letterSpacing: -0.1 },
   inputWrap: {
     flexDirection: 'row', alignItems: 'center',
-    backgroundColor: Colors.bgGrouped,
+    backgroundColor: Colors.white,
     borderRadius: Radius.md,
-    borderWidth: 1.5, borderColor: 'transparent',
+    borderWidth: 1.5, borderColor: Colors.lineStrong,
     paddingHorizontal: 15,
   },
   inputWrapMulti: { alignItems: 'flex-start' },

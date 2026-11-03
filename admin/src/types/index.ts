@@ -1,6 +1,7 @@
 export type Role = 'CUSTOMER' | 'SUPER_ADMIN' | 'TECHNICIAN' | 'OPERATIONS' | 'DELIVERY_AGENT';
 
 export type ServiceRequestStatus =
+ | 'REQUEST_RECEIVED' | 'DIAGNOSING' | 'QUOTE_APPROVED' | 'QUOTE_REJECTED' | 'AWAITING_PARTS' | 'TESTING' | 'READY_FOR_HANDOVER' | 'CANCELLED'
   | 'PICKUP_SCHEDULED'
   | 'PICKED_UP'
   | 'RECEIVED_AT_WORKSHOP'
@@ -47,6 +48,7 @@ export interface StatusHistory {
 }
 
 export interface QuoteItem {
+  taxRate?: number;
   id: string;
   itemName?: string;
   description: string;
@@ -58,6 +60,17 @@ export interface QuoteItem {
 }
 
 export interface ServiceRequest {
+  bookingId?: string;
+  booking?: { id: string; reference: string; serviceMode: string; transportBase: number; transportTax: number; feePolicyVersion: string };
+  rejectionFeeTotal?: number | null;
+  relatedRequests?: { id: string; serviceRequestNumber: string; status: ServiceRequestStatus; device?: Device; serviceCategory?: string }[];
+  handoverMethod?: 'CUSTOMER_COLLECTION' | null;
+  quoteApproved?: boolean;
+  quoteRejectedReason?: string;
+  serviceCategory?: string;
+  serviceMode?: string;
+  bookingAnswers?: Record<string,string|string[]>;
+  quoteVersion?: number;
   id: string;
   ticketNumber: string;
   serviceRequestNumber?: string;

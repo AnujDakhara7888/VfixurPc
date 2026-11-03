@@ -1,193 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
+import React from 'react';
+import { AccessibilityInfo, ActivityIndicator, Animated, Easing, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useMutation } from '@tanstack/react-query';
-import { devicesApi } from '@/api/client';
-import Input from '@/components/Input';
+import { LinearGradient } from 'expo-linear-gradient';
 import LargeHeader from '@/components/LargeHeader';
-import BookingBar from '@/components/BookingBar';
+import { useServiceCatalog } from '@/catalog/services';
+import { Colors, Gradients, Shadow } from '@/theme';
+import { useBooking } from '@/context/BookingContext';
+import NotificationBell from '@/components/NotificationBell';
 import StepIndicator from './StepIndicator';
-import { Colors, Spacing, Radius, Shadow } from '@/theme';
-import {
-  SERVICE_CATEGORIES, BRANDS, BOOKING_STEPS, getCategory, formatDeviceName,
-} from '@/catalog/services';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { BookStackParamList } from '@/types';
-import Toast from 'react-native-toast-message';
+import ServiceArtwork from '@/components/ServiceArtwork';
 
-type Props = {
-  navigation: NativeStackNavigationProp<BookStackParamList, 'Step1Device'>;
-  route: { params?: { preselectCategory?: string } };
-};
+export default function Step1DeviceScreen({ navigation, route }: any) {
+  const booking = useBooking();
+  const { width } = useWindowDimensions();
+  const { data, isLoading, isError, refetch } = useServiceCatalog();
+  const reveal = React.useRef(new Animated.Value(0)).current;
+  const cardWidth = (width - 50) / 2;
 
-export default function Step1DeviceScreen({ navigation, route }: Props) {
-  const [categoryId, setCategoryId] = useState('');
-  const [brand, setBrand] = useState('');
-  const [model, setModel] = useState('');
-  const [serial, setSerial] = useState('');
-
-  // Carry a pre-selected service from the Home screen into the flow.
-  useEffect(() => {
-    const pre = route.params?.preselectCategory;
-    if (pre && getCategory(pre)) {
-      setCategoryId(pre);
-      if (pre === 'mac') setBrand('Apple');
+  React.useEffect(() => {
+    AccessibilityInfo.isReduceMotionEnabled().then(reduced => {
+      if (reduced) reveal.setValue(1);
+      else Animated.timing(reveal, { toValue: 1, duration: 520, easing: Easing.out(Easing.cubic), useNativeDriver: true }).start();
+    });
+  }, [reveal]);
+  React.useEffect(() => {
+    const id = route.params?.preselectCategory;
+    if (id && data?.some(c => c.id === id)) {
+      navigation.setParams({ preselectCategory: undefined });
+      navigation.push('Step2Issues', { categoryId: id });
     }
-  }, [route.params?.preselectCategory]);
+  }, [route.params?.preselectCategory, data]);
 
-  const category = getCategory(categoryId);
-  const needsDevice = !!category?.needsDevice;
+  const open = (id: string, needsDevice: boolean) => {
+    navigation.push('Step2Issues', { categoryId: id, deviceId: needsDevice ? route.params?.savedDeviceId : undefined });
+    navigation.setParams({ savedDeviceId: undefined });
+  };
+  const primary = data?.filter(c => ['laptop', 'desktop', 'mac', 'data', 'upgrade', 'virus'].includes(c.id)) ?? [];
+  const more = data?.filter(c => !primary.some(p => p.id === c.id)) ?? [];
+  const group = (title: string, subtitle: string, rows: typeof primary) => <View style={s.group}>
+    <Text style={s.groupTitle}>{title}</Text><Text style={s.groupSub}>{subtitle}</Text>
+    <View style={s.grid}>{rows.map((c, index) => <Animated.View key={c.id} style={{ width: cardWidth, opacity: reveal, transform: [{ translateY: reveal.interpolate({ inputRange: [0, 1], outputRange: [14 + index * 2, 0] }) }] }}>
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel={c.label} activeOpacity={.82} style={s.card} onPress={() => open(c.id, c.needsDevice)}>
+        <ServiceArtwork category={c.id} size={54} />
+        <Text style={s.title} numberOfLines={2}>{c.label}</Text>
+        <Text style={s.sub} numberOfLines={2}>{c.tagline}</Text>
+      </TouchableOpacity>
+    </Animated.View>)}</View>
+  </View>;
 
-  const createDevice = useMutation({
-    mutationFn: () => {
-      const payload = needsDevice
-        ? { brand: brand.trim() || 'Not sure', model: model.trim() || 'Not sure', serialNumber: serial.trim() || undefined }
-        // Non-hardware services store the service name in both fields; the UI
-        // collapses identical brand/model to a single clean label.
-        : { brand: category!.label, model: category!.label };
-      return devicesApi.create(payload);
-    },
-    onSuccess: (device) =>
-      navigation.navigate('Step2Issues', {
-        deviceId: device.id,
-        categoryId,
-        deviceName: formatDeviceName(device),
-      }),
-    onError: () => Toast.show({ type: 'error', text1: 'Could not save your details. Try again.' }),
-  });
-
-  function handleNext() {
-    // Keep the funnel open: only the service selection is required. Brand,
-    // model and serial number stay optional everywhere, per the "never make
-    // technical fields mandatory" rule — customers who don't know their
-    // device can always continue with "Not sure".
-    if (!categoryId) { Toast.show({ type: 'error', text1: 'Choose a service to continue' }); return; }
-    createDevice.mutate();
-  }
-
-  return (
-    <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={Colors.bgApp} />
-      <LargeHeader title="Book a repair" subtitle="Choose the service you need." />
-      <StepIndicator current={0} total={3} labels={[...BOOKING_STEPS]} />
-
-      <ScrollView
-        contentContainerStyle={styles.scroll}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        <Text style={styles.sectionTitle}>What do you need help with?</Text>
-        <View style={styles.grid}>
-          {SERVICE_CATEGORIES.map((sv) => {
-            const isSel = categoryId === sv.id;
-            return (
-              <TouchableOpacity
-                key={sv.id}
-                style={[styles.card, isSel && styles.cardActive]}
-                onPress={() => {
-                  setCategoryId(sv.id);
-                  if (!sv.needsDevice) { setBrand(''); setModel(''); setSerial(''); }
-                  else if (sv.id === 'mac') setBrand('Apple');
-                }}
-                activeOpacity={0.85}
-              >
-                <View style={[styles.cardIcon, isSel && styles.cardIconActive]}>
-                  <Ionicons name={sv.icon} size={22} color={isSel ? '#fff' : Colors.brandNavy} />
-                </View>
-                <Text style={[styles.cardLabel, isSel && styles.cardLabelActive]}>{sv.label}</Text>
-                <Text style={styles.cardTagline} numberOfLines={2}>{sv.tagline}</Text>
-                {isSel && (
-                  <View style={styles.check}>
-                    <Ionicons name="checkmark" size={13} color="#fff" />
-                  </View>
-                )}
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-
-        {needsDevice && (
-          <>
-            <View style={[styles.sectionHead, { marginTop: Spacing.lg }]}>
-              <Text style={styles.sectionTitle}>Brand</Text>
-              <Text style={styles.sectionOptional}>Optional</Text>
-            </View>
-            <View style={styles.brandGrid}>
-              <TouchableOpacity
-                style={[styles.brandChip, brand === 'Not sure' && styles.brandChipActive]}
-                onPress={() => setBrand('Not sure')}
-                activeOpacity={0.85}
-              >
-                <Text style={[styles.brandTxt, brand === 'Not sure' && styles.brandTxtActive]}>Not sure</Text>
-              </TouchableOpacity>
-              {BRANDS.map((b) => {
-                const isSel = brand === b;
-                return (
-                  <TouchableOpacity
-                    key={b}
-                    style={[styles.brandChip, isSel && styles.brandChipActive]}
-                    onPress={() => setBrand(b)}
-                    activeOpacity={0.85}
-                  >
-                    <Text style={[styles.brandTxt, isSel && styles.brandTxtActive]}>{b}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-
-            <View style={{ marginTop: Spacing.lg }}>
-              <Input label="Model name (optional)" value={model} onChangeText={setModel} placeholder="e.g. HP Pavilion 15, MacBook Air M2" />
-              <TouchableOpacity onPress={() => setModel('Not sure')} activeOpacity={0.6}>
-                <Text style={styles.dontKnow}>I don't know my model →</Text>
-              </TouchableOpacity>
-              <Input label="Serial number / service tag (optional)" value={serial} onChangeText={setSerial} placeholder="On the bottom sticker or in BIOS" autoCapitalize="characters" />
-            </View>
-          </>
-        )}
-
-        <View style={{ height: 24 }} />
-      </ScrollView>
-
-      <BookingBar label="Continue" onPress={handleNext} loading={createDevice.isPending} />
-    </View>
-  );
+  return <View style={s.root}>
+    <LargeHeader title="Book a service" subtitle="Tell us what needs attention" right={<NotificationBell />} />
+      <StepIndicator current={0} total={4} labels={['Service', 'Details', 'Arrange', 'Confirm']} />
+    {isLoading ? <ActivityIndicator color={Colors.accentInk} /> : null}
+    <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+      {isError ? <TouchableOpacity onPress={() => refetch()} style={s.error}><Text style={s.errorText}>Services could not load. Tap to retry.</Text></TouchableOpacity> : null}
+      {booking.drafts.length > 0 && <View style={s.saved}><View style={{ flex: 1 }}><Text style={s.savedTitle}>{booking.drafts.length} saved in this booking</Text><Text style={s.savedSub}>Add another device or continue with your combined booking.</Text></View><TouchableOpacity accessibilityLabel="Discard saved booking" onPress={() => booking.clear()} style={s.trash}><Ionicons name="trash-outline" size={20} color={Colors.error} /></TouchableOpacity></View>}
+      <LinearGradient colors={Gradients.ink} style={s.hero}>
+        <View style={s.heroIcon}><Ionicons name="sparkles-outline" size={24} color="#7EC8FF" /></View>
+        <View style={{ flex: 1 }}><Text style={s.heroTitle}>One request, clear next steps</Text><Text style={s.heroText}>Choose a service now. We will guide the device, issue, service option and appointment.</Text></View>
+      </LinearGradient>
+      {group('What we fix', 'Repairs, recovery and performance', primary)}
+      {group('Our services', 'Setup, protection and business support', more)}
+    </ScrollView>
+  </View>;
 }
 
-const styles = StyleSheet.create({
-  root:        { flex: 1, backgroundColor: Colors.bgApp },
-  scroll:      { paddingHorizontal: Spacing.md, paddingTop: 4 },
-  sectionTitle:{ fontSize: 16, fontWeight: '700', color: Colors.ink, letterSpacing: -0.3, marginBottom: 14 },
-  sectionHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 },
-  sectionOptional: { fontSize: 12, fontWeight: '700', color: Colors.inkTertiary, marginBottom: 14 },
-  dontKnow:    { fontSize: 12.5, fontWeight: '700', color: Colors.accentInk, marginTop: -8, marginBottom: 14 },
-
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
-  card: {
-    width: '47.6%', backgroundColor: '#fff', borderRadius: Radius.lg,
-    padding: 16, borderWidth: 1.5, borderColor: Colors.line, position: 'relative',
-    ...Shadow.xs,
-  },
-  cardActive: { borderColor: Colors.accent, backgroundColor: Colors.brandSofter, ...Shadow.sm },
-  cardIcon: {
-    width: 44, height: 44, borderRadius: 13, backgroundColor: Colors.bgGrouped,
-    alignItems: 'center', justifyContent: 'center', marginBottom: 12,
-  },
-  cardIconActive: { backgroundColor: Colors.brandNavy },
-  cardLabel:    { fontSize: 14, fontWeight: '700', color: Colors.ink, letterSpacing: -0.2 },
-  cardLabelActive: { color: Colors.ink },
-  cardTagline:  { fontSize: 11.5, color: Colors.inkTertiary, marginTop: 3, lineHeight: 15 },
-  check: {
-    position: 'absolute', top: 12, right: 12,
-    width: 20, height: 20, borderRadius: 10, backgroundColor: Colors.accentInk,
-    alignItems: 'center', justifyContent: 'center',
-  },
-
-  brandGrid:   { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  brandChip:   {
-    paddingHorizontal: 16, paddingVertical: 10, borderRadius: Radius.full,
-    borderWidth: 1, borderColor: Colors.lineStrong, backgroundColor: Colors.white,
-  },
-  brandChipActive: { borderColor: Colors.brandNavy, backgroundColor: Colors.brandNavy },
-  brandTxt:    { fontSize: 13.5, fontWeight: '600', color: Colors.gray700 },
-  brandTxtActive: { color: Colors.white },
+const s = StyleSheet.create({
+  root: { flex: 1, backgroundColor: Colors.bgApp },
+  content: { paddingHorizontal: 20, paddingBottom: 44 },
+  hero: { borderRadius: 8, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 24, ...Shadow.ink },
+  heroIcon: { width: 46, height: 46, borderRadius: 23, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.1)' },
+  heroTitle: { color: '#fff', fontSize: 16, fontWeight: '900' }, heroText: { color: '#C8DAEF', fontSize: 12, lineHeight: 17, marginTop: 4 },
+  group: { marginBottom: 25 }, groupTitle: { fontSize: 21, color: Colors.ink, fontWeight: '900' }, groupSub: { color: Colors.inkSecondary, fontSize: 12.5, marginTop: 3, marginBottom: 13 },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  card: { minHeight: 142, backgroundColor: Colors.white, borderRadius: 8, borderWidth: 1, borderColor: Colors.line, padding: 13, ...Shadow.xs },
+  icon: { width: 46, height: 46, borderRadius: 23, alignItems: 'center', justifyContent: 'center', marginBottom: 11 },
+  title: { fontSize: 14, lineHeight: 18, fontWeight: '800', color: Colors.ink, marginTop: 10 }, sub: { fontSize: 11, lineHeight: 15, color: Colors.inkSecondary, marginTop: 4 },
+  saved: { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 13, marginBottom: 14, borderRadius: 8, backgroundColor: Colors.white, borderWidth: 1, borderColor: Colors.line },
+  savedTitle: { color: Colors.ink, fontWeight: '800', fontSize: 13 }, savedSub: { color: Colors.inkSecondary, fontSize: 11, lineHeight: 16, marginTop: 2 }, trash: { width: 42, height: 42, alignItems: 'center', justifyContent: 'center' },
+  error: { backgroundColor: Colors.errorLight, padding: 14, borderRadius: 8, marginBottom: 14 }, errorText: { color: Colors.error, fontWeight: '700' },
 });

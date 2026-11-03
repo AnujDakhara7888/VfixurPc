@@ -6,6 +6,9 @@ import ReactQueryProvider from '@/components/ReactQueryProvider';
 
 export const metadata: Metadata = {
   title: 'VfixurPC Admin',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: { capable: true, title: 'VfixurPC', statusBarStyle: 'default' },
+  icons: { apple: '/app-icon.png', icon: '/app-icon.png' },
   description: 'Admin dashboard for VfixurPC doorstep repair platform',
 };
 

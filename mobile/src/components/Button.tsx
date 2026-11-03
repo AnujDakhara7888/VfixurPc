@@ -96,6 +96,6 @@ const styles = StyleSheet.create({
   fullWidth: { width: '100%' },
   outline: { backgroundColor: Colors.white, borderWidth: 1.5, borderColor: Colors.lineStrong },
   ghost: { backgroundColor: 'transparent' },
-  text: { fontWeight: '700', letterSpacing: -0.2 },
+  text: { fontWeight: '700', letterSpacing: 0, textAlign: 'center' },
   disabled: { opacity: 0.45 },
 });

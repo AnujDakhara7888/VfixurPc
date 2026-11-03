@@ -42,11 +42,11 @@ export default function BookingBar({ label, onPress, disabled, loading, hint, su
           style={[styles.btn, !isDisabled && Shadow.brand]}
         >
           {loading ? (
-            <ActivityIndicator color={Colors.brandDeep} />
+            <ActivityIndicator color={Colors.white} />
           ) : (
             <>
               <Text style={styles.btnTxt}>{label}</Text>
-              <Ionicons name="arrow-forward" size={19} color={Colors.brandDeep} />
+              <Ionicons name="arrow-forward" size={19} color={Colors.white} />
             </>
           )}
         </LinearGradient>
@@ -72,5 +72,5 @@ const styles = StyleSheet.create({
   btnFull: { flex: 1 },
   btnCompact: { minWidth: 168 },
   dim: { opacity: 0.6 },
-  btnTxt: { fontSize: 16.5, fontWeight: '800', color: Colors.brandDeep, letterSpacing: -0.2 },
+  btnTxt: { fontSize: 16.5, fontWeight: '800', color: Colors.white, letterSpacing: 0 },
 });

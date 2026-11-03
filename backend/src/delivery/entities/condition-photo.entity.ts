@@ -20,6 +20,9 @@ export class ConditionPhoto {
   @Column({ name: 's3_url' })
   s3Url: string;
 
+  @Column({ name: 'file_data', type: 'bytea', nullable: true, select: false })
+  fileData: Buffer;
+
   @Column({ type: 'enum', enum: PhotoType })
   type: PhotoType;
 

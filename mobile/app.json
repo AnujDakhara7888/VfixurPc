@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "VfixurPC",
+    "icon": "./assets/icon.png",
     "slug": "vfixurpc",
     "version": "1.0.0",
     "sdkVersion": "54.0.0",
@@ -9,17 +10,60 @@
     "newArchEnabled": false,
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.vfixurpc.app"
+      "bundleIdentifier": "com.vfixurpc.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
-      "package": "com.vfixurpc.app"
+      "package": "com.vfixurpc.app",
+      "googleServicesFile": "./google-services.json",
+      "allowBackup": false,
+      "blockedPermissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"
+      ]
     },
     "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 36,
+            "targetSdkVersion": 36
+          }
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#F7F9FC",
+          "image": "./assets/icon.png",
+          "imageWidth": 180
+        }
+      ],
       "expo-secure-store",
-      "expo-font"
+      "expo-font",
+      "expo-web-browser",
+      "expo-notifications",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Choose device photos and videos for your VfixurPC service request.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ]
     ],
     "extra": {
-      "apiUrl": "http://localhost:3000/api/v1"
+      "apiUrl": "https://vfixurpc-backend-160921860149.us-central1.run.app/api/v1",
+      "eas": {
+        "projectId": "25ffc62c-2944-4b25-9faa-447fb34814a0"
+      }
     }
   }
 }

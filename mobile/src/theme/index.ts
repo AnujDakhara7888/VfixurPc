@@ -13,44 +13,44 @@
 
 export const Colors = {
   // ── Brand ────────────────────────────────────────────────────────────
-  brand:      '#1E88E5',   // azure blue — the signature (matches the logo mark)
-  brandBright:'#4FB3FF',   // lifted blue for glows / on-dark accents
-  brandDark:  '#0F62B0',   // deeper blue — links / active text on light (AA)
-  brandDeep:  '#0A1626',   // premium near-black navy panel (matches logo monitor)
-  brandNavy:  '#0F1F35',   // medium navy — primary actions / structure
-  brandInk:   '#050B14',   // deepest navy — gradient floor
+  brand:      '#1565FF',
+  brandBright:'#16A8FF',
+  brandDark:  '#0B4FCC',
+  brandDeep:  '#082B59',
+  brandNavy:  '#082B59',
+  brandInk:   '#061F40',
 
   // ── Ink (text) — refined navy greyscale ──────────────────────────────
-  ink:         '#0F1620',  // primary text (near-navy-black, matches logo wordmark)
-  inkSecondary:'#4E5A6D',  // secondary text
-  inkTertiary: '#7C8798',  // tertiary / captions
+  ink:         '#0B172A',
+  inkSecondary:'#667085',
+  inkTertiary: '#8791A3',
   inkQuat:     '#A9B3C1',  // faint
 
   // ── Semantic ─────────────────────────────────────────────────────────
-  primary:     '#0F1F35',
-  primaryDark: '#0A1626',
-  primaryLight:'#E5F1FD',
-  accent:      '#1E88E5',
-  accentInk:   '#0F62B0',  // accent that reads well as text on white
+  primary:     '#082B59',
+  primaryDark: '#061F40',
+  primaryLight:'#EAF2FF',
+  accent:      '#1565FF',
+  accentInk:   '#0B4FCC',
 
   // ── Status ───────────────────────────────────────────────────────────
-  success: '#1FB85B', successLight: '#E6F8EE',
-  warning: '#FB9000', warningLight: '#FFF4E2',
-  error:   '#FF453A', errorLight:   '#FFE9E7',
-  info:    '#0A84FF', infoLight:    '#E8F1FF',
+  success: '#22A06B', successLight: '#E8F7F0',
+  warning: '#FFC107', warningLight: '#FFF8DD',
+  error:   '#E5484D', errorLight:   '#FDEBEC',
+  info:    '#1565FF', infoLight:    '#EAF2FF',
 
   // ── Surfaces ─────────────────────────────────────────────────────────
-  bgApp:        '#FFFFFF',   // primary screen background
-  bgGrouped:    '#F5F7FA',   // grouped / inset background (cool off-white)
+  bgApp:        '#F7F9FC',
+  bgGrouped:    '#F7F9FC',
   bgCard:       '#FFFFFF',
-  surface:      '#F5F7FA',   // tinted fill for chips / icon wells
-  surfaceStrong:'#E8EDF3',
-  brandSoft:    '#E5F1FD',   // soft blue wash for active fills
-  brandSofter:  '#F2F8FE',   // faintest blue tint
+  surface:      '#F2F5F9',
+  surfaceStrong:'#E4EAF2',
+  brandSoft:    '#EAF2FF',
+  brandSofter:  '#F3F7FF',
 
   // ── Lines / hairlines ────────────────────────────────────────────────
-  line:       '#E7ECF3',     // default hairline
-  lineStrong: '#D7DEE8',     // stronger separator
+  line:       '#E4EAF2',
+  lineStrong: '#D5DDE8',
 
   // ── On-dark ──────────────────────────────────────────────────────────
   onDark:      'rgba(255,255,255,0.94)',
@@ -76,10 +76,10 @@ export const Colors = {
 // ── Gradients (consumed by expo-linear-gradient) ──────────────────────────
 export const Gradients = {
   // Premium navy panel for hero / dark moments.
-  ink:    ['#16283F', '#0A1626', '#050B14'] as const,
-  inkSoft:['#122036', '#080F1C'] as const,
+  ink:    ['#0B3B76', '#082B59', '#061F40'] as const,
+  inkSoft:['#0B3B76', '#082B59'] as const,
   // Signature azure-blue sweep for primary CTAs.
-  brand:  ['#4FB3FF', '#1E88E5', '#0F62B0'] as const,
+  brand:  ['#1677FF', '#1565FF', '#0B4FCC'] as const,
   // Subtle light card sheen.
   sheen:  ['#FFFFFF', '#F7FAFC'] as const,
   // Success burst for confirmations.
@@ -168,13 +168,21 @@ export const Motion = {
 
 // Status pills — softer, premium-tinted backgrounds.
 export const STATUS_CONFIG: Record<string, { label: string; bg: string; text: string; dot: string }> = {
+  REQUEST_RECEIVED: {label:'Request received', bg:'#F1F5F9', text:'#334155',dot:'#64748B'},
+  DIAGNOSING: {label:'Diagnosis in progress', bg:'#F1F5F9', text:'#334155',dot:'#64748B'},
+  QUOTE_APPROVED: {label:'Quote approved', bg:'#DCFCE7', text:'#166534',dot:'#16A34A'},
+  QUOTE_REJECTED: {label:'Return requested', bg:'#F1F5F9', text:'#334155',dot:'#64748B'},
+  AWAITING_PARTS: {label:'Awaiting parts', bg:'#F1F5F9', text:'#334155',dot:'#64748B'},
+  TESTING: {label:'Testing', bg:'#F1F5F9', text:'#334155',dot:'#64748B'},
+  READY_FOR_HANDOVER: {label:'Ready for handover', bg:'#F1F5F9', text:'#334155',dot:'#64748B'},
+  CANCELLED: {label:'Cancelled', bg:'#F1F5F9', text:'#334155',dot:'#64748B'},
   PICKUP_SCHEDULED:     { label: 'Pickup Scheduled',  bg: '#E8F1FF', text: '#0A5BD3', dot: '#0A84FF' },
-  PICKED_UP:            { label: 'Picked Up',          bg: '#EFEAFE', text: '#5B2BD6', dot: '#7C4DFF' },
-  RECEIVED_AT_WORKSHOP: { label: 'At Workshop',        bg: '#F3E9FF', text: '#7A2BC0', dot: '#9333EA' },
-  DIAGNOSED:            { label: 'Diagnosed',          bg: '#FFF4E2', text: '#9A5B00', dot: '#FB9000' },
-  QUOTATION_SHARED:     { label: 'Quote Shared',       bg: '#FFEEDD', text: '#9A3B12', dot: '#FF7A1A' },
+  PICKED_UP:            { label: 'Picked Up',          bg: '#EAF2FF', text: '#0B4FCC', dot: '#1565FF' },
+  RECEIVED_AT_WORKSHOP: { label: 'At Workshop',        bg: '#EAF2FF', text: '#0B4FCC', dot: '#1565FF' },
+  DIAGNOSED:            { label: 'Diagnosed',          bg: '#FFF8DD', text: '#765900', dot: '#FFC107' },
+  QUOTATION_SHARED:     { label: 'Review quote',       bg: '#FFF8DD', text: '#765900', dot: '#FFC107' },
   PAYMENT_RECEIVED:     { label: 'Payment Received',   bg: '#E6F8EE', text: '#157A37', dot: '#1FB85B' },
-  UNDER_REPAIR:         { label: 'Under Repair',       bg: '#E6FBF7', text: '#0F766E', dot: '#14B8A6' },
+  UNDER_REPAIR:         { label: 'Under Repair',       bg: '#EAF2FF', text: '#0B4FCC', dot: '#1565FF' },
   REPAIR_COMPLETE:      { label: 'Repair Complete',    bg: '#E6F8EE', text: '#157A37', dot: '#1FB85B' },
   OUT_FOR_DELIVERY:     { label: 'Out for Delivery',   bg: '#E8F1FF', text: '#0A5BD3', dot: '#0A84FF' },
   DELIVERED:            { label: 'Delivered',          bg: '#E6F8EE', text: '#157A37', dot: '#1FB85B' },

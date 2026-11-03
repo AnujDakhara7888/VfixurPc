@@ -23,7 +23,7 @@ api.interceptors.response.use(
       if (refresh) {
         try {
           const { data } = await axios.post(`${BASE_URL}/auth/refresh`, { refreshToken: refresh });
-          Cookies.set('access_token', data.accessToken, { expires: 1 });
+          saveTokens(data.accessToken, data.refreshToken);
           original.headers = original.headers ?? {};
           original.headers.Authorization = `Bearer ${data.accessToken}`;
           return api(original);
@@ -45,13 +45,14 @@ api.interceptors.response.use(
 );
 
 export function saveTokens(accessToken: string, refreshToken: string) {
-  Cookies.set('access_token', accessToken, { expires: 1 });
-  Cookies.set('refresh_token', refreshToken, { expires: 7 });
+  const options = { secure: window.location.protocol === 'https:', sameSite: 'strict' as const, path: '/' };
+  Cookies.set('access_token', accessToken, { ...options, expires: 1 });
+  Cookies.set('refresh_token', refreshToken, { ...options, expires: 7 });
 }
 
 export function clearTokens() {
-  Cookies.remove('access_token');
-  Cookies.remove('refresh_token');
+  Cookies.remove('access_token', { path: '/' });
+  Cookies.remove('refresh_token', { path: '/' });
 }
 
 function normalizeQuoteItem(item: any) {
@@ -168,13 +169,17 @@ export const invoicesApi = {
     api.get('/invoices', { params: { limit: 20, ...params } }).then((r) => r.data),
   listForSr: (srId: string) =>
     api.get(`/service-requests/${srId}/invoice`).then((r) => r.data),
-  generate: (srId: string, body: GenerateInvoiceInput = {}) =>
-    api.post(`/service-requests/${srId}/invoice/generate`, body).then((r) => r.data),
+  upload: (srId: string, file: File, invoiceNumber: string, documentKind: string) => {
+    const form = new FormData();
+    form.append('file', file); form.append('invoiceNumber', invoiceNumber); form.append('documentKind', documentKind);
+    return api.post(`/service-requests/${srId}/invoice/upload`, form).then(r => r.data);
+  },
   // Fetch the PDF with auth, then open it in a new tab / trigger download.
   openPdf: async (id: string) => {
     const res = await api.get(`/invoices/${id}/pdf`, { responseType: 'blob' });
     const url = URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
-    window.open(url, '_blank');
+    const anchor = document.createElement('a');
+    anchor.href = url; anchor.download = 'vfixurpc-document.pdf'; anchor.click();
     setTimeout(() => URL.revokeObjectURL(url), 60_000);
   },
 };
@@ -193,6 +198,14 @@ export interface CreateAssignmentInput {
   scheduledSlot: string;
 }
 export const deliveryApi = {
+  bookingPlans: (bookingId: string) => api.get(`/delivery/bookings/${bookingId}/plans`).then(r => r.data),
+  myBookingPlans: () => api.get('/delivery/booking-plans/my-tasks').then(r => r.data),
+  assignBookingPlan: (id: string, body: { expectedVersion: number; agentId: string; scheduledDate: string; scheduledSlot: string }) =>
+    api.patch(`/delivery/booking-plans/${id}/assign`, body).then(r => r.data),
+  completeBookingPlan: (id: string, body: { expectedVersion: number; receivedBy: string; confirmedRequestIds: string[] }) =>
+    api.patch(`/delivery/booking-plans/${id}/complete`, body).then(r => r.data),
+  cancelBookingPlan: (id: string, body: { expectedVersion: number; reason: string }) =>
+    api.patch(`/delivery/booking-plans/${id}/cancel`, body).then(r => r.data),
   listForSr: (srId: string) => api.get(`/delivery/assignments/by-sr/${srId}`).then((r) => r.data),
   create: (body: CreateAssignmentInput) => api.post('/delivery/assignments', body).then((r) => r.data),
   myTasks: () => api.get('/delivery/assignments/my-tasks').then((r) => r.data),

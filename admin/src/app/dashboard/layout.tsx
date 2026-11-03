@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
+import AdminAlerts from '@/components/AdminAlerts';
 import { useAuth } from '@/context/AuthContext';
 import type { Role } from '@/types';
 
@@ -14,6 +15,7 @@ const ACCESS: { prefix: string; roles: Role[] }[] = [
   { prefix: '/dashboard/users',            roles: ['SUPER_ADMIN', 'OPERATIONS'] },
   { prefix: '/dashboard/technicians',      roles: ['SUPER_ADMIN', 'OPERATIONS'] },
   { prefix: '/dashboard/invoices',         roles: ['SUPER_ADMIN', 'OPERATIONS'] },
+  { prefix: '/dashboard/offers',           roles: ['SUPER_ADMIN', 'OPERATIONS'] },
   { prefix: '/dashboard/faq',              roles: ['SUPER_ADMIN', 'OPERATIONS'] },
   { prefix: '/dashboard',                  roles: ['SUPER_ADMIN', 'OPERATIONS'] }, // Overview (keep last)
 ];
@@ -51,9 +53,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (!user) return null;
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
       <Sidebar />
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 min-w-0">
+        <header className="flex justify-end px-4 py-2 bg-white border-b"><AdminAlerts /></header>
         {children}
       </main>
     </div>

@@ -1,0 +1,28 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const ts = require('../mobile/node_modules/typescript');
+const source = fs.readFileSync(require.resolve('../mobile/src/api/session.ts'), 'utf8');
+const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }).outputText;
+const output = { exports: {} };
+new Function('module', 'exports', compiled)(output, output.exports);
+const { SessionTokens } = output.exports;
+(async () => {
+  const values = new Map();
+  const storage = { getItemAsync: async k => values.get(k) ?? null, setItemAsync: async (k,v) => { values.set(k,v); }, deleteItemAsync: async k => { values.delete(k); } };
+  const session = new SessionTokens(storage);
+  await session.replace('alice-access', 'alice-refresh');
+  const alice = session.revision;
+  await session.replace('bob-access', 'bob-refresh');
+  await session.refresh('late-alice-access', 'late-alice-refresh', alice);
+  assert.equal(await session.get('access_token'), 'bob-access');
+  const bob = session.revision;
+  await session.clear();
+  await session.refresh('late-bob-access', 'late-bob-refresh', bob);
+  assert.equal(await session.get('access_token'), null);
+  const replacing = session.replace('new-access', 'new-refresh');
+  const cleared = session.clear();
+  await Promise.all([replacing, cleared]);
+  assert.equal(await session.get('refresh_token'), null);
+  assert.notEqual(alice, bob);
+  console.log('PASS session isolation: late refresh after account switch/logout and serialized credential writes.');
+})().catch(error => { console.error(error); process.exitCode = 1; });

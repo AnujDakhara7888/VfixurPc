@@ -1,137 +1,280 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, IsNull, Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
-import * as admin from 'firebase-admin';
+import { cert, getApps, initializeApp } from 'firebase-admin/app';
+import { getMessaging } from 'firebase-admin/messaging';
 import { Notification } from './notification.entity';
-import { NotificationType, NotificationStatus, ServiceRequestStatus } from '../common/enums';
+import {
+  NotificationType,
+  NotificationStatus,
+  ServiceRequestStatus,
+  Role,
+} from '../common/enums';
 import { User } from '../users/user.entity';
+import { WebPushService } from './web-push.service';
+import { EmailService } from '../email/email.service';
+import { formatCustomerDates } from './dateTime';
 
-// Trigger map: what to send and to whom at each status change
-const STATUS_MESSAGES: Partial<Record<ServiceRequestStatus, { sms: boolean; push: boolean; template: string }>> = {
-  [ServiceRequestStatus.PICKUP_SCHEDULED]: { sms: true, push: true, template: 'Your booking is confirmed! Ticket: {ticket}. Our agent will pick up your device on {date}.' },
-  [ServiceRequestStatus.PICKED_UP]: { sms: true, push: true, template: 'Your device has been picked up. Ticket: {ticket}. We will diagnose it and share a quote soon.' },
-  [ServiceRequestStatus.QUOTATION_SHARED]: { sms: true, push: true, template: 'Your repair quote is ready! Ticket: {ticket}. Please review and approve in the app.' },
-  [ServiceRequestStatus.PAYMENT_RECEIVED]: { sms: true, push: true, template: 'Payment received for ticket {ticket}. Your device is now under repair.' },
-  [ServiceRequestStatus.REPAIR_COMPLETE]: { sms: false, push: true, template: 'Your device repair is complete! Ticket: {ticket}. Preparing for delivery.' },
-  [ServiceRequestStatus.OUT_FOR_DELIVERY]: { sms: true, push: true, template: 'Your device is out for delivery. Ticket: {ticket}. Our agent will arrive at your address soon.' },
-  [ServiceRequestStatus.DELIVERED]: { sms: true, push: true, template: 'Your device has been delivered successfully. Ticket: {ticket}. Thank you for choosing VfixurPC!' },
+export const STATUS_MESSAGES: Partial<Record<ServiceRequestStatus, string>> = {
+  REQUEST_RECEIVED: 'Your service request has been received. Ticket: {ticket}.',
+  DIAGNOSING: 'Diagnosis has started. Ticket: {ticket}.',
+  AWAITING_PARTS:
+    'Your repair is awaiting parts. We will keep you updated. Ticket: {ticket}.',
+  TESTING: 'Your device is being tested after repair. Ticket: {ticket}.',
+  READY_FOR_HANDOVER:
+    'Your device is ready for collection or delivery. Ticket: {ticket}.',
+  CANCELLED: 'Your service request was cancelled. Ticket: {ticket}.',
+  PICKUP_SCHEDULED:
+    'Your appointment is confirmed for {date}. Ticket: {ticket}.',
+  PICKED_UP:
+    'Your device has been picked up. We will share your quotation within 48 hours of workshop receipt. Ticket: {ticket}.',
+  RECEIVED_AT_WORKSHOP:
+    'Your device is safely at our workshop. We will share your quotation within 48 hours. Ticket: {ticket}.',
+  DIAGNOSED:
+    'Diagnosis is complete. Your quotation is being prepared. Ticket: {ticket}.',
+  QUOTATION_SHARED:
+    'Your quotation is ready. Please review and approve or request a return in the app. Ticket: {ticket}.',
+  UNDER_REPAIR: 'Your approved repair is in progress. Ticket: {ticket}.',
+  REPAIR_COMPLETE:
+    'Your repair is complete and preparing for handover. Ticket: {ticket}.',
+  OUT_FOR_DELIVERY: 'Your device is out for delivery. Ticket: {ticket}.',
+  DELIVERED:
+    'Your device has been delivered. Thank you for choosing VfixurPC! Ticket: {ticket}.',
 };
-
+const FIELD_SERVICE_CATEGORIES = new Set(['cctv', 'network', 'backup', 'custom', 'business']);
+const PROJECT_STATUS_MESSAGES: Partial<Record<ServiceRequestStatus, string>> = {
+  REQUEST_RECEIVED: 'Your project request has been received. Ticket: {ticket}.',
+  PICKUP_SCHEDULED: 'Your site appointment is confirmed for {date}. Ticket: {ticket}.',
+  PICKED_UP: 'Your scheduled site visit is underway. Ticket: {ticket}.',
+  RECEIVED_AT_WORKSHOP: 'Your project assessment is underway. Ticket: {ticket}.',
+  DIAGNOSING: 'Your site and requirements assessment has started. Ticket: {ticket}.',
+  DIAGNOSED: 'The assessment is complete and your proposal is being prepared. Ticket: {ticket}.',
+  QUOTATION_SHARED: 'Your project proposal is ready. Please review it in the app. Ticket: {ticket}.',
+  AWAITING_PARTS: 'Equipment and project scheduling are being arranged. Ticket: {ticket}.',
+  UNDER_REPAIR: 'Your approved project work is in progress. Ticket: {ticket}.',
+  TESTING: 'Configuration and quality validation are in progress. Ticket: {ticket}.',
+  REPAIR_COMPLETE: 'Project work is complete and handover is being prepared. Ticket: {ticket}.',
+  READY_FOR_HANDOVER: 'Your project is ready for final handover. Ticket: {ticket}.',
+  OUT_FOR_DELIVERY: 'Equipment is on its way for final handover. Ticket: {ticket}.',
+  DELIVERED: 'Your project is complete. Thank you for choosing VfixurPC! Ticket: {ticket}.',
+};
 @Injectable()
 export class NotificationsService {
   private readonly logger = new Logger(NotificationsService.name);
-
   constructor(
     @InjectRepository(Notification) private notifRepo: Repository<Notification>,
+    @InjectRepository(User) private userRepo: Repository<User>,
     private config: ConfigService,
+    private webPush: WebPushService,
+    private email: EmailService,
   ) {
-    // Initialize Firebase only if a real service account is provided
-    if (!admin.apps.length) {
-      const serviceAccount = this.config.get('FIREBASE_SERVICE_ACCOUNT');
+    if (!getApps().length) {
       try {
-        const parsed = JSON.parse(serviceAccount || '{}');
-        if (parsed.project_id) {
-          admin.initializeApp({
-            credential: admin.credential.cert(parsed),
-          });
-        }
+        const account = JSON.parse(
+          config.get('FIREBASE_SERVICE_ACCOUNT') || '{}',
+        );
+        if (account.project_id)
+          initializeApp({ credential: cert(account) });
       } catch {
-        // Firebase not configured — push notifications disabled
+        this.logger.warn('Firebase credentials are not configured');
       }
     }
   }
-
   async triggerStatusNotification(
     status: ServiceRequestStatus,
     user: User,
-    serviceRequestId: string,
-    ticketNumber: string,
+    srId: string,
+    ticket: string,
     date?: string,
+    serviceCategory?: string,
   ) {
-    const cfg = STATUS_MESSAGES[status];
-    if (!cfg) return;
-
-    const message = cfg.template
-      .replace('{ticket}', ticketNumber)
-      .replace('{date}', date ?? '');
-
-    const promises: Promise<void>[] = [];
-
-    if (cfg.sms) promises.push(this.sendSms(user, message, serviceRequestId));
-    if (cfg.push && user.fcmToken) promises.push(this.sendPush(user, message, serviceRequestId, ticketNumber));
-
-    await Promise.allSettled(promises);
+    const template = FIELD_SERVICE_CATEGORIES.has(serviceCategory ?? '')
+      ? PROJECT_STATUS_MESSAGES[status] ?? STATUS_MESSAGES[status]
+      : STATUS_MESSAGES[status];
+    if (template)
+      await this.notify(
+        user,
+        template
+          .replace('{ticket}', ticket)
+          .replace('{date}', date ? formatCustomerDates(date) : 'your chosen slot'),
+        srId,
+      );
   }
-
-  private async sendSms(user: User, message: string, serviceRequestId: string) {
-    const notif = await this.notifRepo.save(
+  // One inbox event regardless of whether an external channel is available.
+  async notify(user: User, message: string, serviceRequestId?: string, options?: { title?: string; offerId?: string; deepLink?: string }) {
+    message = formatCustomerDates(message);
+    const event = await this.notifRepo.save(
       this.notifRepo.create({
         userId: user.id,
         serviceRequestId,
-        type: NotificationType.SMS,
+        title: options?.title ?? null,
+        offerId: options?.offerId ?? null,
+        deepLink: options?.deepLink ?? null,
         message,
+        type: NotificationType.PUSH,
         status: NotificationStatus.PENDING,
       }),
     );
-
+    if ([Role.SUPER_ADMIN, Role.OPERATIONS].includes(user.role))
+      await this.webPush.send(user.id, event.id, serviceRequestId).catch(() => this.logger.warn('Browser notification failed; inbox retained'));
+    if (user.fcmToken === undefined) {
+      const tokenOwner = await this.userRepo.findOne({ where: { id: user.id }, select: { id: true, fcmToken: true } });
+      user.fcmToken = tokenOwner?.fcmToken ?? '';
+    }
+    if (!user.fcmToken) return event;
     try {
-      // MSG91 API
-      await axios.post(
-        'https://api.msg91.com/api/v5/flow/',
-        {
-          template_id: this.config.get('MSG91_TEMPLATE_ID'),
-          short_url: '0',
-          mobiles: `91${user.phone.replace('+91', '')}`,
-          VAR1: message,
-        },
-        {
-          headers: {
-            authkey: this.config.get('MSG91_AUTH_KEY'),
-            'Content-Type': 'application/json',
+      const { count } = await this.unreadCount(user.id);
+      const data = {
+        notificationId: event.id,
+        serviceRequestId: serviceRequestId ?? '',
+        offerId: options?.offerId ?? '',
+        deepLink: options?.deepLink ?? '',
+      };
+      if (/^(Expo|Exponent)PushToken\[/.test(user.fcmToken)) {
+        const result = await axios.post(
+          'https://exp.host/--/api/v2/push/send',
+          {
+            to: user.fcmToken,
+            title: options?.title ?? 'VfixurPC',
+            body: message,
+            data,
+            sound: 'default',
+            badge: count,
+            channelId: 'default',
+            priority: 'high',
           },
+          { timeout: 3000 },
+        );
+        if (result.data?.data?.status !== 'ok')
+          throw new Error('Push service rejected notification');
+      } else if (getApps().length) {
+        await getMessaging().send({
+          token: user.fcmToken,
+          notification: { title: options?.title ?? 'VfixurPC', body: message },
+          data,
+          android: {
+            priority: 'high',
+            notification: {
+              channelId: 'default',
+              sound: 'default',
+              notificationCount: count,
+            },
+          },
+          apns: { payload: { aps: { sound: 'default', badge: count } } },
+        });
+      } else return event;
+      await this.notifRepo.update(event.id, {
+        status: NotificationStatus.SENT,
+      });
+      event.status = NotificationStatus.SENT;
+    } catch (error) {
+      this.logger.warn(
+        'Push delivery failed for event ' + event.id + ' (' + (error?.code ?? 'provider-error') + '); inbox event retained',
+      );
+      await this.notifRepo.update(event.id, {
+        status: NotificationStatus.FAILED,
+      });
+      event.status = NotificationStatus.FAILED;
+      if (error?.code === 'messaging/registration-token-not-registered')
+        await this.userRepo.update({id: user.id, fcmToken: user.fcmToken}, {fcmToken: ''});
+    }
+    return event;
+  }
+  recordExternal(user: User, message: string, type: NotificationType, options?: { title?: string; offerId?: string; deepLink?: string }) {
+    return this.notifRepo.save(this.notifRepo.create({
+      userId: user.id,
+      message: formatCustomerDates(message),
+      type,
+      title: options?.title ?? null,
+      offerId: options?.offerId ?? null,
+      deepLink: options?.deepLink ?? null,
+      status: NotificationStatus.SENT,
+    }));
+  }
+  async nativeSettings(user: User) {
+    const tokenOwner = await this.userRepo.findOne({ where: { id: user.id }, select: { id: true, fcmToken: true } });
+    return { registered: !!tokenOwner?.fcmToken, androidConfigured: !!getApps().length };
+  }
+  async setPromotionalPreference(userId: string, enabled: boolean) {
+    await this.userRepo.update(userId, { promotionalPushOptIn: enabled });
+  }
+  async setWhatsAppPreference(userId: string, enabled: boolean) {
+    await this.userRepo.update(userId, { promotionalWhatsappOptIn: enabled });
+  }
+  async testNative(user: User) {
+    if (user.fcmToken === undefined) {
+      const tokenOwner = await this.userRepo.findOne({ where: { id: user.id }, select: { id: true, fcmToken: true } });
+      user.fcmToken = tokenOwner?.fcmToken ?? '';
+    }
+    if (!user.fcmToken) throw new BadRequestException('Enable notifications on this device first.');
+    const event = await this.notify(user, 'This is your VfixurPC notification test.');
+    return { accepted: event.status === NotificationStatus.SENT };
+  }
+  async notifyAdmins(message: string, serviceRequestId?: string) {
+    message = formatCustomerDates(message);
+    const users = await this.userRepo.find({
+      where: { role: In([Role.SUPER_ADMIN, Role.OPERATIONS]), isActive: true },
+      select: { id: true, role: true, fcmToken: true },
+    });
+    const results = await Promise.allSettled(
+      users.map((user) => this.notify(user, message, serviceRequestId)),
+    );
+    if (results.some(result => result.status === 'rejected')) this.logger.error('An admin inbox event could not be persisted');
+    const recipients = (
+      this.config.get<string>('ADMIN_NOTIFICATION_EMAILS') ?? ''
+    )
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (!this.email.isConfigured() || !recipients.length) {
+      this.logger.warn('Admin email not configured; customer activity is available in the admin inbox');
+      return;
+    }
+    const url = this.config.get<string>('ADMIN_PUBLIC_URL');
+    try {
+      await this.email.send(
+        {
+          to: recipients,
+          subject: 'VfixurPC: customer update',
+          text:
+            message +
+            (url && serviceRequestId
+              ? '\n\n' +
+                url.replace(/\/$/, '') +
+                '/dashboard/service-requests/' +
+                serviceRequestId
+              : ''),
         },
       );
-      await this.notifRepo.update(notif.id, { status: NotificationStatus.SENT });
-    } catch (err) {
-      this.logger.error(`SMS failed for user ${user.id}: ${err.message}`);
-      await this.notifRepo.update(notif.id, { status: NotificationStatus.FAILED });
+    } catch {
+      this.logger.warn('Admin email failed; admin inbox events retained');
     }
   }
-
-  private async sendPush(user: User, message: string, serviceRequestId: string, ticketNumber: string) {
-    const notif = await this.notifRepo.save(
-      this.notifRepo.create({
-        userId: user.id,
-        serviceRequestId,
-        type: NotificationType.PUSH,
-        message,
-        status: NotificationStatus.PENDING,
-      }),
-    );
-
-    try {
-      await admin.messaging().send({
-        token: user.fcmToken,
-        notification: {
-          title: `VfixurPC — ${ticketNumber}`,
-          body: message,
-        },
-        data: { serviceRequestId, ticketNumber },
-      });
-      await this.notifRepo.update(notif.id, { status: NotificationStatus.SENT });
-    } catch (err) {
-      this.logger.error(`Push failed for user ${user.id}: ${err.message}`);
-      await this.notifRepo.update(notif.id, { status: NotificationStatus.FAILED });
-    }
+  emailSettings() {
+    return { configured: !!(this.email.isConfigured() && this.config.get<string>('ADMIN_NOTIFICATION_EMAILS')?.trim()) };
   }
-
   async findByUser(userId: string) {
-    return this.notifRepo.find({
+    const rows = await this.notifRepo.find({
       where: { userId },
       order: { sentAt: 'DESC' },
-      take: 50,
+      take: 100,
     });
+    return rows.map((row) => ({ ...row, message: formatCustomerDates(row.message), createdAt: row.sentAt }));
+  }
+  async unreadCount(userId: string) {
+    return {
+      count: await this.notifRepo.count({
+        where: { userId, readAt: IsNull() },
+      }),
+    };
+  }
+  async markRead(userId: string, id?: string) {
+    await this.notifRepo.update(
+      { userId, readAt: IsNull(), ...(id ? { id } : {}) },
+      { readAt: new Date() },
+    );
+    return this.unreadCount(userId);
   }
 }

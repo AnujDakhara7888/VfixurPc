@@ -1,0 +1,12 @@
+.git/
+backend/
+mobile/
+demo/
+backups/
+scripts/
+**/node_modules/
+**/.next/
+**/.env
+**/.env.*
+**/*.log
+**/*.tsbuildinfo
