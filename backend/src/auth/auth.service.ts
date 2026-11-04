@@ -200,7 +200,7 @@ export class AuthService {
     if (user.role !== Role.CUSTOMER || !customerOtpEnabled) {
       return this.generateTokens(user);
     }
-    if (!this.emailOtp.isConfigured()) {
+    if (!this.reviewerOtpFor(user) && !this.emailOtp.isConfigured()) {
       throw new ServiceUnavailableException('Email verification is temporarily unavailable. Please contact VfixurPC support.');
     }
     return this.createLoginChallenge(user);
@@ -223,19 +223,29 @@ export class AuthService {
     return `${visible}${'*'.repeat(Math.max(3, Math.min(8, local.length - visible.length)))}@${domain}`;
   }
 
+  private reviewerOtpFor(user: Pick<User, 'username' | 'role'>) {
+    const username = this.config.get<string>('PLAY_REVIEW_USERNAME', '').trim().toLowerCase();
+    const code = this.config.get<string>('PLAY_REVIEW_OTP', '').trim();
+    if (user.role !== Role.CUSTOMER || !username || user.username.toLowerCase() !== username) return null;
+    return /^\d{6}$/.test(code) ? code : null;
+  }
+
   private async createLoginChallenge(user: User) {
     const id = randomUUID();
-    const code = randomInt(100000, 1000000).toString();
+    const reviewerCode = this.reviewerOtpFor(user);
+    const code = reviewerCode ?? randomInt(100000, 1000000).toString();
     const digest = this.loginDigest(user.id, id, code);
     await this.userRepo.manager.transaction(async manager => {
       await manager.query(`DELETE FROM login_otp_challenges WHERE user_id=$1 AND (consumed_at IS NOT NULL OR expires_at < now() OR requested_at < now() - interval '1 day')`, [user.id]);
       await manager.query(`INSERT INTO login_otp_challenges (id,user_id,digest,expires_at)
         VALUES ($1,$2,$3,now()+interval '10 minutes')`, [id, user.id, digest]);
     });
-    try { await this.emailOtp.send(user.email, code, 'login'); }
-    catch (error) {
-      await this.userRepo.manager.query('DELETE FROM login_otp_challenges WHERE id=$1', [id]);
-      throw error;
+    if (!reviewerCode) {
+      try { await this.emailOtp.send(user.email, code, 'login'); }
+      catch (error) {
+        await this.userRepo.manager.query('DELETE FROM login_otp_challenges WHERE id=$1', [id]);
+        throw error;
+      }
     }
     const maskedEmail = this.maskEmail(user.email);
     return {
@@ -266,13 +276,14 @@ export class AuthService {
   }
 
   async resendLoginOtp(challengeId: string) {
-    const rows = await this.userRepo.manager.query(`SELECT c.user_id,u.email FROM login_otp_challenges c
+    const rows = await this.userRepo.manager.query(`SELECT c.user_id,u.email,u.username,u.role FROM login_otp_challenges c
       JOIN users u ON u.id=c.user_id WHERE c.id=$1 AND c.consumed_at IS NULL AND c.expires_at > now()
       AND c.requested_at < now()-interval '60 seconds' AND u.is_active=true`, [challengeId]);
     if (!rows.length) throw new BadRequestException('Wait 60 seconds or restart sign in.');
-    const code = randomInt(100000, 1000000).toString();
+    const reviewerCode = this.reviewerOtpFor(rows[0]);
+    const code = reviewerCode ?? randomInt(100000, 1000000).toString();
     const digest = this.loginDigest(rows[0].user_id, challengeId, code);
-    await this.emailOtp.send(rows[0].email, code, 'login');
+    if (!reviewerCode) await this.emailOtp.send(rows[0].email, code, 'login');
     await this.userRepo.manager.query(`UPDATE login_otp_challenges SET digest=$2,expires_at=now()+interval '10 minutes',requested_at=now(),attempts=0 WHERE id=$1`, [challengeId, digest]);
     return { message: 'A new verification code was sent.', expiresInSeconds: 600 };
   }
