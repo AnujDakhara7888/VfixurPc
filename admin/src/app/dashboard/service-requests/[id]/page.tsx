@@ -96,6 +96,24 @@ export default function ServiceRequestDetailPage({ params }: { params: Promise<{
         <div className="ml-auto"><StatusBadge status={sr.status} /></div>
       </div>
 
+      <section className={`mb-6 border-l-4 p-5 ${sr.issues?.length ? 'border-accent bg-blue-50' : 'border-amber-500 bg-amber-50'}`}>
+        <h2 className="text-xs font-bold uppercase tracking-wider text-ink-faint">Customer-reported problem</h2>
+        {sr.issues?.length ? (
+          <div className="mt-3 space-y-3">
+            {sr.issues.map((issue) => (
+              <div key={issue.id}>
+                <p className="font-bold text-ink">{issue.category}</p>
+                {issue.description?.trim() && <p className="mt-1 whitespace-pre-wrap text-sm text-ink-soft">{issue.description}</p>}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-2 text-sm font-medium text-amber-900">
+            No customer issue was recorded for this request. Confirm the problem with the customer before diagnosis.
+          </p>
+        )}
+      </section>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 min-w-0 space-y-6">
           {sr.bookingId && sr.serviceMode === 'PICKUP' && <BookingTransport bookingId={sr.bookingId} requestIds={(sr.relatedRequests ?? []).map(r => r.id)} defaultDate={sr.pickupSlotDate} defaultSlot={sr.pickupSlotTime} />}
@@ -115,16 +133,6 @@ export default function ServiceRequestDetailPage({ params }: { params: Promise<{
             </div>
             <div className="mt-4 text-sm"><p className="font-semibold">{sr.serviceCategory} · {sr.serviceMode}</p>{Object.entries(sr.bookingAnswers ?? {}).filter(([,v])=>String(v)).map(([key,value])=><p key={key} className="mt-1 break-words"><span className="font-medium">{key}: </span>{Array.isArray(value)?value.join(', '):String(value)}</p>)}</div>
             {calendarLink(sr.pickupSlotDate, sr.pickupSlotTime) && <a target="_blank" rel="noreferrer" className="inline-block text-accent-ink font-semibold mt-4" href={calendarLink(sr.pickupSlotDate, sr.pickupSlotTime, 'VfixurPC '+sr.ticketNumber, sr.pickupAddress, sr.customer?.name+' '+sr.customer?.phone) ?? '#'}>Add appointment to Google Calendar</a>}
-            {sr.issues?.length > 0 && (
-              <div className="mt-4">
-                <p className="text-ink-faint text-sm mb-2">Reported Issues</p>
-                <div className="flex flex-wrap gap-2">
-                  {sr.issues.map((iss) => (
-                    <span key={iss.id} className="bg-gray-100 text-ink-soft text-xs px-2.5 py-1 rounded-full">{iss.category}</span>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Quote display */}

@@ -106,7 +106,19 @@ export const authApi = {
 export const srApi = {
   list: (params?: { status?: string; page?: number; limit?: number; search?: string }) =>
     api.get('/service-requests', { params: { limit: 25, ...params } }).then((r) => normalizeServiceRequestList(r.data)),
-  get: (id: string) => api.get(`/service-requests/${id}`).then((r) => normalizeServiceRequest(r.data)),
+  get: async (id: string) => {
+    const { data } = await api.get(`/service-requests/${id}`);
+    if (Array.isArray(data?.issues) && data.issues.length > 0) {
+      return normalizeServiceRequest(data);
+    }
+
+    // Older API deployments could omit this relation from the detail response.
+    const issues = await api
+      .get(`/service-requests/${id}/issues`)
+      .then((response) => response.data)
+      .catch(() => data?.issues ?? []);
+    return normalizeServiceRequest({ ...data, issues: Array.isArray(issues) ? issues : [] });
+  },
   updateStatus: (id: string, status: string, notes?: string) =>
     api.patch(`/service-requests/${id}/status`, { status, notes }).then((r) => normalizeServiceRequest(r.data)),
   assignTechnician: (id: string, technicianId: string | null) =>

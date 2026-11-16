@@ -1,6 +1,7 @@
 import { ServiceRequestsService } from './service-requests.service';
 import { Booking } from './entities/booking.entity';
 import { ServiceRequest } from './entities/service-request.entity';
+import { IssueSelection } from './entities/issue-selection.entity';
 import { Device } from '../devices/device.entity';
 import { Role } from '../common/enums';
 import { User } from '../users/user.entity';
@@ -66,6 +67,13 @@ describe('Grouped booking invariants', () => {
     expect(new Set(result.requests.map(r => r.deviceId)).size).toBe(2);
     expect(result.requests.map(r => r.bookingPosition)).toEqual([0, 1]);
     expect(result.requests[0].bookingAnswers.requestedUpgrades).toEqual(input.requests[0].bookingAnswers!.requestedUpgrades);
+    const savedIssues = rows.filter(r => r instanceof IssueSelection);
+    expect(savedIssues).toHaveLength(10);
+    for (const serviceRequest of result.requests) {
+      expect(savedIssues.filter(issue => issue.serviceRequestId === serviceRequest.id).map(issue => issue.category)).toEqual(
+        input.requests[serviceRequest.bookingPosition].issues.map(issue => issue.category),
+      );
+    }
   });
   it('replays the same booking in attachment order without extra devices, fees or notifications', async () => {
     const input = dto();
