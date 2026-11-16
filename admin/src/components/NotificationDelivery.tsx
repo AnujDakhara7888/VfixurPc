@@ -5,6 +5,14 @@ import { BellRing, BellOff, Mail, Send } from "lucide-react";
 import { api } from "@/lib/api";
 import toast from "react-hot-toast";
 
+function subscriptionPayload(subscription: PushSubscription) {
+  const { endpoint, keys } = subscription.toJSON();
+  if (!endpoint || !keys?.p256dh || !keys.auth) {
+    throw new Error('Incomplete push subscription');
+  }
+  return { endpoint, keys: { p256dh: keys.p256dh, auth: keys.auth } };
+}
+
 export default function NotificationDelivery({ userId }: { userId: string }) {
   const [supported, setSupported] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
@@ -22,7 +30,7 @@ export default function NotificationDelivery({ userId }: { userId: string }) {
       const owned = !!subscription && localStorage.getItem('push-user') === userId;
       // Repair a browser subscription whose server record was removed by logout.
       if (owned && !cancelled && Notification.permission === 'granted') {
-        await api.post('/notifications/web-push', subscription.toJSON());
+        await api.post('/notifications/web-push', subscriptionPayload(subscription));
       }
       if (!cancelled) setSubscribed(owned && Notification.permission === 'granted');
     }).catch(() => {});
@@ -47,7 +55,7 @@ export default function NotificationDelivery({ userId }: { userId: string }) {
         const encoded = data.webPush.publicKey.replace(/-/g, '+').replace(/_/g, '/');
         const key = Uint8Array.from(atob(encoded), c => c.charCodeAt(0));
         subscription ??= await registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key });
-        await api.post('/notifications/web-push', subscription.toJSON());
+        await api.post('/notifications/web-push', subscriptionPayload(subscription));
         localStorage.setItem('push-user', userId);
         setSubscribed(true);
         toast.success('Device notifications enabled');
