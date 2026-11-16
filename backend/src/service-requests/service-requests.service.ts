@@ -1,5 +1,5 @@
 import {
-  Injectable, NotFoundException, BadRequestException, ForbiddenException,
+  Injectable, NotFoundException, BadRequestException, ForbiddenException, Logger,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource, EntityManager } from 'typeorm';
@@ -46,6 +46,8 @@ const STATUS_TRANSITIONS: Record<ServiceRequestStatus, ServiceRequestStatus[]> =
 
 @Injectable()
 export class ServiceRequestsService {
+  private readonly logger = new Logger(ServiceRequestsService.name);
+
   constructor(
     @InjectRepository(ServiceRequest) private srRepo: Repository<ServiceRequest>,
     @InjectRepository(StatusHistory) private historyRepo: Repository<StatusHistory>,
@@ -112,10 +114,10 @@ export class ServiceRequestsService {
           const device = await em.save(em.create(Device, { ...newDevice, customerId: customer.id }));
           request.deviceId = device.id;
         }
-        const sr = await this.create(request, customer, em);
-        sr.bookingId = booking.id;
-        sr.bookingPosition = requests.length;
-        await em.save(sr);
+        const sr = await this.create(request, customer, em, {
+          bookingId: booking.id,
+          bookingPosition: requests.length,
+        });
         requests.push(sr);
       }
       await this.delivery.planBooking(em, booking.id, requests.map(r => r.id));
@@ -129,7 +131,15 @@ export class ServiceRequestsService {
     return { booking: result.booking, requests: result.requests };
   }
 
-  async create(dto: CreateServiceRequestDto, customer: User, manager?: EntityManager) {
+  async create(
+    dto: CreateServiceRequestDto,
+    customer: User,
+    manager?: EntityManager,
+    bookingPlacement?: Pick<ServiceRequest, 'bookingId' | 'bookingPosition'>,
+  ) {
+    if (!dto.issues?.length) {
+      throw new BadRequestException('Choose at least one issue or requirement');
+    }
     const mode = dto.serviceMode || 'PICKUP';
     const initialStatus = mode === 'PICKUP' ? ServiceRequestStatus.PICKUP_SCHEDULED : ServiceRequestStatus.REQUEST_RECEIVED;
     const pickupAddress = serviceAddress(mode, dto.pickupAddress);
@@ -163,9 +173,13 @@ export class ServiceRequestsService {
         if (!active?.is_active) throw new ForbiddenException('This account is no longer active');
       }
       const serviceRequestNumber = `VFX-${randomUUID().slice(0, 8).toUpperCase()}`;
+      // Relations are persisted separately. Keeping issue DTOs off the parent prevents
+      // a later ServiceRequest save from reconciling the one-to-many relation away.
+      const { issues: selectedIssues, ...requestFields } = dto;
 
       const sr = em.create(ServiceRequest, {
-        ...dto,
+        ...requestFields,
+        ...bookingPlacement,
         serviceMode: mode,
         pickupAddress,
         customerId: customer.id,
@@ -175,12 +189,12 @@ export class ServiceRequestsService {
       });
       await em.save(sr);
 
-      if (dto.issues?.length) {
-        const issues = dto.issues.map((i) =>
-          em.create(IssueSelection, { ...i, serviceRequestId: sr.id }),
-        );
-        await em.save(issues);
-      }
+      const issues = selectedIssues.map((i) =>
+        em.create(IssueSelection, { ...i, serviceRequestId: sr.id }),
+      );
+      await em.save(issues);
+      sr.issues = issues;
+      this.logger.log(`Persisted ${issues.length} customer issue selection(s) for ${serviceRequestNumber}`);
 
       const history = em.create(StatusHistory, {
         serviceRequestId: sr.id,

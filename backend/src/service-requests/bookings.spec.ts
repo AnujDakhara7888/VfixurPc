@@ -9,7 +9,7 @@ import { randomUUID } from 'crypto';
 import { CreateBookingDto } from './dto/create-booking.dto';
 
 describe('Grouped booking invariants', () => {
-  let service: ServiceRequestsService, em: any, rows: any[], notifications: any, catalog: any, active: boolean, referredBy: string | null, referralUsedAt: Date | null;
+  let service: ServiceRequestsService, em: any, rows: any[], saveSnapshots: any[], notifications: any, catalog: any, active: boolean, referredBy: string | null, referralUsedAt: Date | null;
   const customer = { id: 'owner', role: Role.CUSTOMER } as any;
   const request = (mode = 'PICKUP'): any => ({
     serviceCategory: 'upgrade', serviceMode: mode,
@@ -21,7 +21,7 @@ describe('Grouped booking invariants', () => {
   });
   const dto = (mode = 'PICKUP'): CreateBookingDto => ({ id: randomUUID(), feePolicyVersion: '2026-10-02', feesAccepted: true, requests: [request(mode), request(mode)] });
   beforeEach(() => {
-    rows = []; active = true; referredBy = null; referralUsedAt = null;
+    rows = []; saveSnapshots = []; active = true; referredBy = null; referralUsedAt = null;
     const matches = (r: any, where: any) => Object.entries(where).every(([key, value]) => r[key] === value);
     em = {
       query: jest.fn(async () => [{ is_active: active, referred_by_user_id: referredBy, referral_discount_used_at: referralUsedAt }]),
@@ -32,6 +32,7 @@ describe('Grouped booking invariants', () => {
       create: (entity: any, values: any) => Object.assign(new entity(), values),
       save: jest.fn(async (values: any) => {
         for (const value of Array.isArray(values) ? values : [values]) {
+          saveSnapshots.push({ entity: value.constructor, values: { ...value } });
           value.id ??= randomUUID();
           if (!rows.includes(value)) rows.push(value);
         }
@@ -69,11 +70,20 @@ describe('Grouped booking invariants', () => {
     expect(result.requests[0].bookingAnswers.requestedUpgrades).toEqual(input.requests[0].bookingAnswers!.requestedUpgrades);
     const savedIssues = rows.filter(r => r instanceof IssueSelection);
     expect(savedIssues).toHaveLength(10);
+    const savedServiceRequests = saveSnapshots.filter(snapshot => snapshot.entity === ServiceRequest);
+    expect(savedServiceRequests).toHaveLength(2);
+    expect(savedServiceRequests.every(snapshot => snapshot.values.issues === undefined)).toBe(true);
+    expect(savedServiceRequests.map(snapshot => snapshot.values.bookingPosition)).toEqual([0, 1]);
     for (const serviceRequest of result.requests) {
       expect(savedIssues.filter(issue => issue.serviceRequestId === serviceRequest.id).map(issue => issue.category)).toEqual(
         input.requests[serviceRequest.bookingPosition].issues.map(issue => issue.category),
       );
     }
+  });
+  it('rejects a booking without a customer issue before persisting a request', async () => {
+    const input = dto(); input.requests[0].issues = [];
+    await expect(service.createBooking(input, customer)).rejects.toThrow('at least one issue');
+    expect(rows).toHaveLength(0);
   });
   it('replays the same booking in attachment order without extra devices, fees or notifications', async () => {
     const input = dto();
